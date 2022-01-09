@@ -19,6 +19,7 @@ Also Instead of `LaTeX` and `pandoc` you can use something from this:
 
 * `latex` ([link on support](docs/latex.md "hi"))
 * `pandoc`([link on support](docs/pandoc.md "hi"))
+* `haskell`([link on support](docs/haskell.md "Haskell Rocks!"))
 
 
 
