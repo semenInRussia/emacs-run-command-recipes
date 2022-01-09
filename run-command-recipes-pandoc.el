@@ -94,14 +94,12 @@ See https://pandoc.org"
   :type '(repeat symbol))
 
 
-(defcustom rcr/pandoc-codes-and-extensions
+(defcustom rcr/pandoc-formats-and-extensions
   (->> (make-hash-table :test 'equal)
        (rcr/hashtable-put "asciidoc" "adoc")
        (rcr/hashtable-put "context" "ctx")
        (rcr/hashtable-put "docbook" "db")
        (rcr/hashtable-put "markdown" "md")
-       (rcr/hashtable-put "pdf" "pdf")
-       (rcr/hashtable-put "pptx" "pptx")
        (rcr/hashtable-put "ms" "roff")
        (rcr/hashtable-put "latex" "tex")
        (rcr/hashtable-put "texinfo" "texi")
@@ -111,6 +109,16 @@ See https://pandoc.org"
   "This is map of pandoc's format code and extension of file.
 If your pandoc's code have extensions, which equal to pandoc's code (for
 example: org = .(org)), then just don't put pair to this variable.")
+
+
+(defun rcr/add-modes-with-format-to-table (modes
+                                           format
+                                           table)
+    "Add MODES as vals, and one FORMAT as keys to TABLE."
+    (--reduce-from (rcr/hashtable-put it format acc)
+                   table
+                   modes)
+    )
 
 
 (defcustom rcr/pandoc-major-modes-input-formats
@@ -124,6 +132,8 @@ example: org = .(org)), then just don't put pair to this variable.")
        (rcr/hashtable-put 'rst-mode "rst")
        (rcr/hashtable-put 'txt2tags-mode "t2t")
        (rcr/hashtable-put 'textile-mode "textile")
+       (rcr/hashtable-put 'json-mode "json")
+       (rcr/hashtable-put 'csv-mode "csv")
        (rcr/hashtable-put 'org-mode "org")
        )
   "Hashtable with keys major modes and values pandoc's input format's codes.
@@ -131,19 +141,9 @@ See https://pandoc.org for see pandoc's input formats."
   :type 'hashtable)
 
 
-(defun rcr/add-modes-with-format-to-table (modes
-                                           format
-                                           table)
-    "Add MODES as vals, and one FORMAT as keys to TABLE."
-    (--reduce-from (rcr/hashtable-put it format acc)
-                   table
-                   modes)
-    )
-
-
 (defun rcr/pandoc-change-format-of-file (filename new-format)
     "Change FILENAME with pandoc's format to filename with pandoc's NEW-FORMAT."
-    (let ((new-ext (or (gethash new-format rcr/pandoc-codes-and-extensions)
+    (let ((new-ext (or (gethash new-format rcr/pandoc-formats-and-extensions)
                        new-format)))
         (f-swap-ext filename new-ext))
     )
