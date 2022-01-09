@@ -1,11 +1,11 @@
-;;; run-command-recipes-hashtables --- Operations on `hashtable` -*- lexical-binding: t; -*-
+;;; run-command-recipes-hashtables.el --- Operations on `hashtable` -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2022 Free Software Foundation, Inc.
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
-;; Packages-Requires: ((dash "2.18.0")
-;;                     (s     "1.12.0"))
+;; Package-Requires: ((dash "2.18.0")
+;;                    (s     "1.12.0"))
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by

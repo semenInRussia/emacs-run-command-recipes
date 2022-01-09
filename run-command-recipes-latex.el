@@ -1,14 +1,14 @@
-;;; run-command-recipes-latex --- Recipe of `run-command' for `latex` -*- lexical-binding: t; -*-
+;;; run-command-recipes-latex.el --- Recipe of `run-command' for `latex` -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2022 Free Software Foundation, Inc.
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
-;; Packages-Requires: ((dash        "2.18.0")
-;;                     (s           "1.12.0")
-;;                     (f           "0.20.0")
-;;                     (run-command "0.1.0")
-;;                     (emacs       "27.1"))
+;; Package-Requires: ((dash        "2.18.0")
+;;                    (s           "1.12.0")
+;;                    (f           "0.20.0")
+;;                    (run-command "0.1.0")
+;;                    (emacs       "27.1"))
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
