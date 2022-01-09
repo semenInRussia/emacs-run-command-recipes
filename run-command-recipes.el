@@ -27,12 +27,14 @@
 ;; This is collection of recipes to `run-command'.
 
 ;;; Code:
-
 (require 'run-command)
 
+(add-to-list 'run-command-experiments
+             'run-command-experiment-lisp-commands)
 
 (defcustom rcr/supported-recipes '(latex
-                                   pandoc)
+                                   pandoc
+                                   haskell)
   "List of recipes' names, which `run-command-recipes' support."
   :type '(repeat symbol))
 
