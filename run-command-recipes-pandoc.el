@@ -1,14 +1,13 @@
-;;; run-command-recipes-pandoc --- Recipe of `run-command' for `pandoc` -*- lexical-binding: t; -*-
+;;; run-command-recipes-pandoc.el --- Recipe of `run-command' for `pandoc` -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2022 Free Software Foundation, Inc.
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
-;; Packages-Requires: ((dash        "2.18.0")
-;;                     (s           "1.12.0")
-;;                     (f           "0.20.0")
-;;                     (run-command "0.1.0")
-;;                     (emacs       "27.1"))
+;; Package-Requires: ((emacs "24.4") (dash "2.18.0") (s "1.12.0") (f "0.20.0") (run-command "0.1.0"))
+;; Keywords: extensions, run-command
+;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
+;; URL: https://github.com/semenInRussia/emacs-run-command-recipes/blob/main/docs/pandoc.md
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -24,6 +23,7 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
+;; This is collection of recipes for `run-command'.
 
 ;;; Code:
 (require 'dash)
@@ -104,8 +104,7 @@ See https://pandoc.org"
        (rcr/hashtable-put "latex" "tex")
        (rcr/hashtable-put "texinfo" "texi")
        (rcr/hashtable-put "mediawiki" "wiki")
-       (rcr/hashtable-put "biblatex" "bib")
-       )
+       (rcr/hashtable-put "biblatex" "bib"))
   "This is map of pandoc's format code and extension of file.
 If your pandoc's code have extensions, which equal to pandoc's code (for
 example: org = .(org)), then just don't put pair to this variable.")
@@ -134,8 +133,7 @@ example: org = .(org)), then just don't put pair to this variable.")
        (rcr/hashtable-put 'textile-mode "textile")
        (rcr/hashtable-put 'json-mode "json")
        (rcr/hashtable-put 'csv-mode "csv")
-       (rcr/hashtable-put 'org-mode "org")
-       )
+       (rcr/hashtable-put 'org-mode "org"))
   "Hashtable with keys major modes and values pandoc's input format's codes.
 See https://pandoc.org for see pandoc's input formats."
   :type 'hashtable)
@@ -177,14 +175,13 @@ https://github.com/bard/emacs-run-command#examples"
                             "Convert %s to %s with Pandoc"
                             (s-upcase input-format)
                             (s-upcase output-format))
-                  :command-line
-                  (format
-                   "pandoc -t %s -f %s -o \"%s\" \"%s\""
-                   output-format
-                   input-format
-                   output-file
-                   input-file
-                   )
+                  :command-line (format
+                                 "pandoc -t %s -f %s -o \"%s\" \"%s\""
+                                 output-format
+                                 input-format
+                                 output-file
+                                 input-file
+                                 )
                   ))
              rcr/pandoc-output-formats)))
     )

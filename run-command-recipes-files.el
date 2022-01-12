@@ -1,11 +1,12 @@
-;;; run-command-recipes-files --- Operations on files/filepaths. -*- lexical-binding: t; -*-
+;;; run-command-recipes-files.el --- Operations on files/filepaths -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2022 Free Software Foundation, Inc.
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
-;; Packages-Requires: ((dash "2.18.0")
-;;                     (s     "1.12.0"))
+;; Package-Requires: ((emacs "24.4") (dash "2.18.0") (s "1.12.0") (f "0.20.0") (run-command "0.1.0"))
+;; Keywords: extensions, run-command
+;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -21,6 +22,9 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
+;; This very small wrapper on `f' and `projectile'
+
+;;; Code:
 
 (defun rcr/project-root ()
     "Return path on project root."
@@ -29,7 +33,6 @@
         default-directory)
     )
 
-;;; Code:
 
 (provide 'run-command-recipes-files)
 ;;; run-command-recipes-files.el ends here

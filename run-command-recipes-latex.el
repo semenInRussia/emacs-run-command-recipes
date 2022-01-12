@@ -1,14 +1,13 @@
-;;; run-command-recipes-latex --- Recipe of `run-command' for `latex` -*- lexical-binding: t; -*-
+;;; run-command-recipes-latex.el --- Recipe of `run-command' for `latex` -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2022 Free Software Foundation, Inc.
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
-;; Packages-Requires: ((dash        "2.18.0")
-;;                     (s           "1.12.0")
-;;                     (f           "0.20.0")
-;;                     (run-command "0.1.0")
-;;                     (emacs       "27.1"))
+;; Package-Requires: ((emacs "24.4") (dash "2.18.0") (s "1.12.0") (f "0.20.0") (run-command "0.1.0"))
+;; Keywords: extensions, run-command
+;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
+;; URL: https://github.com/semenInRussia/emacs-run-command-recipes/blob/main/docs/latex.md
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -24,8 +23,12 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-
+;; For use this code put this to config:
+;; ```
+;; (run-command-recipes-use-one latex)
+;; ```
 ;;; Code:
+
 (require 'dash)
 (require 'f)
 (require 's)
@@ -58,9 +61,7 @@ See https://github.com/bard/emacs-run-command#examples."
               :command-line (format
                              rcr/pdflatex-command (f-dirname file-path)
                              file-path
-                             )
-              )))
-        )
+                             )))))
     )
 
 
