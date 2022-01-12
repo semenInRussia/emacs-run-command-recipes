@@ -25,6 +25,7 @@ All contribution is good, for add recipe to this repository...:
 
 1. [fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo "Documentation from github-docs") this repository
 2. Create file with name `run-command-recipes-<recpe-name>.el` instead of `recipe-name` put name of your new recipe
-3. Open `run-command-recipes.el` and add `recipe-name` to `rcr/supported-recipes` variable
-4. Commit, Commit, Push all to your fork
-5. [Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests "Documentation about Pull Requests from GitHub Docs") to this repository
+3. Create in its function recipe for `run-command` with name `run-command-recipe-<recipename>`
+4. Open `run-command-recipes.el` and add `recipe-name` to `rcr/supported-recipes` variable
+5. Commit, Commit, Push all to your fork
+6. [Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests "Documentation about Pull Requests from GitHub Docs") to this repository
