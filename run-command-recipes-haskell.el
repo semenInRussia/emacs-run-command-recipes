@@ -30,6 +30,7 @@
 
 (require 'run-command)
 (require 'run-command-recipes-files)
+(require 'f)
 
 (defun run-command-recipe-haskell ()
     "`run-command''s recipe for `haskell`."

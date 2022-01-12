@@ -28,6 +28,8 @@
 
 ;;; Code:
 (require 'run-command)
+(require 's)
+(require 'dash)
 
 (add-to-list 'run-command-experiments
              'run-command-experiment-lisp-commands)
@@ -54,7 +56,7 @@
 
 (defmacro run-command-recipes-useq-one (recipe)
     "Use RECIPE for `run-command' from `run-command-recipes' with quote RECIPE."
-    (run-command-recipes-use-one ',recipe))
+    `(run-command-recipes-use-one ',recipe))
 
 
 (defun run-command-recipes-use-one (recipe)
