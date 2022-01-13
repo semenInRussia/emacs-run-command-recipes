@@ -61,8 +61,8 @@
 
 (defmacro run-command-recipes-use (&rest recipes)
     "Use RECIPES for `run-command' from this package."
-    (--each recipes
-        (run-command-recipes-use-one it))
+    `(--each ',recipes
+         (run-command-recipes-use-one it))
     )
 
 
@@ -71,14 +71,13 @@
     (run-command-recipes-use-one ',recipe))
 
 
-(defmacro run-command-recipes-use-one (recipe)
-    "Use RECIPE for `run-command' from `run-command-recipes'."
-    `(progn
-        (require ',(intern
-                   (s-concat "run-command-recipes-" (symbol-name recipe))))
-        (add-to-list 'run-command-recipes
-                     ',(intern (s-concat "run-command-recipe-"
-                                        (symbol-name recipe)))))
+(defun run-command-recipes-use-one (recipe)
+    "Use RECIPE for `run-command' from `run-command-recipes' without quote."
+    (require (intern
+              (s-concat "run-command-recipes-" (symbol-name recipe))))
+    (add-to-list 'run-command-recipes
+                 (intern (s-concat "run-command-recipe-"
+                                   (symbol-name recipe))))
     )
 
 
