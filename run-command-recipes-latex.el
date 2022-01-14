@@ -23,16 +23,16 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
+
 ;; For use this code put this to config:
 ;; ```
-;; (run-command-recipes-use-one latex)
+;; (run-command-recipes-use-one 'latex)
 ;; ```
 ;;; Code:
 
 (require 'dash)
 (require 'f)
 (require 's)
-(require 'run-command)
 
 
 (defcustom rcr/pdflatex-command (s-concat "pdflatex"

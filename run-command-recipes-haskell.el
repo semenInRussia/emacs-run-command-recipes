@@ -24,17 +24,18 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
+
 ;; For use this code put this to config:
 ;; ```
-;; (run-command-recipes-use-one haskell)
+;; (run-command-recipes-use-one 'haskell)
 ;; ```
 ;;; Code:
 
-(require 'run-command)
 (require 'run-command-recipes-files)
-(require 'haskell-mode)
 
 (require 'f)
+(require 'dash)
+(require 'haskell-mode)
 
 
 (defcustom rcr/haskell-complie-function 'haskell-compile

@@ -23,9 +23,14 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;; This is collection of recipes for `run-command'.
+
+;; For use this code put this to config:
+;; ```
+;; (run-command-recipes-use-one 'pandoc)
+;; ```
 
 ;;; Code:
+
 (require 'dash)
 (require 'f)
 (require 's)
@@ -124,7 +129,7 @@ example: org = .(org)), then just don't put pair to this variable.")
   (->> (make-hash-table :test 'equal)
        (rcr/add-modes-with-format-to-table rcr/tex-modes "tex")
        (rcr/add-modes-with-format-to-table rcr/html-modes "html")
-       (rcr/hashtable-put 'markdown-mode "md")
+       (rcr/hashtable-put 'markdown-mode "markdown")
        (rcr/hashtable-put 'gfm-mode "gfm")
        (rcr/hashtable-put 'haskell-mode "native")
        (rcr/hashtable-put 'rtf-mode "rtf")
@@ -150,9 +155,7 @@ See https://pandoc.org for see pandoc's input formats."
 (defun rcr/pandoc-format-for-major-mode (major-mode)
     "Return format name when MAJOR-MODE is one of Pandoc input formats.
 See pandoc input formats: https://pandoc.org"
-    (-when-let (major-mode-and-format (--find (eq major-mode (-first-item it))
-                                              pandoc-input-format-major-modes))
-        (-second-item major-mode-and-format))
+    (gethash major-mode rcr/pandoc-major-modes-input-formats)
     )
 
 

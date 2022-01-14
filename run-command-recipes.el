@@ -22,6 +22,7 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
+
 ;; If you need to use all supported language, just put this to your code:
 ;; ```
 ;;   (run-command-recipes-use-all)
@@ -43,12 +44,17 @@
 
 (require 'run-command)
 
+(require 'dash)
+(require 'f)
+(require 's)
+
 (add-to-list 'run-command-experiments
              'run-command-experiment-lisp-commands)
 
 (defcustom rcr/supported-recipes '(latex
                                    pandoc
-                                   haskell)
+                                   haskell
+                                   elisp)
   "List of recipes' names, which `run-command-recipes' support."
   :type '(repeat symbol))
 
@@ -68,7 +74,7 @@
 
 (defmacro run-command-recipes-useq-one (recipe)
     "Use RECIPE for `run-command' from `run-command-recipes' with quote RECIPE."
-    (run-command-recipes-use-one ',recipe))
+    `(run-command-recipes-use-one ',recipe))
 
 
 (defun run-command-recipes-use-one (recipe)

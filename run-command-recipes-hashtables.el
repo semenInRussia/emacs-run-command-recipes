@@ -4,8 +4,6 @@
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
-;; Package-Requires: ((dash "2.18.0")
-;;                    (s     "1.12.0"))
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -21,6 +19,7 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
+;; This is library of `run-command-recipes' for `hashtable'
 
 ;;; Code:
 

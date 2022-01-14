@@ -28,7 +28,7 @@
 
 (defun rcr/project-root ()
     "Return path on project root."
-    (or (with-eval-after-load 'projectile
+    (or (when (require 'projectile nil t)
             (projectile-acquire-root))
         default-directory)
     )
