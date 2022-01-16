@@ -30,8 +30,7 @@
     "Return path on project root."
     (or (when (require 'projectile nil t)
             (projectile-acquire-root))
-        default-directory)
-    )
+        default-directory))
 
 
 (provide 'run-command-recipes-files)

@@ -60,9 +60,7 @@ See https://github.com/bard/emacs-run-command#examples."
               :command-name "pdflatex"
               :command-line (format
                              rcr/pdflatex-command (f-dirname file-path)
-                             file-path
-                             )))))
-    )
+                             file-path))))))
 
 
 (provide 'run-command-recipes-latex)

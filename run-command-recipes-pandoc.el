@@ -121,8 +121,7 @@ example: org = .(org)), then just don't put pair to this variable.")
     "Add MODES as vals, and one FORMAT as keys to TABLE."
     (--reduce-from (rcr/hashtable-put it format acc)
                    table
-                   modes)
-    )
+                   modes))
 
 
 (defcustom rcr/pandoc-major-modes-input-formats
@@ -148,15 +147,13 @@ See https://pandoc.org for see pandoc's input formats."
     "Change FILENAME with pandoc's format to filename with pandoc's NEW-FORMAT."
     (let ((new-ext (or (gethash new-format rcr/pandoc-formats-and-extensions)
                        new-format)))
-        (f-swap-ext filename new-ext))
-    )
+        (f-swap-ext filename new-ext)))
 
 
 (defun rcr/pandoc-format-for-major-mode (major-mode)
     "Return format name when MAJOR-MODE is one of Pandoc input formats.
 See pandoc input formats: https://pandoc.org"
-    (gethash major-mode rcr/pandoc-major-modes-input-formats)
-    )
+    (gethash major-mode rcr/pandoc-major-modes-input-formats))
 
 
 (defun run-command-recipe-pandoc ()
@@ -183,11 +180,8 @@ https://github.com/bard/emacs-run-command#examples"
                                  output-format
                                  input-format
                                  output-file
-                                 input-file
-                                 )
-                  ))
-             rcr/pandoc-output-formats)))
-    )
+                                 input-file)))
+             rcr/pandoc-output-formats))))
 
 
 (provide 'run-command-recipes-pandoc)
