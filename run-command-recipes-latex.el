@@ -41,12 +41,14 @@
                                       " --output-directory \"%s\""
                                       " \"%s\"")
   "Command for run `pdflatex`, ignoring errors."
-  :type 'string)
+  :type 'string
+  :group 'rcr)
 
 
 (defcustom rcr/tex-modes '(LaTeX-mode latex-mode tex-mode TeX-mode)
   "List of tex/latex major modes in Emacs."
-  :type '(repeat symbol))
+  :type '(repeat symbol)
+  :group 'rcr)
 
 
 (defun run-command-recipe-latex ()

@@ -91,12 +91,14 @@
                                        "zimwiki")
   "This is list of pandoc's formats valid to pandoc's output.
 See https://pandoc.org"
-  :type '(repeat string))
+  :type '(repeat string)
+  :group 'rcr)
 
 
 (defcustom rcr/html-modes '(html-mode web-mode)
   "List of modes which created for HTML."
-  :type '(repeat symbol))
+  :type '(repeat symbol)
+  :group 'rcr)
 
 
 (defcustom rcr/pandoc-formats-and-extensions
@@ -112,7 +114,9 @@ See https://pandoc.org"
        (rcr/hashtable-put "biblatex" "bib"))
   "This is map of pandoc's format code and extension of file.
 If your pandoc's code have extensions, which equal to pandoc's code (for
-example: org = .(org)), then just don't put pair to this variable.")
+example: org = .(org)), then just don't put pair to this variable."
+  :group 'rcr
+  :type 'hashtable)
 
 
 (defun rcr/add-modes-with-format-to-table (modes
@@ -140,7 +144,8 @@ example: org = .(org)), then just don't put pair to this variable.")
        (rcr/hashtable-put 'org-mode "org"))
   "Hashtable with keys major modes and values pandoc's input format's codes.
 See https://pandoc.org for see pandoc's input formats."
-  :type 'hashtable)
+  :type 'hashtable
+  :group 'rcr)
 
 
 (defun rcr/pandoc-change-format-of-file (filename new-format)
@@ -150,10 +155,10 @@ See https://pandoc.org for see pandoc's input formats."
         (f-swap-ext filename new-ext)))
 
 
-(defun rcr/pandoc-format-for-major-mode (major-mode)
-    "Return format name when MAJOR-MODE is one of Pandoc input formats.
+(defmacro rcr/pandoc-format-for-major-mode (mode)
+    "Return format name when MODE is one of Pandoc input formats.
 See pandoc input formats: https://pandoc.org"
-    (gethash major-mode rcr/pandoc-major-modes-input-formats))
+    `(gethash ,mode rcr/pandoc-major-modes-input-formats))
 
 
 (defun run-command-recipe-pandoc ()

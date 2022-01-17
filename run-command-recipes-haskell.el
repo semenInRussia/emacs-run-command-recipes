@@ -40,18 +40,21 @@
 
 (defcustom rcr/haskell-complie-function 'haskell-compile
   "This function run when run recipe \"Run Haskell File by Context\"."
-  :type 'function)
+  :type 'function
+  :group 'rcr)
 
 
 (defcustom rcr/haskell-modes '(haskell-mode)
   "List of `major-modes` for Haskell."
-  :type '(repeat function))
+  :type '(repeat function)
+  :group 'rcr)
 
 
 (defcustom rcr/haskell-mode-p
   (lambda () (-contains-p rcr/haskell-modes major-mode))
   "Predicate whic get t, when current `major-mode' is for Haskell."
-  :type 'predicate)
+  :type 'predicate
+  :group 'rcr)
 
 
 (defun run-command-recipe-haskell ()
@@ -63,7 +66,7 @@
                :display "Run this Project with Stack"
                :working-dir (rcr/project-root))
          (list :command-name "haskell-run-by-context"
-               :lisp-function rcr/haskell-complie-ghci-function
+               :lisp-function rcr/haskell-complie-function
                :display "Run Haskell File by Context")))
     )
 

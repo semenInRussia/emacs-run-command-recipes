@@ -48,15 +48,25 @@
 (require 'f)
 (require 's)
 
+
+(defgroup rcr nil
+    "Group for `run-command-recipes'"
+    :group 'tools
+    :link '(url-link :tag "GitHub"
+            "https://github.com/semenInRussia/emacs-run-command-recipes"))
+
+
 (add-to-list 'run-command-experiments
              'run-command-experiment-lisp-commands)
+
 
 (defcustom rcr/supported-recipes '(latex
                                    pandoc
                                    haskell
                                    elisp)
   "List of recipes' names, which `run-command-recipes' support."
-  :type '(repeat symbol))
+  :type '(repeat symbol)
+  :group 'rcr)
 
 
 (defmacro run-command-recipes-use-all ()
