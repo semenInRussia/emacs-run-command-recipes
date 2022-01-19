@@ -39,6 +39,7 @@
 ;; - latex
 ;; - pandoc
 ;; - haskell
+;; - elisp
 
 ;;; Code:
 
