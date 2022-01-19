@@ -1,10 +1,7 @@
 ;;; run-command-recipes-latex.el --- Recipe of `run-command' for `latex` -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2022 Free Software Foundation, Inc.
-
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "24.4") (dash "2.18.0") (s "1.12.0") (f "0.20.0") (run-command "0.1.0"))
 ;; Keywords: extensions, run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 ;; URL: https://github.com/semenInRussia/emacs-run-command-recipes/blob/main/docs/latex.md
@@ -35,33 +32,36 @@
 (require 's)
 
 
-(defcustom rcr/pdflatex-command (s-concat "pdflatex"
-                                      " -interaction nonstopmode"
-                                      " -file-line-error"
-                                      " --output-directory \"%s\""
-                                      " \"%s\"")
+(defcustom run-command-recipes-latex-command
+  (s-concat "pdflatex"
+            " -interaction nonstopmode"
+            " -file-line-error"
+            " --output-directory \"%s\""
+            " \"%s\"")
   "Command for run `pdflatex`, ignoring errors."
   :type 'string
-  :group 'rcr)
+  :group 'run-command-recipes)
 
 
-(defcustom rcr/tex-modes '(LaTeX-mode latex-mode tex-mode TeX-mode)
+(defcustom run-command-recipes-latex-modes
+  '(LaTeX-mode latex-mode tex-mode TeX-mode)
   "List of tex/latex major modes in Emacs."
   :type '(repeat symbol)
-  :group 'rcr)
+  :group 'run-command-recipes)
 
 
 (defun run-command-recipe-latex ()
     "Recipe for LaTeX `run-command'.
 See https://github.com/bard/emacs-run-command#examples."
     (-when-let (file-path (buffer-file-name))
-        (when (-contains-p rcr/tex-modes major-mode)
+        (when (-contains-p run-command-recipes-latex-modes major-mode)
             (list
              (list
               :display "Convert to PDF with `pdflatex`, ignoring errors"
               :command-name "pdflatex"
               :command-line (format
-                             rcr/pdflatex-command (f-dirname file-path)
+                             run-command-recipes-pdflatex-command
+                             (f-dirname file-path)
                              file-path))))))
 
 

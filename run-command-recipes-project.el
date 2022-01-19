@@ -1,11 +1,8 @@
-;;; run-command-recipes-files.el --- Operations on files/filepaths -*- lexical-binding: t; -*-
-
-;; Copyright (C) 2022 Free Software Foundation, Inc.
+;;; run-command-recipes-project.el --- Operations on project -*- lexical-binding: t; -*-
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "24.4") (dash "2.18.0") (s "1.12.0") (f "0.20.0") (run-command "0.1.0"))
-;; Keywords: extensions, run-command
+;; Keywords: extensions run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -25,13 +22,21 @@
 ;; This very small wrapper on `f' and `projectile'
 
 ;;; Code:
+(require 'dash)
 
-(defun rcr/project-root ()
+(declare-function projectile-acquire-root "projectile")
+(declare-function project-roots "project")
+(declare-function project-current "project")
+
+(defun run-command-recipes-project-root ()
     "Return path on project root."
-    (or (when (require 'projectile nil t)
-            (projectile-acquire-root))
-        default-directory))
+    (--find it
+            (list
+             (when (require 'projectile nil t) (projectile-acquire-root))
+             (when (and (require 'project nil t) (project-current))
+                 (-first-item (project-roots (project-current))))
+             default-directory)))
 
 
-(provide 'run-command-recipes-files)
-;;; run-command-recipes-files.el ends here
+(provide 'run-command-recipes-project)
+;;; run-command-recipes-project.el ends here

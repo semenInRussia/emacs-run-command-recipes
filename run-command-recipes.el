@@ -1,10 +1,10 @@
 ;;; run-command-recipes.el --- This is collection of recipes to `run-command' -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2022 Free Software Foundation, Inc.
+;; Copyright (C) 2022 semenInRussia
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "24.4") (dash "2.18.0") (s "1.12.0") (f "0.20.0") (run-command "0.1.0"))
+;; Package-Requires: ((emacs "25.1") (dash "2.18.0") (s "1.12.0") (f "0.20.0") (run-command "0.1.0"))
 ;; Keywords: extensions, run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 
@@ -49,7 +49,7 @@
 (require 's)
 
 
-(defgroup rcr nil
+(defgroup run-command-recipes nil
     "Group for `run-command-recipes'"
     :group 'tools
     :link '(url-link :tag "GitHub"
@@ -60,18 +60,18 @@
              'run-command-experiment-lisp-commands)
 
 
-(defcustom rcr/supported-recipes '(latex
+(defcustom run-command-recipes-supported-recipes '(latex
                                    pandoc
                                    haskell
                                    elisp)
   "List of recipes' names, which `run-command-recipes' support."
   :type '(repeat symbol)
-  :group 'rcr)
+  :group 'run-command-recipes)
 
 
 (defmacro run-command-recipes-use-all ()
     "Use all recipes for `run-command' from this package."
-    `(run-command-recipes-use ,@rcr/supported-recipes))
+    `(run-command-recipes-use ,@run-command-recipes-supported-recipes))
 
 
 (defmacro run-command-recipes-use (&rest recipes)

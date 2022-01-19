@@ -1,12 +1,9 @@
 ;;; run-command-recipes-hashtables.el --- Operations on `hashtable` -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2022 Free Software Foundation, Inc.
-
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
 ;; URL: https://github.com/semenInRussia/emacs-run-command-recipes
-;; Package-Requires: ((emacs "24.4"))
-;; Keywords: extensions, run-command
+;; Keywords: extensions run-command
 
 ;; This program is free software: you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -26,7 +23,7 @@
 
 ;;; Code:
 
-(defun rcr/hashtable-put (key val table)
+(defun run-command-recipes-hashtables-put (key val table)
     "Put KEY with VAL to TABLE, and get new TABLE."
     (puthash key val table)
     table)

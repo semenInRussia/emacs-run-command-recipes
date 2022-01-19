@@ -1,3 +1,5 @@
+# Pandoc - `run-command-recipes-pandoc-major-modes-input-formats`
+
 This is list of Emacs' major modes which `run-command-recipe-pandoc` support
 
 This is list:
@@ -18,8 +20,10 @@ This is list:
 * `csv-mode`
 * `json-mode`
 
-For new use this code:
+For new mode use this code:
 
 ```emacs-lisp
-(puthash "markdown" 'markdown-mode rcr/pandoc-major-modes-input-formats)
+(puthash "markdown"
+         'markdown-mode
+         run-command-recipes-pandoc-major-modes-input-formats)
 ```

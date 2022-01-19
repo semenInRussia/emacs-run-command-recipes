@@ -1,11 +1,8 @@
 ;;; run-command-recipes-elisp.el --- Recipe of `run-command' for `elisp` -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2022 Free Software Foundation, Inc.
-
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "24.4") (dash "2.18.0") (s "1.12.0") (f "0.20.0") (run-command "0.1.0"))
-;; Keywords: extensions, run-command
+;; Keywords: extensions run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 ;; URL: https://github.com/semenInRussia/emacs-run-command-recipes/blob/main/docs/elisp.md
 
@@ -34,76 +31,93 @@
 (require 'run-command-recipes-files)
 
 
-(defcustom rcr/elisp-modes '(emacs-lisp-mode lisp-interaction-mode)
+(defcustom run-command-recipes-elisp-modes
+  '(emacs-lisp-mode lisp-interaction-mode)
   "List of modes in which can work recipe `elisp' for `run-command'."
   :type '(repeat symbol)
-  :group 'rcr)
+  :group 'run-command-recipes)
 
 
-(defcustom rcr/elisp-cask-project-p-function nil
+(defcustom run-command-recipes-elisp-mode-p-funtion
+  (lambda () (-contains-p run-command-recipes-elisp-modes major-mode))
+  "Predicate, return non-nil value, if current `major-mode' is Emacs Lisp mode."
+  :type 'predicate
+  :group 'run-command-recipes)
+
+
+(defun run-command-recipes-elisp-mode-p ()
+    "Get t, when current `major-mode' is Emacs Lisp mode."
+    (funcall run-command-recipes-elisp-mode-p-funtion))
+
+
+(defcustom run-command-recipes-elisp-cask-project-p-function nil
   "Get non-nil when current opened project have Cask."
   :type 'predicate
-  :group 'rcr)
+  :group 'run-command-recipes)
 
 
-(defcustom rcr/elisp-cask-filename "Cask"
+(defcustom run-command-recipes-elisp-cask-filename "Cask"
   "Name of cask file."
   :type 'string
-  :group 'rcr)
+  :group 'run-command-recipes)
 
 
-(defun rcr/elisp-cask-project-p ()
+(defun run-command-recipes-elisp-cask-project-p ()
     "Get non-nil when current opened project have Cask."
-    (if rcr/elisp-cask-project-p-function
-        (funcall rcr/elisp-cask-project-p-function)
-        (let ((project-root-files (->> (rcr/project-root)
+    (if run-command-recipes-elisp-cask-project-p-function
+        (funcall run-command-recipes-elisp-cask-project-p-function)
+        (let ((project-root-files (->> (run-command-recipes-project-root)
                                        (f-files)
                                        (--map (f-filename it)))))
-            (-contains-p project-root-files rcr/elisp-cask-filename))))
+            (-contains-p project-root-files
+                         run-command-recipes-elisp-cask-filename))))
 
 
-(defun rcr/elisp-file-was-compiled-p ()
+(defun run-command-recipes-elisp-file-was-compiled-p ()
     "Return t when current file was run in `byte-compile'."
     (-when-let (filename (buffer-file-name))
         (f-file-p (f-swap-ext filename "elc"))))
 
 
-(defun rcr/elisp-compile-current-file ()
+(defun run-command-recipes-elisp-compile-current-file ()
     "Compile to bytes current Elisp file."
     (byte-compile-file (buffer-file-name)))
 
 
-(defun rcr/elisp-recompile-current-file ()
+(defun run-command-recipes-elisp-recompile-current-file ()
     "Recompile to bytes current Elisp file."
     (byte-recompile-file (buffer-file-name)))
 
 
-(defun rcr/elisp-recompile-current-directory ()
+(defun run-command-recipes-elisp-recompile-current-directory ()
     "Recompile to bytes current directory."
-    (byte-recompile-directory (rcr/project-root)))
+    (byte-recompile-directory (run-command-recipes-project-root)))
 
 
 (defun run-command-recipe-elisp ()
     "This is recipe for `run-command' from `run-command-recipes'."
     (list
-     (when (rcr/elisp-cask-project-p)
+     (when (run-command-recipes-elisp-cask-project-p)
          (list
           :command-name "cask-install"
           :display "Install Dependecies from Cask"
           :command-line "cask"))
-     (if (rcr/elisp-file-was-compiled-p)
+     (when (run-command-recipes-elisp-mode-p)
+         (if (run-command-recipes-elisp-file-was-compiled-p)
+             (list
+              :command-name "byte-recompile-file"
+              :lisp-function 'run-command-recipes-elisp-recompile-current-file
+              :display "ReCompile to Bytes This File")
+             (list
+              :command-name "byte-compile-file"
+              :lisp-function 'run-command-recipes-elisp-compile-current-file
+              :display "Compile to Bytes This File")))
+     (when (run-command-recipes-elisp-mode-p)
          (list
-          :command-name "byte-recompile-file"
-          :lisp-function 'rcr/elisp-recompile-current-file
-          :display "ReCompile to Bytes This File")
-         (list
-          :command-name "byte-compile-file"
-          :lisp-function 'rcr/elisp-compile-current-file
-          :display "Compile to Bytes This File"))
-     (list
-      :command-name "byte-recompile-directory"
-      :display "ReCompile to bytest Current Directory"
-      :lisp-function 'rcr/elisp-recompile-current-directory)))
+          :command-name "byte-recompile-directory"
+          :display "ReCompile to bytest Current Directory"
+          :lisp-function
+          'run-command-recipes-elisp-recompile-current-directory))))
 
 
 (provide 'run-command-recipes-elisp)

@@ -1,3 +1,5 @@
+# Cool Variable for Pandoc Recipe `run-command-recipes-pandoc-output-formats`
+
 This is list of strings - Pandoc's output formats which `run-command-recipe-pandoc`support.
 
 Default value:
@@ -54,5 +56,5 @@ Default value:
 
 For new use this code
 ```emacs-lisp
-(add-to-list 'rcr/pandoc-output-formats "docx")
+(add-to-list 'run-command-recipes-pandoc-output-formats "docx")
 ```
