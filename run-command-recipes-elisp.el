@@ -28,7 +28,7 @@
 
 (require 'dash)
 (require 'f)
-(require 'run-command-recipes-files)
+(require 'run-command-recipes-project)
 
 
 (defcustom run-command-recipes-elisp-modes

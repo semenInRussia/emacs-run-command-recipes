@@ -28,7 +28,7 @@
 ;; ```
 ;;; Code:
 
-(require 'run-command-recipes-files)
+(require 'run-command-recipes-project-root)
 
 (require 'f)
 (require 'dash)

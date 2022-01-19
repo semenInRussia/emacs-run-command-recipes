@@ -60,7 +60,7 @@ See https://github.com/bard/emacs-run-command#examples."
               :display "Convert to PDF with `pdflatex`, ignoring errors"
               :command-name "pdflatex"
               :command-line (format
-                             run-command-recipes-pdflatex-command
+                             run-command-recipes-latex-command
                              (f-dirname file-path)
                              file-path))))))
 
