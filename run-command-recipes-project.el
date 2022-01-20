@@ -38,5 +38,10 @@
              default-directory)))
 
 
+(defun run-command-recipes-project-root-has (entire)
+    "Return t, when root of current project has ENTIRE (filename or directory)."
+    (f-exists-p (f-join (run-command-recipes-project-root) entire)))
+
+
 (provide 'run-command-recipes-project)
 ;;; run-command-recipes-project.el ends here

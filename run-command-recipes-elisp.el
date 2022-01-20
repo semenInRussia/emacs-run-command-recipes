@@ -66,11 +66,8 @@
     "Get non-nil when current opened project have Cask."
     (if run-command-recipes-elisp-cask-project-p-function
         (funcall run-command-recipes-elisp-cask-project-p-function)
-        (let ((project-root-files (->> (run-command-recipes-project-root)
-                                       (f-files)
-                                       (--map (f-filename it)))))
-            (-contains-p project-root-files
-                         run-command-recipes-elisp-cask-filename))))
+        (run-command-recipes-project-root-has
+         run-command-recipes-elisp-cask-filename)))
 
 
 (defun run-command-recipes-elisp-file-was-compiled-p ()
