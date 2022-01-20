@@ -91,6 +91,40 @@
     (byte-recompile-directory (run-command-recipes-project-root)))
 
 
+(defcustom run-command-recipes-elisp-has-ert-tests-p-function nil
+  "Funtion not take arguments, get non-nil, if current project has `ert' tests.
+By default this is function which return t, when root of project has directory
+`run-command-recipes-elisp-ert-tests-directory'"
+  :type 'predicate
+  :group 'run-command-recipes)
+
+
+(defcustom run-command-recipes-elisp-ert-tests-directory "test"
+  "This is name of directory in which put ert tests."
+  :type 'string
+  :group 'run-command-recipes)
+
+
+(defun run-command-recipes-elisp-has-ert-tests-p ()
+    "Get non-nil, if current project has `ert'."
+    (if run-command-recipes-elisp-has-ert-tests-p-function
+        (funcall run-command-recipes-elisp-has-ert-tests-p-function)
+        (run-command-recipes-project-root-has
+         run-command-recipes-elisp-ert-tests-directory)))
+
+
+(defun run-command-recipes-elisp-run-ert-all-tests ()
+    "Run all `ert' in directory."
+    (ert t))
+
+
+(defcustom run-command-recipes-elisp-run-ert
+  (lambda () (call-interactively 'ert))
+  "Function which run `ert'."
+  :type 'function
+  :group 'run-command-recipes)
+
+
 (defun run-command-recipe-elisp ()
     "This is recipe for `run-command' from `run-command-recipes'."
     (list
@@ -114,7 +148,17 @@
           :command-name "byte-recompile-directory"
           :display "ReCompile to bytest Current Directory"
           :lisp-function
-          'run-command-recipes-elisp-recompile-current-directory))))
+          'run-command-recipes-elisp-recompile-current-directory))
+     (when (run-command-recipes-elisp-has-ert-tests-p)
+         (list
+          :command-name "run-all-ert-tests"
+          :display "Run All ERT Tests"
+          :lisp-function 'run-command-recipes-elisp-run-ert-all-tests))
+     (when (run-command-recipes-elisp-has-ert-tests-p)
+         (list
+          :command-name "run-ert-tests"
+          :display "Run One ERT Test"
+          :lisp-function run-command-recipes-elisp-run-ert))))
 
 
 (provide 'run-command-recipes-elisp)
