@@ -51,7 +51,7 @@
 
 
 (defcustom run-command-recipes-haskell-mode-p
-  (lambda () (-contains-p rcr/haskell-modes major-mode))
+  (lambda () (-contains-p run-command-recipes-haskell-modes major-mode))
   "Predicate whic get t, when current `major-mode' is for Haskell."
   :type 'predicate
   :group 'run-command-recipes)
@@ -59,7 +59,7 @@
 
 (defun run-command-recipe-haskell ()
     "`run-command''s recipe for `haskell`."
-    (when (funcall rcr/haskell-mode-p)
+    (when (funcall run-command-recipes-haskell-mode-p)
         (list
          (list :command-name "stack-run"
                :command-line "stack run"
