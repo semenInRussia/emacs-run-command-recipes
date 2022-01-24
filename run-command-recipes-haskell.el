@@ -34,11 +34,11 @@
 (require 'dash)
 
 
-(defcustom run-command-recipes-haskell-complie-function
+(defcustom run-command-recipes-haskell-run-function
   (if (fboundp 'haskell-compile)
       'haskell-compile
-      (user-error
-       "Run-command-recipes-haskell.el: Install `haskell-mode', faster!"))
+      #'(user-error
+         "Run-command-recipes-haskell.el: Install `haskell-mode', pls!"))
   "This function run when run recipe \"Run Haskell File by Context\"."
   :type 'function
   :group 'run-command-recipes-haskell)
@@ -57,7 +57,7 @@
   :group 'run-command-recipes)
 
 
-(defun run-command-recipe-haskell ()
+(defun run-command-recipes-haskell ()
     "`run-command''s recipe for `haskell`."
     (when (funcall run-command-recipes-haskell-mode-p)
         (list
@@ -66,7 +66,7 @@
                :display "Run this Project with Stack"
                :working-dir (run-command-recipes-project-root))
          (list :command-name "haskell-run-by-context"
-               :lisp-function run-command-recipes-haskell-complie-function
+               :lisp-function run-command-recipes-haskell-run-function
                :display "Run Haskell File by Context"))))
 
 

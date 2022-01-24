@@ -125,7 +125,7 @@ By default this is function which return t, when root of project has directory
   :group 'run-command-recipes)
 
 
-(defun run-command-recipe-elisp ()
+(defun run-command-recipes-elisp ()
     "This is recipe for `run-command' from `run-command-recipes'."
     (list
      (when (run-command-recipes-elisp-cask-project-p)

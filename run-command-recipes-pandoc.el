@@ -162,7 +162,7 @@ See pandoc input formats: https://pandoc.org"
     `(gethash ,mode run-command-recipes-pandoc-major-modes-input-formats))
 
 
-(defun run-command-recipe-pandoc ()
+(defun run-command-recipes-pandoc ()
     "Pandoc `run-command` recipe, for transform to other formats.
 See `run-command-recipes`:
 https://github.com/bard/emacs-run-command#examples"

@@ -25,8 +25,9 @@ Also Instead of `LaTeX` and `pandoc` you can use something from this:
 All contribution is good, for add recipe to this repository...:
 
 1. [fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo "Documentation from github-docs") this repository
-2. Create file with name `run-command-recipes-<recpe-name>.el` instead of `recipe-name` put name of your new recipe
-3. Create in its function recipe for `run-command` with name `run-command-recipe-<recipename>`
-4. Open `run-command-recipes.el` and add `recipe-name` to `rcr/supported-recipes` variable
-5. Commit, Commit, Push all to your fork
-6. [Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests "Documentation about Pull Requests from GitHub Docs") to this repository
+2. Create file with name `run-command-recipes-<recipe-name>.el` instead of `recipe-name` put name of your new recipe
+3. Create in its function recipe for `run-command` with name `run-command-recipes-<recipe-name>`
+4. Open `run-command-recipes.el` and add `recipe-name` to `run-command-recipes-supported-recipes` variable (this is requres for `run-command-recipes-use-all`)
+5. Suggest use `run-command-recipes-project`, this package has function `run-command-recipes-project-root` which return root root of current project
+6. Commit, Commit, Push all to your fork
+7. [Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests "Documentation about Pull Requests from GitHub Docs") to this repository

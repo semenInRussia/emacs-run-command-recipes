@@ -50,7 +50,7 @@
   :group 'run-command-recipes)
 
 
-(defun run-command-recipe-latex ()
+(defun run-command-recipes-latex ()
     "Recipe for LaTeX `run-command'.
 See https://github.com/bard/emacs-run-command#examples."
     (-when-let (file-path (buffer-file-name))
