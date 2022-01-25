@@ -91,7 +91,7 @@
     (require (intern
               (s-concat "run-command-recipes-" (symbol-name recipe))))
     (add-to-list 'run-command-recipes
-                 (intern (s-concat "run-command-recipe-"
+                 (intern (s-concat "run-command-recipes-"
                                    (symbol-name recipe)))))
 
 
