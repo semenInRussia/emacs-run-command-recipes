@@ -1,4 +1,15 @@
 # Elisp recipe
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Elisp recipe](#elisp-recipe)
+    - [Commands](#commands)
+    - [Customization](#customization)
+        - [Detect Elisp](#detect-elisp)
+        - [Cask](#cask)
+        - [ERT](#ert)
+
+<!-- markdown-toc end -->
 
 ## Commands
 This repo support 4 commands:

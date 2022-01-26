@@ -1,4 +1,12 @@
 # `run-command` Recipe for LaTeX
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [`run-command` Recipe for LaTeX](#run-command-recipe-for-latex)
+    - [Commands](#commands)
+    - [Customization](#customization)
+
+<!-- markdown-toc end -->
 
 ## Commands
 This cool recipe can only one thing:

@@ -1,4 +1,13 @@
 # `run-command`'s Recipe for Pandoc
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [`run-command`'s Recipe for Pandoc](#run-commands-recipe-for-pandoc)
+    - [Commands](#commands)
+    - [Who is Work? (require if you need to customize)](#who-is-work-require-if-you-need-to-customize)
+    - [Customization](#customization)
+
+<!-- markdown-toc end -->
 
 ## Commands
 This cool package can only one thing:

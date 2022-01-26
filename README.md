@@ -1,4 +1,12 @@
 # Package emacs-run-command-recipes
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Package emacs-run-command-recipes](#package-emacs-run-command-recipes)
+    - [Usage](#usage)
+    - [Contribute](#contribute)
+
+<!-- markdown-toc end -->
 
 This is collection of recipes to [run-command](https://github.com/bard/emacs-run-command "cool package!").
 

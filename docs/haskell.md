@@ -1,4 +1,14 @@
 # `run-command`'s Recipe for Pandoc
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [`run-command`'s Recipe for Pandoc](#run-commands-recipe-for-pandoc)
+    - [Commands](#commands)
+    - [Requirements](#requirements)
+    - [Customization](#customization)
+
+<!-- markdown-toc end -->
+
 
 ## Commands
 Have 2 commands:
