@@ -29,11 +29,10 @@
 
 (require 'dash)
 (require 'f)
-(require 's)
 
 
 (defcustom run-command-recipes-latex-command
-  (s-concat "pdflatex"
+  (concat "pdflatex"
             " -interaction nonstopmode"
             " -file-line-error"
             " --output-directory \"%s\""

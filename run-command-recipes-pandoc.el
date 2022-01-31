@@ -30,7 +30,6 @@
 
 (require 'dash)
 (require 'f)
-(require 's)
 
 (require 'run-command)
 (require 'run-command-recipes-hashtables)
@@ -182,8 +181,8 @@ https://github.com/bard/emacs-run-command#examples"
                                  input-format output-format)
                   :display (format
                             "Convert %s to %s with Pandoc"
-                            (s-upcase input-format)
-                            (s-upcase output-format))
+                            (upcase input-format)
+                            (upcase output-format))
                   :command-line (format
                                  "pandoc -t %s -f %s -o \"%s\" \"%s\""
                                  output-format input-format

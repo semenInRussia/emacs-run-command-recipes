@@ -4,7 +4,7 @@
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "25.1") (dash "2.18.0") (s "1.12.0") (f "0.20.0") (run-command "0.1.0"))
+;; Package-Requires: ((emacs "25.1") (dash "2.18.0") (f "0.20.0") (run-command "0.1.0"))
 ;; Keywords: extensions, run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 
@@ -47,7 +47,6 @@
 
 (require 'dash)
 (require 'f)
-(require 's)
 
 
 (defgroup run-command-recipes nil
@@ -89,9 +88,9 @@
 (defun run-command-recipes-use-one (recipe)
     "Use RECIPE for `run-command' from `run-command-recipes' without quote."
     (require (intern
-              (s-concat "run-command-recipes-" (symbol-name recipe))))
+              (concat "run-command-recipes-" (symbol-name recipe))))
     (add-to-list 'run-command-recipes
-                 (intern (s-concat "run-command-recipes-"
+                 (intern (concat "run-command-recipes-"
                                    (symbol-name recipe)))))
 
 
