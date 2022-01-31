@@ -1,4 +1,5 @@
 # Package emacs-run-command-recipes
+[![MELPA](https://melpa.org/packages/run-command-recipes-badge.svg)](https://melpa.org/#/run-command-recipes)
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 **Table of Contents**
 
@@ -10,6 +11,23 @@
 
 This is collection of recipes to [run-command](https://github.com/bard/emacs-run-command "cool package!").
 
+## Install
+Melpa has `emacs-run-command-recipes` called as `run-command-recipes`, so if you use `use-package`, then just paste followed code to you config:
+
+```elisp
+(use-package run-command-recipes
+    :ensure t
+    :after (run-command)
+    :init
+    (run-command-recipes-use-all))
+```
+Or manually:
+```elisp
+(add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-run-command-recipes")
+                                        ; here load path to source
+(require 'run-command-recipes)
+(run-command-recipes-use-all)
+```
 ## Usage
 If you need to use all supported language, just put this to your code:
 ```emacs-lisp
@@ -21,7 +39,6 @@ If you need to use only special languages, just put this:
 (run-command-recipes-use latex
                          pandoc)
 ```
-
 Also Instead of `LaTeX` and `pandoc` you can use something from this:
 
 * `latex` ([link on support](docs/latex.md "hi"))
