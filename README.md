@@ -4,6 +4,7 @@
 **Table of Contents**
 
 - [Package emacs-run-command-recipes](#package-emacs-run-command-recipes)
+    - [Install](#install)
     - [Usage](#usage)
     - [Contribute](#contribute)
 
