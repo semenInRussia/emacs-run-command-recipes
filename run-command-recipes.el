@@ -24,15 +24,15 @@
 ;;; Commentary:
 
 ;; If you need to use all supported language, just put this to your code:
-;; ```
+;;
 ;;   (run-command-recipes-use-all)
-;; ```
+;;
 ;; If you need to use only special languages, just put this:
 
-;; ```
+;;
 ;;   (run-command-recipes-use latex
 ;;                            pandoc)
-;; ```
+;;
 
 ;; Also Instead of LaTeX and pandoc you can use something from this:
 
@@ -40,6 +40,7 @@
 ;; - pandoc
 ;; - haskell
 ;; - elisp
+;; - rust
 
 ;;; Code:
 
@@ -61,9 +62,10 @@
 
 
 (defcustom run-command-recipes-supported-recipes '(latex
-                                   pandoc
-                                   haskell
-                                   elisp)
+                                                   pandoc
+                                                   haskell
+                                                   elisp
+                                                   rust)
   "List of recipes' names, which `run-command-recipes' support."
   :type '(repeat symbol)
   :group 'run-command-recipes)
