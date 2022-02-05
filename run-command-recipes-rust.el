@@ -99,6 +99,36 @@ Instead of first \"%s\" put filename of file, instead of second binary file."
           :command-name "cargo-install"
           :display "Install Dependecies from Cargo Project"
           :command-line "cargo install"))
+     (when (run-command-recipes-rust-cargo-project-p)
+         (list
+          :command-name "cargo-run"
+          :display "Run Cargo Project"
+          :command-line "cargo run"))
+     (when (run-command-recipes-rust-cargo-project-p)
+         (list
+          :command-name "cargo-build"
+          :display "Build Cargo Project"
+          :command-line "cargo build"))
+     (when (run-command-recipes-rust-cargo-project-p)
+         (list
+          :command-name "cargo-doc"
+          :display "Build Documentation for Cargo Project"
+          :command-line "cargo doc"))
+     (when (run-command-recipes-rust-cargo-project-p)
+         (list
+          :command-name "cargo-test"
+          :display "Run Tests for Cargo Project"
+          :command-line "cargo test"))
+     (when (run-command-recipes-rust-cargo-project-p)
+         (list
+          :command-name "cargo-update"
+          :display "Update Dependecies for Cargo Project"
+          :command-line "cargo update"))
+     (when (run-command-recipes-rust-cargo-project-p)
+         (list
+          :command-name "cargo-publish"
+          :display "Publish Cargo Project to https://crates.io"
+          :command-line "cargo publish"))
      (when (run-command-recipes-rust-mode-p)
          (list
           :command-name "rustc-compile"
