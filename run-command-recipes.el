@@ -71,6 +71,14 @@
   :group 'run-command-recipes)
 
 
+(defcustom run-command-recipes-source-path
+  "~/projects/emacs-run-command-recipes"
+  "Path to `run-command-recipes''s source.
+Used when create new recipe."
+  :type 'string
+  :group 'run-command-recipes)
+
+
 (defmacro run-command-recipes-use-all ()
     "Use all recipes for `run-command' from this package."
     `(run-command-recipes-use ,@run-command-recipes-supported-recipes))
@@ -93,8 +101,101 @@
               (concat "run-command-recipes-" (symbol-name recipe))))
     (add-to-list 'run-command-recipes
                  (intern (concat "run-command-recipes-"
-                                   (symbol-name recipe)))))
+                                 (symbol-name recipe)))))
 
+(defun run-command-recipes-replace-in-current-buffer (old new)
+    "Replace OLD to NEW in whole current buffer."
+    (save-excursion
+        (beginning-of-buffer)
+        (replace-string old new)))
+
+
+(defun run-command-recipes-replace-recipe-name-in-buffer (recipe-name)
+    "Replace _recipe-name_ to RECIPE-NAME in current buffer."
+    (run-command-recipes-replace-in-current-buffer "_recipe-name_"
+                                                   recipe-name))
+
+
+(defun run-command-recipes-use-template (template-path recipe-name)
+    "Insert template with TEMPLATE-PATH with changed RECIPE-NAME."
+    (let* ((template-string (f-read template-path)))
+        (insert template-string)
+        (run-command-recipes-replace-recipe-name-in-buffer recipe-name)))
+
+
+(defun run-command-recipes-insert-gfm-link-on-support (recipe-name)
+    "Insert link to support of RECIPE-NAME using Github Markdown Syntax."
+    (insert (format
+             "* `%s`([link on support](docs/%s.md \"SUPER DOC!\"))"
+             recipe-name
+             recipe-name)))
+
+
+(defun run-command-recipes-add-supported-recipe-to-readme (readme-file-path
+                                                           recipe-name)
+    "Visit README-FILE-PATH and add to list of recipes support of RECIPE-NAME.
+List of recipes like to this:
+* `python`([link on support](docs/python.md \"SUPER DOC!\"))"
+    (find-file readme-file-path)
+    (end-of-buffer)
+    (search-backward-regexp "\\* `.*`(\\[link on support](docs/.*\.md")
+    (end-of-line)
+    (newline)
+    (run-command-recipes-insert-gfm-link-on-support recipe-name))
+
+
+(defun run-command-recipes-goto-last-recipe-list-item-in-elisp-comment ()
+    "In current elisp file visit last item of supported recipes list.
+List put on \";;; Commentary:\" section
+List of recipes look like to this:
+
+;; - elisp
+;; - rust
+
+Here this function navigate to rust"
+    (beginning-of-buffer)
+    (search-forward-regexp ";; - [^\n]*\n\n"))
+
+
+(defun run-command-recipes-add-supported-recipe-to-elisp-comment (elisp-filepath
+                                                                  recipe-name)
+    "In ELISP-FILEPATH add RECIPE-NAME to list of recipes in commentary.
+Commentary put on \";;; Commentary:\" section
+List of recipes look like to this:
+
+;; - elisp
+;; - rust"
+    (find-file elisp-filepath)
+    (run-command-recipes-goto-last-recipe-list-item-in-elisp-comment)
+    (forward-line -1)
+    (insert (format ";; - %s\n" recipe-name)))
+
+
+(defun run-command-recipes-create-recipe (recipe-name)
+    "Create `run-command' recipe with RECIPE-NAME."
+    (interactive (list (read-string "Enter new recipe's name:")))
+    (let* ((elisp-file (f-join
+                        run-command-recipes-source-path
+                        (s-concat "run-command-recipes-" recipe-name ".el")))
+           (elisp-template-file (f-join run-command-recipes-source-path
+                                        "run-command-recipes-template.el"))
+           (doc-file (f-join run-command-recipes-source-path
+                             "docs"
+                             (s-concat recipe-name ".md")))
+           (doc-template-file (f-join run-command-recipes-source-path
+                                      "docs"
+                                      "template.md"))
+           (pkg-file (f-join run-command-recipes-source-path
+                             "run-command-recipes.el"))
+           (readme-file (f-join run-command-recipes-source-path "README.md")))
+        (run-command-recipes-add-supported-recipe-to-elisp-comment pkg-file
+                                                                   recipe-name)
+        (run-command-recipes-add-supported-recipe-to-readme readme-file
+                                                            recipe-name)
+        (find-file doc-file)
+        (run-command-recipes-use-template doc-template-file recipe-name)
+        (find-file elisp-file)
+        (run-command-recipes-use-template elisp-template-file recipe-name)))
 
 (provide 'run-command-recipes)
 ;;; run-command-recipes.el ends here
