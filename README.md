@@ -23,14 +23,17 @@ Melpa has `emacs-run-command-recipes` called as `run-command-recipes`, so if you
     (run-command-recipes-use-all))
 ```
 Or manually:
+
 ```elisp
 (add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-run-command-recipes")
                                         ; here load path to source
 (require 'run-command-recipes)
 (run-command-recipes-use-all)
 ```
+
 ## Usage
 If you need to use all supported language, just put this to your code:
+
 ```emacs-lisp
 (run-command-recipes-use-all)
 ```
@@ -45,8 +48,10 @@ Also Instead of `LaTeX` and `pandoc` you can use something from this:
 * `latex` ([link on support](docs/latex.md "hi"))
 * `pandoc`([link on support](docs/pandoc.md "hi"))
 * `haskell`([link on support](docs/haskell.md "Haskell Rocks!"))
-* `elisp`([link on support](docs/elisp.md "Elisp is LISP"))
-
+* `elisp`([link on support](docs/elisp.md "Elisp is LISP")
+)
+* `rust`([link on support](docs/rust.md "I am will rewrite this in Rust")
+)
 ## Contribute
 All contribution is good, for add recipe to this repository...:
 
