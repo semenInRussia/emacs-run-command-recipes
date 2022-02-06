@@ -41,6 +41,7 @@
 ;; - haskell
 ;; - elisp
 ;; - rust
+;; - python
 
 ;;; Code:
 
@@ -171,6 +172,25 @@ List of recipes look like to this:
     (insert (format ";; - %s\n" recipe-name)))
 
 
+(defun run-command-recipes-goto-end-of-supported-recipes-elisp-variable ()
+    "Go to end of `run-command-recipes-supported-recipes' variable's content."
+    (beginning-of-buffer)
+    (search-forward-regexp
+     "(defcustom run-command-recipes-supported-recipes '(")
+    (search-forward ")"))
+
+
+(defun run-command-recipes-add-supported-recipe-to-elisp-variable (elisp-file
+                                                                   recipe-name)
+    "Find elisp variable in ELISP-FILE supported recipes, add RECIPE-NAME."
+    (find-file elisp-file)
+    (run-command-recipes-goto-end-of-supported-recipes-elisp-variable)
+    (forward-line -1)
+    (end-of-line)
+    (newline-and-indent)
+    (insert recipe-name))
+
+
 (defun run-command-recipes-create-recipe (recipe-name)
     "Create `run-command' recipe with RECIPE-NAME."
     (interactive (list (read-string "Enter new recipe's name:")))
@@ -190,6 +210,8 @@ List of recipes look like to this:
            (readme-file (f-join run-command-recipes-source-path "README.md")))
         (run-command-recipes-add-supported-recipe-to-elisp-comment pkg-file
                                                                    recipe-name)
+        (run-command-recipes-add-supported-recipe-to-elisp-variable pkg-file
+                                                                    recipe-name)
         (run-command-recipes-add-supported-recipe-to-readme readme-file
                                                             recipe-name)
         (find-file doc-file)
