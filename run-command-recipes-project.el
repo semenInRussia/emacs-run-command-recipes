@@ -43,5 +43,12 @@
     (f-exists-p (f-join (run-command-recipes-project-root) entire)))
 
 
+(defun run-command-recipes-project-root-has-one-of (entires)
+    "Return t, when root of current project has of ENTIRES.
+Entire is filename or directory."
+    (-any 'run-command-recipes-project-root-has
+          entires))
+
+
 (provide 'run-command-recipes-project)
 ;;; run-command-recipes-project.el ends here
