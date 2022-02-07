@@ -50,8 +50,9 @@ Also Instead of `LaTeX` and `pandoc` you can use something from this:
 * `haskell`([link on support](docs/haskell.md "Haskell Rocks!"))
 * `elisp`([link on support](docs/elisp.md "Elisp is LISP")
 )
-* `rust`([link on support](docs/rust.md "I am will rewrite this in Rust")
-)
+* `rust`([link on support](docs/rust.md "I am will rewrite this in Rust"))
+* `python`([link on support](docs/python.md "SUPER DOC!"))
+
 ## Contribute
 All contribution is good, for add recipe to this repository...:
 
