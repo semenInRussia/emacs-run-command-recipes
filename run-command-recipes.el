@@ -183,7 +183,7 @@ List of recipes look like to this:
 
 (defun run-command-recipes-create-recipe (recipe-name)
     "Create `run-command' recipe with RECIPE-NAME."
-    (interactive (list (read-string "Enter new recipe's name:")))
+    (interactive (list (read-string "Enter new recipe's name: ")))
     (let* ((elisp-file (f-join
                         run-command-recipes-source-path
                         (s-concat "run-command-recipes-" recipe-name ".el")))
