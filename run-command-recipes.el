@@ -4,7 +4,7 @@
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "25.1") (dash "2.18.0") (f "0.20.0") (run-command "0.1.0"))
+;; Package-Requires: ((emacs "25.1") (dash "2.18.0") (f "0.20.0") (run-command "0.1.0") (s "1.12.0"))
 ;; Keywords: extensions, run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 
@@ -49,6 +49,7 @@
 
 (require 'dash)
 (require 'f)
+(require 's)
 
 
 (defgroup run-command-recipes nil
@@ -66,7 +67,8 @@
                                                    pandoc
                                                    haskell
                                                    elisp
-                                                   rust)
+                                                   rust
+                                                   python)
   "List of recipes' names, which `run-command-recipes' support."
   :type '(repeat symbol)
   :group 'run-command-recipes)
@@ -104,25 +106,12 @@ Used when create new recipe."
                  (intern (concat "run-command-recipes-"
                                  (symbol-name recipe)))))
 
-(defun run-command-recipes-replace-in-current-buffer (old new)
-    "Replace OLD to NEW in whole current buffer."
-    (save-excursion
-        (goto-char (point-min))
-        (search-forward old)
-        (replace-match new)))
-
-
-(defun run-command-recipes-replace-recipe-name-in-buffer (recipe-name)
-    "Replace _recipe-name_ to RECIPE-NAME in current buffer."
-    (run-command-recipes-replace-in-current-buffer "_recipe-name_"
-                                                   recipe-name))
-
 
 (defun run-command-recipes-use-template (template-path recipe-name)
     "Insert template with TEMPLATE-PATH with changed RECIPE-NAME."
-    (let* ((template-string (f-read template-path)))
-        (insert template-string)
-        (run-command-recipes-replace-recipe-name-in-buffer recipe-name)))
+    (->> (f-read template-path)
+         (s-replace "_recipe-name_" recipe-name)
+         (insert)))
 
 
 (defun run-command-recipes-insert-gfm-link-on-support (recipe-name)
