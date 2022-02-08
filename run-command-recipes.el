@@ -107,8 +107,9 @@ Used when create new recipe."
 (defun run-command-recipes-replace-in-current-buffer (old new)
     "Replace OLD to NEW in whole current buffer."
     (save-excursion
-        (beginning-of-buffer)
-        (replace-string old new)))
+        (goto-char (point-min))
+        (search-forward old)
+        (replace-match new)))
 
 
 (defun run-command-recipes-replace-recipe-name-in-buffer (recipe-name)
@@ -138,7 +139,7 @@ Used when create new recipe."
 List of recipes like to this:
 * `python`([link on support](docs/python.md \"SUPER DOC!\"))"
     (find-file readme-file-path)
-    (end-of-buffer)
+    (goto-char (point-max))
     (search-backward-regexp "\\* `.*`(\\[link on support](docs/.*\.md")
     (end-of-line)
     (newline)
@@ -154,7 +155,7 @@ List of recipes look like to this:
 ;; - rust
 
 Here this function navigate to rust"
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (search-forward-regexp ";; - [^\n]*\n\n"))
 
 
@@ -174,7 +175,7 @@ List of recipes look like to this:
 
 (defun run-command-recipes-goto-end-of-supported-recipes-elisp-variable ()
     "Go to end of `run-command-recipes-supported-recipes' variable's content."
-    (beginning-of-buffer)
+    (goto-char (point-min))
     (search-forward-regexp
      "(defcustom run-command-recipes-supported-recipes '(")
     (search-forward ")"))

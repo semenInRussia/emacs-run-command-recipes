@@ -23,6 +23,7 @@
 
 ;;; Code:
 (require 'dash)
+(require 'f)
 
 (declare-function projectile-acquire-root "projectile")
 (declare-function project-roots "project")
@@ -46,8 +47,7 @@
 (defun run-command-recipes-project-root-has-one-of (entires)
     "Return t, when root of current project has of ENTIRES.
 Entire is filename or directory."
-    (-any 'run-command-recipes-project-root-has
-          entires))
+    (-any 'run-command-recipes-project-root-has entires))
 
 
 (provide 'run-command-recipes-project)
