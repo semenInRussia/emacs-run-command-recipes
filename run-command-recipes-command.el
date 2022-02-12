@@ -23,28 +23,34 @@
 ;; Simplify work with options of shell command.
 
 ;;; Code:
+(require 'cl-lib)
 (require 'dash)
+(require 'eieio)                        ; Builtin lib for objects
 (require 's)
 
 (define-error 'run-command-recipes-command-non-existent-option
     "Option of command not-existent")
 
 (defclass run-command-recipes-command ()
-  ((base :initarg :base)
-   (options :initarg :options
-            :accessor run-command-recipes-command-options))
+  ((base :initarg :base :accessor run-command-recipes-command-base)
+   (options :initarg :options :accessor run-command-recipes-command-options))
   "Object helping with work with options of shell command.
 BASE is base part of shell command.  For example, in command \"pandoc ...\"
 base is \"pandoc\".  OPTIONS is list of options with type string for shell
 command.  For example, \"--toc\", \"-disable-installer\" for pandoc.")
 
-(defun run-command-recipes-command-options (command)
+(defmethod initialize-instance :after ((command run-command-recipes-command)
+                                       &key)
+    (let ((options (oref command :options)))
+        (oset command :options
+              (run-command-recipes-command--parse-some-options options))))
+
+(defun run-command-recipes-command--parse-some-options (from)
     "Get options of COMMAND.
 This is alist in which keys is names of options, values is options.
 For example:
 '((toc . \"--toc\") (disable-installer \"-disable-installer\"))"
-    (-map 'run-command-recipes-command--parse-option
-          (oref command :options)))
+    (-map 'run-command-recipes-command--parse-option from))
 
 (defun run-command-recipes-command--parse-option (from)
     "Parse FROM to normal `run-command-recipes-command' option.
