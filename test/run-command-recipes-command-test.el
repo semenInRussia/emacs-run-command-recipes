@@ -83,6 +83,14 @@
                                                                    '("toc"))
                        "pandoc --toc"))))
 
+(ert-deftest run-command-recipes-command-test-select-one-option ()
+    (let* ((options '("--toc" "-disable-installer"))
+           (command (run-command-recipes-command :base "pandoc"
+                                                 :options options)))
+        (should (equal
+                 (run-command-recipes-command-select-one-option command
+                                                                "--toc")
+                 "pandoc --toc"))))
 
 (provide 'run-command-recipes-command-test)
 

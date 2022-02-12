@@ -23,6 +23,7 @@
 ;; Simplify work with options of shell command.
 
 ;;; Code:
+
 (require 'cl-lib)
 (require 'dash)
 (require 'eieio)                        ; Builtin lib for objects
@@ -39,17 +40,18 @@ BASE is base part of shell command.  For example, in command \"pandoc ...\"
 base is \"pandoc\".  OPTIONS is list of options with type string for shell
 command.  For example, \"--toc\", \"-disable-installer\" for pandoc.")
 
-(defmethod initialize-instance :after ((command run-command-recipes-command)
-                                       &key)
+(defmethod initialize-instance :after
+    ((command run-command-recipes-command)
+     &key)
     (let ((options (oref command :options)))
         (oset command :options
               (run-command-recipes-command--parse-some-options options))))
 
 (defun run-command-recipes-command--parse-some-options (from)
-    "Get options of COMMAND.
+    "Parse FROM to normal options of `run-command-recipes-command'.
 This is alist in which keys is names of options, values is options.
 For example:
-'((toc . \"--toc\") (disable-installer \"-disable-installer\"))"
+\((\"toc\" . \"--toc\") (\"disable-installer\" . \"-disable-installer\"))"
     (-map 'run-command-recipes-command--parse-option from))
 
 (defun run-command-recipes-command--parse-option (from)
@@ -66,7 +68,8 @@ cons from option name as `car', and option as `cdr'"
 
 (defun run-command-recipes-command-get-some-options-with-names (names command)
     "Get some options with names NAMES from options of COMMAND."
-    (--map (run-command-recipes-command-get-option-with-name it command) names))
+    (--map (run-command-recipes-command-get-option-with-name it command)
+           names))
 
 (defun run-command-recipes-command-get-option-names (command)
     "Get some options with names NAMES from options of COMMAND."
@@ -74,22 +77,27 @@ cons from option name as `car', and option as `cdr'"
 
 (defun run-command-recipes-command-select-options (command opts-names)
     "Select in object COMMAND some options with names OPTS-NAMES.
-COMMAND created with `run-command-recipes-command'.  OPTIONS is list of
-options, with type string, available only options of COMMAND."
-    (run-command-recipes-command-ensure-existent-options command opts-names)
+COMMAND created with `run-command-recipes-command'."
+    (run-command-recipes-command--ensure-existent-options command opts-names)
     (let ((command-base (run-command-recipes-command-base command))
           (options
-           (run-command-recipes-command-get-some-options-with-names opts-names
-                                                                    command)))
+           (run-command-recipes-command-get-some-options-with-names
+            opts-names command)))
         (s-concat command-base " " (s-join " " options))))
 
-(defun run-command-recipes-command-ensure-existent-options (command
-                                                            options-names)
+(defun run-command-recipes-command-select-one-option (command option-name)
+    "Select in object COMMAND option with name OPTION-NAME.
+COMMAND created with `run-command-recipes-command'."
+    (run-command-recipes-command-select-options command (list option-name)))
+
+(defun run-command-recipes-command--ensure-existent-options (command
+                                                             options-names)
     "Ensure that all names of options OPTIONS-NAMES existent for COMMAND."
-    (-when-let (non-existent-options
-                (-difference
-                 options-names
-                 (run-command-recipes-command-get-option-names command)))
+    (-when-let
+        (non-existent-options
+         (-difference
+          options-names
+          (run-command-recipes-command-get-option-names command)))
         (signal 'run-command-recipes-command-non-existent-option
                 non-existent-options)))
 
