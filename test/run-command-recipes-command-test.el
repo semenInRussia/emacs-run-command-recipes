@@ -28,69 +28,111 @@
 (require 'ert)
 (require 'run-command-recipes-command)
 
-(ert-deftest run-command-recipes-command-test-get-option-with-name ()
+(ert-deftest run-command-recipes-command-test-get-option-with-name
+    ()
     (let* ((options '(("toc" . "--toc") "-disable-checker"))
-           (command (run-command-recipes-command :base "pandoc"
-                                                 :options options)))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options)))
         (should
-         (equal (run-command-recipes-command-get-option-with-name "toc" command)
-                "--toc"))
+         (equal
+          (run-command-recipes-command-get-option-with-name "toc" command)
+          "--toc"))
         (should
          (equal
           (run-command-recipes-command-get-option-with-name "-disable-checker"
                                                             command)
           "-disable-checker"))))
 
-(ert-deftest run-command-recipes-command-test-get-some-options-with-names ()
+(ert-deftest run-command-recipes-command-test-get-some-options-with-names
+    ()
     (let* ((options '(("toc" . "--toc") "-disable-installer"))
-           (command (run-command-recipes-command :base "pandoc"
-                                                 :options options)))
-        (should (equal
-                 (run-command-recipes-command-get-some-options-with-names
-                  '("toc" "-disable-installer") command)
-                 '("--toc" "-disable-installer")))))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options)))
+        (should
+         (equal
+          (run-command-recipes-command-get-some-options-with-names
+           '("toc" "-disable-installer")
+           command)
+          '("--toc" "-disable-installer")))))
 
-(ert-deftest run-command-recipes-command-test-get-option-names ()
+(ert-deftest run-command-recipes-command-test-get-option-names
+    ()
     (let* ((options '(("toc" . "--toc") "-disable-installer"))
-           (command (run-command-recipes-command :base "pandoc"
-                                                 :options options)))
-        (should (equal
-                 (run-command-recipes-command-get-option-names command)
-                 '("toc" "-disable-installer")))))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options)))
+        (should
+         (equal
+          (run-command-recipes-command-get-option-names command)
+          '("toc" "-disable-installer")))))
 
-(ert-deftest run-command-recipes-command-test-select-options ()
+(ert-deftest run-command-recipes-command-test-select-options
+    ()
     (let* ((options '("--toc" "-disable-installer"))
-           (command (run-command-recipes-command :base "pandoc"
-                                                 :options options)))
-        (should (equal (run-command-recipes-command-select-options command
-                                                                   '("--toc"))
-                       "pandoc --toc"))))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options)))
+        (should
+         (equal
+          (run-command-recipes-command-collect
+           (run-command-recipes-command-select-options command
+                                                       '("--toc")))
+          "pandoc --toc"))))
 
-(ert-deftest run-command-recipes-command-test-select-non-existent-options ()
+(ert-deftest run-command-recipes-command-test-select-options-some-times
+    ()
     (let* ((options '("--toc" "-disable-installer"))
-           (command (run-command-recipes-command :base "pandoc"
-                                                 :options options)))
-        (should-error (run-command-recipes-command-select-options command
-                                                                  '("--lll"))
-                      :type 'run-command-recipes-command-non-existent-option)))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options)))
+        (should
+         (equal
+          (run-command-recipes-command-collect
+           (run-command-recipes-command-select-options
+            (run-command-recipes-command-select-options command
+                                                        '("--toc"))
+            '("-disable-installer")))
+          "pandoc -disable-installer --toc"))))
 
-(ert-deftest run-command-recipes-command-test-select-options-with-names ()
-    (let* ((options '(("toc" . "--toc")
-                      ("disable-installer" . "-disable-installer")))
-           (command (run-command-recipes-command :base "pandoc"
-                                                 :options options)))
-        (should (equal (run-command-recipes-command-select-options command
-                                                                   '("toc"))
-                       "pandoc --toc"))))
-
-(ert-deftest run-command-recipes-command-test-select-one-option ()
+(ert-deftest run-command-recipes-command-test-select-non-existent-options
+    ()
     (let* ((options '("--toc" "-disable-installer"))
-           (command (run-command-recipes-command :base "pandoc"
-                                                 :options options)))
-        (should (equal
-                 (run-command-recipes-command-select-one-option command
-                                                                "--toc")
-                 "pandoc --toc"))))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options)))
+        (should-error
+         (run-command-recipes-command-select-options command
+                                                     '("--lll"))
+         :type 'run-command-recipes-command-non-existent-option)))
+
+(ert-deftest run-command-recipes-command-test-select-options-with-names
+    ()
+    (let* ((options
+            '(("toc" . "--toc")
+              ("disable-installer" . "-disable-installer")))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options)))
+        (should
+         (equal
+          (run-command-recipes-command-collect
+           (run-command-recipes-command-select-options command
+                                                       '("toc")))
+          "pandoc --toc"))))
+
+(ert-deftest run-command-recipes-command-test-select-one-option
+    ()
+    (let* ((options '("--toc" "-disable-installer"))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options)))
+        (should
+         (equal
+          (run-command-recipes-command-collect
+           (run-command-recipes-command-select-one-option command "--toc"))
+          "pandoc --toc"))))
 
 (provide 'run-command-recipes-command-test)
 

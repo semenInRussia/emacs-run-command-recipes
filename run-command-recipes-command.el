@@ -33,8 +33,10 @@
     "Option of command not-existent")
 
 (defclass run-command-recipes-command ()
-  ((base :initarg :base :accessor run-command-recipes-command-base)
-   (options :initarg :options :accessor run-command-recipes-command-options))
+  ((base :initarg :base :accessor run-command-recipes-command-get-base)
+   (options :initarg :options :accessor run-command-recipes-command-get-options)
+   (selected-options :accessor run-command-recipes-command-selected-options
+                     :initform nil))
   "Object helping with work with options of shell command.
 BASE is base part of shell command.  For example, in command \"pandoc ...\"
 base is \"pandoc\".  OPTIONS is list of options with type string for shell
@@ -58,48 +60,58 @@ For example:
     "Parse FROM to normal `run-command-recipes-command' option.
 FROM may be one of: string, cons from string and string.  Normal option is
 cons from option name as `car', and option as `cdr'"
-    (cl-typecase from
-      (string `(,from . ,from))
-      (cons from)))
+    (cl-typecase from (string `(,from . ,from)) (cons from)))
 
 (defun run-command-recipes-command-get-option-with-name (name command)
     "Get option with name NAME from options of COMMAND."
-    (cdr (assoc name (run-command-recipes-command-options command))))
+    (cdr
+     (assoc name (run-command-recipes-command-get-options command))))
 
 (defun run-command-recipes-command-get-some-options-with-names (names command)
     "Get some options with names NAMES from options of COMMAND."
-    (--map (run-command-recipes-command-get-option-with-name it command)
-           names))
+    (--map
+     (run-command-recipes-command-get-option-with-name it command)
+     names))
 
 (defun run-command-recipes-command-get-option-names (command)
     "Get some options with names NAMES from options of COMMAND."
-    (-map 'car (run-command-recipes-command-options command)))
+    (-map 'car (run-command-recipes-command-get-options command)))
 
-(defun run-command-recipes-command-select-options (command opts-names)
-    "Select in object COMMAND some options with names OPTS-NAMES.
+(defun run-command-recipes-command-select-options (command options-names)
+    "Select in object COMMAND some options with names OPTIONS-NAMES.
 COMMAND created with `run-command-recipes-command'."
-    (run-command-recipes-command--ensure-existent-options command opts-names)
-    (let ((command-base (run-command-recipes-command-base command))
-          (options
-           (run-command-recipes-command-get-some-options-with-names
-            opts-names command)))
-        (s-concat command-base " " (s-join " " options))))
+    (--reduce-from
+     (run-command-recipes-command-select-one-option acc it)
+     command
+     options-names))
 
 (defun run-command-recipes-command-select-one-option (command option-name)
     "Select in object COMMAND option with name OPTION-NAME.
 COMMAND created with `run-command-recipes-command'."
-    (run-command-recipes-command-select-options command (list option-name)))
+    (run-command-recipes-command--ensure-existent-option command option-name)
+    (setf
+     (run-command-recipes-command-selected-options command)
+     (cons option-name
+           (run-command-recipes-command-selected-options command)))
+    command)
 
-(defun run-command-recipes-command--ensure-existent-options (command
-                                                             options-names)
-    "Ensure that all names of options OPTIONS-NAMES existent for COMMAND."
-    (-when-let
-        (non-existent-options
-         (-difference
-          options-names
-          (run-command-recipes-command-get-option-names command)))
+(defun run-command-recipes-command--ensure-existent-option (command option-name)
+    "Ensure that option with name OPTION-NAME existent for COMMAND."
+    (unless (-contains-p
+             (run-command-recipes-command-get-option-names command)
+             option-name)
         (signal 'run-command-recipes-command-non-existent-option
-                non-existent-options)))
+                option-name)))
+
+(defun run-command-recipes-command-collect (command)
+    "Collect object COMMAND to shell command with type string."
+    (let* ((base (run-command-recipes-command-get-base command))
+           (selected-options-names
+            (run-command-recipes-command-selected-options command))
+           (selected-options
+            (run-command-recipes-command-get-some-options-with-names
+             selected-options-names command)))
+        (s-concat base " " (s-join " " selected-options))))
 
 (provide 'run-command-recipes-command)
 ;;; run-command-recipes-command.el ends here
