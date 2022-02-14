@@ -40,6 +40,9 @@
 (define-error 'run-command-recipes-command-non-existent-option
     "Option of command not-existent")
 
+(define-error 'run-command-recipes-command-non-existent-var-name-in-option
+    "In option non-existent variable")
+
 (defclass run-command-recipes-command ()
   ((base :initarg :base :accessor run-command-recipes-command-get-base)
    (options :initarg :options :accessor run-command-recipes-command-get-options)
@@ -162,7 +165,12 @@ values"
                                                        vars-alist)
     "Replace VAR-USAGE with value of VAR-NAME in VARS-LIST in OPTION.
 Example of VAR-USAGE is [ current-directory   ]"
-    (let* ((var-code (alist-get var-name vars-alist nil nil 'equal))
+    (let* ((var-code
+            (or
+             (alist-get var-name vars-alist nil nil 'equal)
+             (signal
+              'run-command-recipes-command-non-existent-var-name-in-option
+              (list var-name option))))
            (var-content (eval var-code)))
         (s-replace var-usage var-content option)))
 

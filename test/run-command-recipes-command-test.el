@@ -160,6 +160,14 @@
 (ert-deftest
     run-command-recipes-command-test--collect-one-option-project-root
     ()
+    (should-error
+     (run-command-recipes-command--collect-one-option
+      "--data-dir=[dkdkdkkdkdkdkdkdkdd]")
+     :type 'run-command-recipes-command-non-existent-var-name-in-option))
+
+(ert-deftest
+    run-command-recipes-command-test--collect-one-option-project-root
+    ()
     (should
      (equal
       (run-command-recipes-command--collect-one-option
