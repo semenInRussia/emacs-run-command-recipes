@@ -27,6 +27,7 @@
 
 (require 'ert)
 (require 'run-command-recipes-command)
+(require 'run-command-recipes-project)
 
 (ert-deftest run-command-recipes-command-test-get-option-with-name
     ()
@@ -155,6 +156,15 @@
       (run-command-recipes-command--collect-one-option
        "--data-dir=[ current-directory]")
       (concat "--data-dir=" default-directory))))
+
+(ert-deftest
+    run-command-recipes-command-test--collect-one-option-project-root
+    ()
+    (should
+     (equal
+      (run-command-recipes-command--collect-one-option
+       "--data-dir=[project-root]")
+      (concat "--data-dir=" (run-command-recipes-project-root)))))
 
 (provide 'run-command-recipes-command-test)
 

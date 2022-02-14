@@ -28,9 +28,12 @@
 (require 'dash)
 (require 'eieio)                        ; Builtin lib for objects
 (require 's)
+(require 'run-command-recipes-project)
+
 
 (defcustom run-command-recipes-command-variables-in-option-alist
-  '(("current-directory" . default-directory))
+  '(("current-directory" . default-directory)
+    ("project-root"      . (run-command-recipes-project-root)))
   "All normal for option of command variables alist, keys is quoted code."
   :type '(alist :key-type string :value-type list))
 
