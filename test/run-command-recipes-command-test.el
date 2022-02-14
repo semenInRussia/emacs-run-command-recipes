@@ -134,6 +134,28 @@
            (run-command-recipes-command-select-one-option command "--toc"))
           "pandoc --toc"))))
 
+(ert-deftest run-command-recipes-command-test-select-one-option
+    ()
+    (let* ((options
+            '(("data-dir" . "--data-dir=[ current-directory ]")))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options)))
+        (should
+         (equal
+          (run-command-recipes-command-collect
+           (run-command-recipes-command-select-one-option command "data-dir"))
+          (concat "pandoc --data-dir=" default-directory)))))
+
+(ert-deftest
+    run-command-recipes-command-test--collect-one-option-current-directory
+    ()
+    (should
+     (equal
+      (run-command-recipes-command--collect-one-option
+       "--data-dir=[ current-directory]")
+      (concat "--data-dir=" default-directory))))
+
 (provide 'run-command-recipes-command-test)
 
 ;;; run-command-recipes-command-test.el ends here

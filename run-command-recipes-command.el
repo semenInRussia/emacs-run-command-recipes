@@ -29,6 +29,11 @@
 (require 'eieio)                        ; Builtin lib for objects
 (require 's)
 
+(defcustom run-command-recipes-command-variables-in-option-alist
+  '(("current-directory" . default-directory))
+  "All normal for option of command variables alist, keys is quoted code."
+  :type '(alist :key-type string :value-type list))
+
 (define-error 'run-command-recipes-command-non-existent-option
     "Option of command not-existent")
 
@@ -109,9 +114,54 @@ COMMAND created with `run-command-recipes-command'."
            (selected-options-names
             (run-command-recipes-command-selected-options command))
            (selected-options
-            (run-command-recipes-command-get-some-options-with-names
-             selected-options-names command)))
+            (run-command-recipes-command--collect-options
+             (run-command-recipes-command-get-some-options-with-names
+              selected-options-names command))))
         (s-concat base " " (s-join " " selected-options))))
+
+(defun run-command-recipes-command--collect-options (options)
+    "Collect each of OPTIONS, return list of collected options.
+Collect mean from option's source make part of shell command"
+    (-map 'run-command-recipes-command--collect-one-option options))
+
+(defun run-command-recipes-command--collect-one-option (option)
+    "Collect OPTION, to part of shell command."
+    (let* ((used-vars
+            (run-command-recipes-command--find-variables-in-option option)))
+        (run-command-recipes-command--replace-vars-in-option-by-alist
+         option used-vars
+         run-command-recipes-command-variables-in-option-alist)))
+
+(defun run-command-recipes-command--find-variables-in-option (option)
+    "Find all variables like on [current-directory] in OPTION.
+Return list of lists from variable name and part of source in OPTION."
+    (s-match-strings-all "\\[\\W*\\([^\] ]*\\)\\W*\\]" option))
+
+(defun run-command-recipes-command--replace-vars-in-option-by-alist ;nofmt
+    (option ;nofmt
+     used-vars
+     vars-alist)
+    "Replace all USED-VARS in OPTION, find var content in VARS-ALIST.
+USED-VARS is list of lists from part of OPTION and used variable name.
+VARS-ALIST is alist where keys is variables' names, values is variables'
+values"
+    (--reduce-from
+     (run-command-recipes-command--use-var-in-option acc
+                                                     (-second-item
+                                                      it)
+                                                     (-first-item it)
+                                                     vars-alist)
+     option used-vars))
+
+(defun run-command-recipes-command--use-var-in-option (option ;nofmt
+                                                       var-name
+                                                       var-usage
+                                                       vars-alist)
+    "Replace VAR-USAGE with value of VAR-NAME in VARS-LIST in OPTION.
+Example of VAR-USAGE is [ current-directory   ]"
+    (let* ((var-code (alist-get var-name vars-alist nil nil 'equal))
+           (var-content (eval var-code)))
+        (s-replace var-usage var-content option)))
 
 (provide 'run-command-recipes-command)
 ;;; run-command-recipes-command.el ends here
