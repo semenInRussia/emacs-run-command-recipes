@@ -37,6 +37,31 @@
        (run-command-recipes-command :base "pandoc"))
       "pandoc")))
 
+(ert-deftest run-command-recipes-command-test-collect-with-special-base
+    ()
+    (should
+     (equal
+      (run-command-recipes-command-collect
+       (run-command-recipes-command :base "pandoc [current-directory]"))
+      (concat "pandoc " default-directory))))
+
+(ert-deftest run-command-recipes-command-test-collect-with-suffix
+    ()
+    (should
+     (equal
+      (run-command-recipes-command-collect
+       (run-command-recipes-command :base "pandoc" :suffix "~"))
+      "pandoc ~")))
+
+(ert-deftest run-command-recipes-command-test-collect-with-special-suffix
+    ()
+    (should
+     (equal
+      (run-command-recipes-command-collect
+       (run-command-recipes-command :base "pandoc"
+                                    :suffix "[current-directory]"))
+      (concat "pandoc " default-directory))))
+
 (ert-deftest run-command-recipes-command-test-select-options
     ()
     (let* ((options '("--toc" "-disable-installer"))
@@ -49,6 +74,20 @@
            (run-command-recipes-command-select-options command
                                                        '("--toc")))
           "pandoc --toc"))))
+
+(ert-deftest run-command-recipes-command-test-select-options-with-suffix
+    ()
+    (let* ((options '("--toc" "-disable-installer"))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options
+                                         :suffix "~/README.md")))
+        (should
+         (equal
+          (run-command-recipes-command-collect
+           (run-command-recipes-command-select-options command
+                                                       '("--toc")))
+          "pandoc --toc ~/README.md"))))
 
 (ert-deftest run-command-recipes-command-test-select-options-some-times
     ()

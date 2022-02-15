@@ -48,6 +48,9 @@
    (options :initarg :options
             :accessor run-command-recipes-command-options
             :initform nil)
+   (suffix :initarg :suffix
+           :accessor run-command-recipes-command-suffix
+           :initform nil)
    (selected-options :accessor run-command-recipes-command-selected-options
                      :initform nil))
   "Object helping with work with options of shell command.
@@ -124,7 +127,13 @@ COMMAND created with `run-command-recipes-command'."
                 (run-command-recipes-command-get-some-options-with-names
                  command)
                 (run-command-recipes-command-expand-list-of-shell-code)))
-           (words (cons base selected-options)))
+           (suffix (run-command-recipes-command-suffix command))
+           (words
+            (->>
+             (list base selected-options suffix)
+             (-keep 'identity)
+             (-flatten)
+             (run-command-recipes-command-expand-list-of-shell-code))))
         (s-join " " words)))
 
 (defun run-command-recipes-command-expand-list-of-shell-code (shell-codes)
