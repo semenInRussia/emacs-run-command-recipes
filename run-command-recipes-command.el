@@ -122,9 +122,9 @@ COMMAND created with `run-command-recipes-command'."
                 (run-command-recipes-command-selected-options)
                 (run-command-recipes-command-get-some-options-with-names
                  command)
-                (run-command-recipes-command-expand-list-of-shell-code))))
-        (message "selected-options is %s" selected-options)
-        (s-concat base " " (s-join " " selected-options))))
+                (run-command-recipes-command-expand-list-of-shell-code)))
+           (words (cons base selected-options)))
+        (s-join " " words)))
 
 (defun run-command-recipes-command-expand-list-of-shell-code (shell-codes)
     "Expand each of SHELL-CODES, with special syntax.
