@@ -111,7 +111,7 @@
 (ert-deftest run-command-recipes-command-test-select-options-with-names
     ()
     (let* ((options
-            '(("toc" . "--toc")
+            '(("toc"               . "--toc")
               ("disable-installer" . "-disable-installer")))
            (command
             (run-command-recipes-command :base "pandoc"
@@ -129,13 +129,19 @@
            (command
             (run-command-recipes-command :base "pandoc"
                                          :options options)))
+        (setq command
+              (run-command-recipes-command-select-one-option
+               command "--toc"))
         (should
          (equal
-          (run-command-recipes-command-collect
-           (run-command-recipes-command-select-one-option command "--toc"))
+          (run-command-recipes-command-selected-options command)
+          '("--toc")))
+        (should
+         (equal
+          (run-command-recipes-command-collect command)
           "pandoc --toc"))))
 
-(ert-deftest run-command-recipes-command-test-select-one-option
+(ert-deftest run-command-recipes-command-test-select-one-more-complex-option
     ()
     (let* ((options
             '(("data-dir" . "--data-dir=[ current-directory ]")))
@@ -149,28 +155,37 @@
           (concat "pandoc --data-dir=" default-directory)))))
 
 (ert-deftest
-    run-command-recipes-command-test--collect-one-option-current-directory
+    run-command-recipes-command-test--expand-shell-code-current-directory
     ()
     (should
      (equal
-      (run-command-recipes-command--collect-one-option
+      (run-command-recipes-command-expand-shell-code
        "--data-dir=[ current-directory]")
       (concat "--data-dir=" default-directory))))
 
 (ert-deftest
-    run-command-recipes-command-test--collect-one-option-project-root
-    ()
-    (should-error
-     (run-command-recipes-command--collect-one-option
-      "--data-dir=[dkdkdkkdkdkdkdkdkdd]")
-     :type 'run-command-recipes-command-non-existent-var-name-in-option))
-
-(ert-deftest
-    run-command-recipes-command-test--collect-one-option-project-root
+    run-command-recipes-command-test--expand-lits-of-shell-codes
     ()
     (should
      (equal
-      (run-command-recipes-command--collect-one-option
+      (run-command-recipes-command-expand-list-of-shell-code
+       '("![current-directory]" "[ current-directory]"))
+      (list (concat "!" default-directory) default-directory))))
+
+(ert-deftest
+    run-command-recipes-command-test-project-root
+    ()
+    (should-error
+     (run-command-recipes-command-expand-shell-code
+      "--data-dir=[dkdkdkkdkdkdkdkdkdd]")
+     :type 'run-command-recipes-command-non-existent-var-name-in-shell-code))
+
+(ert-deftest
+    run-command-recipes-command-test-expand-shell-code-project-root
+    ()
+    (should
+     (equal
+      (run-command-recipes-command-expand-shell-code
        "--data-dir=[project-root]")
       (concat "--data-dir=" (run-command-recipes-project-root)))))
 

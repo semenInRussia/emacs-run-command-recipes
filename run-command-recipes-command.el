@@ -31,7 +31,7 @@
 (require 'run-command-recipes-project)
 
 
-(defcustom run-command-recipes-command-variables-in-option-alist
+(defcustom run-command-recipes-command-variables-in-shell-code-alist
   '(("current-directory" . default-directory)
     ("project-root"      . (run-command-recipes-project-root)))
   "All normal for option of command variables alist, keys is quoted code."
@@ -40,8 +40,8 @@
 (define-error 'run-command-recipes-command-non-existent-option
     "Option of command not-existent")
 
-(define-error 'run-command-recipes-command-non-existent-var-name-in-option
-    "In option non-existent variable")
+(define-error 'run-command-recipes-command-non-existent-var-name-in-shell-code
+    "In shell code with special syntax non-existent variable")
 
 (defclass run-command-recipes-command ()
   ((base :initarg :base :accessor run-command-recipes-command-get-base)
@@ -117,62 +117,66 @@ COMMAND created with `run-command-recipes-command'."
 (defun run-command-recipes-command-collect (command)
     "Collect object COMMAND to shell command with type string."
     (let* ((base (run-command-recipes-command-get-base command))
-           (selected-options-names
-            (run-command-recipes-command-selected-options command))
            (selected-options
-            (run-command-recipes-command--collect-options
-             (run-command-recipes-command-get-some-options-with-names
-              selected-options-names command))))
+            (-> command
+                (run-command-recipes-command-selected-options)
+                (run-command-recipes-command-get-some-options-with-names
+                 command)
+                (run-command-recipes-command-expand-list-of-shell-code))))
+        (message "selected-options is %s" selected-options)
         (s-concat base " " (s-join " " selected-options))))
 
-(defun run-command-recipes-command--collect-options (options)
-    "Collect each of OPTIONS, return list of collected options.
-Collect mean from option's source make part of shell command"
-    (-map 'run-command-recipes-command--collect-one-option options))
+(defun run-command-recipes-command-expand-list-of-shell-code (shell-codes)
+    "Expand each of SHELL-CODES, with special syntax.
+Example of special syntax:
 
-(defun run-command-recipes-command--collect-one-option (option)
-    "Collect OPTION, to part of shell command."
+[current-directory] => value of `default-directory'"
+    (-map 'run-command-recipes-command-expand-shell-code shell-codes))
+
+(defun run-command-recipes-command-expand-shell-code (shell-code)
+    "Expand SHELL-CODE with special syntax, [current-directory] is example."
     (let* ((used-vars
-            (run-command-recipes-command--find-variables-in-option option)))
-        (run-command-recipes-command--replace-vars-in-option-by-alist
-         option used-vars
-         run-command-recipes-command-variables-in-option-alist)))
+            (run-command-recipes-command--find-variables-in-shell-code
+             shell-code)))
+        (run-command-recipes-command--replace-vars-in-shell-code-by-alist
+         shell-code used-vars
+         run-command-recipes-command-variables-in-shell-code-alist)))
 
-(defun run-command-recipes-command--find-variables-in-option (option)
-    "Find all variables like on [current-directory] in OPTION.
-Return list of lists from variable name and part of source in OPTION."
-    (s-match-strings-all "\\[\\W*\\([^\] ]*\\)\\W*\\]" option))
+(defun run-command-recipes-command--find-variables-in-shell-code (shell-code)
+    "Find all variables like on [current-directory] in SHELL-CODE.
+Return list of lists from variable name and part of source in SHELL-CODE"
+    (s-match-strings-all "\\[\\W*\\([^\] ]*\\)\\W*\\]" shell-code))
 
-(defun run-command-recipes-command--replace-vars-in-option-by-alist ;nofmt
-    (option ;nofmt
+(defun run-command-recipes-command--replace-vars-in-shell-code-by-alist ;nofmt
+    (shell-code ;nofmt
      used-vars
      vars-alist)
-    "Replace all USED-VARS in OPTION, find var content in VARS-ALIST.
+    "Replace all USED-VARS in SHELL-CODE find var content in VARS-ALIST.
 USED-VARS is list of lists from part of OPTION and used variable name.
 VARS-ALIST is alist where keys is variables' names, values is variables'
 values"
     (--reduce-from
-     (run-command-recipes-command--use-var-in-option acc
-                                                     (-second-item
-                                                      it)
-                                                     (-first-item it)
-                                                     vars-alist)
-     option used-vars))
+     (run-command-recipes-command--use-var-in-shell-code acc
+                                                         (-second-item
+                                                          it)
+                                                         (-first-item it)
+                                                         vars-alist)
+     shell-code used-vars))
 
-(defun run-command-recipes-command--use-var-in-option (option ;nofmt
-                                                       var-name
-                                                       var-usage
-                                                       vars-alist)
-    "Replace VAR-USAGE with value of VAR-NAME in VARS-LIST in OPTION.
+(defun run-command-recipes-command--use-var-in-shell-code (shell-code ;nofmt
+                                                           var-name
+                                                           var-usage
+                                                           vars-alist)
+    "Replace VAR-USAGE with value of VAR-NAME in VARS-LIST in SHELL-CODE.
 Example of VAR-USAGE is [ current-directory   ]"
     (let* ((var-code
             (or
              (alist-get var-name vars-alist nil nil 'equal)
              (signal
-              'run-command-recipes-command-non-existent-var-name-in-option
-              (list var-name option))))
+              'run-command-recipes-command-non-existent-var-name-in-shell-code
+              (list var-name shell-code))))
            (var-content (eval var-code)))
-        (s-replace var-usage var-content option)))
+        (s-replace var-usage var-content shell-code)))
 
 (provide 'run-command-recipes-command)
 ;;; run-command-recipes-command.el ends here
