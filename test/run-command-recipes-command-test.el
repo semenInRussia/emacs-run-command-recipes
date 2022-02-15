@@ -29,45 +29,13 @@
 (require 'run-command-recipes-command)
 (require 'run-command-recipes-project)
 
-(ert-deftest run-command-recipes-command-test-get-option-with-name
+(ert-deftest run-command-recipes-command-test-collect-most-simple-command
     ()
-    (let* ((options '(("toc" . "--toc") "-disable-checker"))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options)))
-        (should
-         (equal
-          (run-command-recipes-command-get-option-with-name "toc" command)
-          "--toc"))
-        (should
-         (equal
-          (run-command-recipes-command-get-option-with-name "-disable-checker"
-                                                            command)
-          "-disable-checker"))))
-
-(ert-deftest run-command-recipes-command-test-get-some-options-with-names
-    ()
-    (let* ((options '(("toc" . "--toc") "-disable-installer"))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options)))
-        (should
-         (equal
-          (run-command-recipes-command-get-some-options-with-names
-           '("toc" "-disable-installer")
-           command)
-          '("--toc" "-disable-installer")))))
-
-(ert-deftest run-command-recipes-command-test-get-option-names
-    ()
-    (let* ((options '(("toc" . "--toc") "-disable-installer"))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options)))
-        (should
-         (equal
-          (run-command-recipes-command-get-option-names command)
-          '("toc" "-disable-installer")))))
+    (should
+     (equal
+      (run-command-recipes-command-collect
+       (run-command-recipes-command :base "pandoc"))
+      "pandoc")))
 
 (ert-deftest run-command-recipes-command-test-select-options
     ()
@@ -188,6 +156,47 @@
       (run-command-recipes-command-expand-shell-code
        "--data-dir=[project-root]")
       (concat "--data-dir=" (run-command-recipes-project-root)))))
+
+(ert-deftest run-command-recipes-command-test-get-option-with-name
+    ()
+    (let* ((options '(("toc" . "--toc") "-disable-checker"))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options)))
+        (should
+         (equal
+          (run-command-recipes-command-get-option-with-name "toc" command)
+          "--toc"))
+        (should
+         (equal
+          (run-command-recipes-command-get-option-with-name "-disable-checker"
+                                                            command)
+          "-disable-checker"))))
+
+(ert-deftest run-command-recipes-command-test-get-some-options-with-names
+    ()
+    (let* ((options '(("toc" . "--toc") "-disable-installer"))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options)))
+        (should
+         (equal
+          (run-command-recipes-command-get-some-options-with-names
+           '("toc" "-disable-installer")
+           command)
+          '("--toc" "-disable-installer")))))
+
+(ert-deftest run-command-recipes-command-test-get-option-names
+    ()
+    (let* ((options '(("toc" . "--toc") "-disable-installer"))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options)))
+        (should
+         (equal
+          (run-command-recipes-command-get-option-names command)
+          '("toc" "-disable-installer")))))
+
 
 (provide 'run-command-recipes-command-test)
 

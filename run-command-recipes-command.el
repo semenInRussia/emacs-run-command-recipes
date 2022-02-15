@@ -44,8 +44,10 @@
     "In shell code with special syntax non-existent variable")
 
 (defclass run-command-recipes-command ()
-  ((base :initarg :base :accessor run-command-recipes-command-get-base)
-   (options :initarg :options :accessor run-command-recipes-command-get-options)
+  ((base :initarg :base :accessor run-command-recipes-command-base)
+   (options :initarg :options
+            :accessor run-command-recipes-command-options
+            :initform nil)
    (selected-options :accessor run-command-recipes-command-selected-options
                      :initform nil))
   "Object helping with work with options of shell command.
@@ -75,8 +77,7 @@ cons from option name as `car', and option as `cdr'"
 
 (defun run-command-recipes-command-get-option-with-name (name command)
     "Get option with name NAME from options of COMMAND."
-    (cdr
-     (assoc name (run-command-recipes-command-get-options command))))
+    (cdr (assoc name (run-command-recipes-command-options command))))
 
 (defun run-command-recipes-command-get-some-options-with-names (names command)
     "Get some options with names NAMES from options of COMMAND."
@@ -86,7 +87,7 @@ cons from option name as `car', and option as `cdr'"
 
 (defun run-command-recipes-command-get-option-names (command)
     "Get some options with names NAMES from options of COMMAND."
-    (-map 'car (run-command-recipes-command-get-options command)))
+    (-map 'car (run-command-recipes-command-options command)))
 
 (defun run-command-recipes-command-select-options (command options-names)
     "Select in object COMMAND some options with names OPTIONS-NAMES.
@@ -116,7 +117,7 @@ COMMAND created with `run-command-recipes-command'."
 
 (defun run-command-recipes-command-collect (command)
     "Collect object COMMAND to shell command with type string."
-    (let* ((base (run-command-recipes-command-get-base command))
+    (let* ((base (run-command-recipes-command-base command))
            (selected-options
             (-> command
                 (run-command-recipes-command-selected-options)
