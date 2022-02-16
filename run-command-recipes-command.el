@@ -202,20 +202,28 @@ Example of VAR-USAGE is [ current-directory   ]"
         (s-replace var-usage var-content shell-code)))
 
 (defun run-command-recipes-command-interactively-collect (command)
-    "Select options of COMMAND, collect its to shell command by user."
+    "Select options of COMMAND via user, stop when user need."
+    (while (run-command-recipes-command-p command)
+        (setq command
+              (run-command-recipes-command-interactively-select-one-option
+               command)))
+    command)
+
+(defun run-command-recipes-command-interactively-select-one-option (command)
+    "Select options of COMMAND, if user select, that collect to shell command."
     (->> command
          (run-command-recipes-command-get-options-names)
          (--map
-          (run-command-recipes-command--append-option-suffix command it))
+          (run-command-recipes-command--append-option-suffix
+           command it))
          (cons "*Already Ready*")
          (completing-read "Please Select Option of Shell Command:")
          (run-command-recipes-command--chop-option-suffix)
-         (run-command-recipes-command--interactively-select-or-collect
-          command)))
+         (run-command-recipes-command--select-or-collect command)))
 
-(defun run-command-recipes-command--interactively-select-or-collect (command
-                                                                     ;;nofmt
-                                                                     option)
+(defun run-command-recipes-command--select-or-collect (command
+                                                       ;;nofmt
+                                                       option)
     "If OPTION is existent for COMMAND, then select, otherwise collect COMMAND."
     (if (run-command-recipes-command-existent-option-p command option)
         (run-command-recipes-command-select-one-option command option)
