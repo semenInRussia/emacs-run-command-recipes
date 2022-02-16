@@ -103,6 +103,12 @@ COMMAND created with `run-command-recipes-command'."
      command
      options-names))
 
+(defun run-command-recipes-command-selected-option-p (command option-name)
+    "Return t, when option of COMMAND with name OPTION-NAME was selected."
+    (-contains-p
+     (run-command-recipes-command-selected-options command)
+     option-name))
+
 (defun run-command-recipes-command-select-one-option (command option-name)
     "Select in object COMMAND option with name OPTION-NAME.
 COMMAND created with `run-command-recipes-command'."
@@ -115,11 +121,15 @@ COMMAND created with `run-command-recipes-command'."
 
 (defun run-command-recipes-command--ensure-existent-option (command option-name)
     "Ensure that option with name OPTION-NAME existent for COMMAND."
-    (unless (-contains-p
-             (run-command-recipes-command-get-options-names command)
-             option-name)
+    (unless (run-command-recipes-command-existent-option-p command option-name)
         (signal 'run-command-recipes-command-non-existent-option
                 option-name)))
+
+(defun run-command-recipes-command-existent-option-p (command option-name)
+    "Return t, when OPTION-NAME is name of existent option of COMMAND."
+    (-contains-p
+     (run-command-recipes-command-get-options-names command)
+     option-name))
 
 (defun run-command-recipes-command-collect (command)
     "Collect object COMMAND to shell command with type string."
@@ -191,8 +201,37 @@ Example of VAR-USAGE is [ current-directory   ]"
            (var-content (eval var-code)))
         (s-replace var-usage var-content shell-code)))
 
-(defun run-command-recipes-command-collect-by-user (command)
-    "Select options of COMMAND, collect its to shell command by user.")
+(defun run-command-recipes-command-interactively-collect (command)
+    "Select options of COMMAND, collect its to shell command by user."
+    (->> command
+         (run-command-recipes-command-get-options-names)
+         (--map
+          (run-command-recipes-command--append-option-suffix command it))
+         (cons "*Already Ready*")
+         (completing-read "Please Select Option of Shell Command:")
+         (run-command-recipes-command--chop-option-suffix)
+         (run-command-recipes-command--interactively-select-or-collect
+          command)))
+
+(defun run-command-recipes-command--interactively-select-or-collect (command
+                                                                     ;;nofmt
+                                                                     option)
+    "If OPTION is existent for COMMAND, then select, otherwise collect COMMAND."
+    (if (run-command-recipes-command-existent-option-p command option)
+        (run-command-recipes-command-select-one-option command option)
+        (run-command-recipes-command-collect command)))
+
+(defun run-command-recipes-command--append-option-suffix (command option-name)
+    "Add right suffix to OPTION-NAME of COMMAND, depends on selection state."
+    (s-append
+     (if (run-command-recipes-command-selected-option-p command option-name)
+         " (selected)"
+         " (non selected)")
+     option-name))
+
+(defun run-command-recipes-command--chop-option-suffix (option-name)
+    "Chop suffix of OPTION-NAME of COMMAND, depends on selection state."
+    (s-chop-suffixes '(" (selected)" " (non selected)") option-name))
 
 (provide 'run-command-recipes-command)
 ;;; run-command-recipes-command.el ends here
