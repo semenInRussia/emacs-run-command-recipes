@@ -111,12 +111,35 @@ COMMAND created with `run-command-recipes-command'."
 
 (defun run-command-recipes-command-select-one-option (command option-name)
     "Select in object COMMAND option with name OPTION-NAME.
-COMMAND created with `run-command-recipes-command'."
+If option non-existent, then signal
+`run-command-recipes-command-non-existent-option'."
     (run-command-recipes-command--ensure-existent-option command option-name)
     (setf
      (run-command-recipes-command-selected-options command)
      (cons option-name
            (run-command-recipes-command-selected-options command)))
+    command)
+
+(defun run-command-recipes-command-unselect-one-option (command option-name)
+    "UnSelect in object COMMAND option with name OPTION-NAME.
+If option non-existent, then signal
+ `run-command-recipes-command-non-existent-option'"
+    (run-command-recipes-command--ensure-existent-option command option-name)
+    (setf
+     (run-command-recipes-command-selected-options command)
+     (remove option-name
+             (run-command-recipes-command-selected-options command)))
+    command)
+
+(defun run-command-recipes-command-toggle-option (command option-name)
+    "If option of COMMAND OPTION-NAME is selected, then unselect, else select.
+If option non-existent, then signal
+`run-command-recipes-command-non-existent-option'"
+    (run-command-recipes-command--ensure-existent-option command option-name)
+    (setf
+     (run-command-recipes-command-selected-options command)
+     (remove option-name
+             (run-command-recipes-command-selected-options command)))
     command)
 
 (defun run-command-recipes-command--ensure-existent-option (command option-name)

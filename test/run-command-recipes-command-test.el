@@ -182,7 +182,6 @@
            (command
             (run-command-recipes-command :base "pandoc"
                                          :options options)))
-
         (with-temp-buffer
             (rename-buffer "temp")
             (should
@@ -191,6 +190,39 @@
                (run-command-recipes-command-select-one-option command
                                                               "data-dir"))
               "pandoc --data-dir=temp")))))
+
+(ert-deftest run-command-recipes-command-test-unselect-one-option
+    ()
+    (let* ((options
+            '(("disable-installer" . "--disable-installer")
+              ("toc"               . "--toc")))
+           (command
+            (run-command-recipes-command-select-one-option
+             (run-command-recipes-command :base "pandoc"
+                                          :options options)
+             "toc")))
+        (message "command is %s" command)
+        (should
+         (run-command-recipes-command-selected-option-p command "toc"))
+        (run-command-recipes-command-unselect-one-option command "toc")
+        (should-not
+         (run-command-recipes-command-selected-option-p command "toc"))))
+
+(ert-deftest run-command-recipes-command-test-toggle-option
+    ()
+    (let* ((options
+            '(("disable-installer" . "--disable-installer")
+              ("toc"               . "--toc")))
+           (command
+            (run-command-recipes-command :base "pandoc"
+                                         :options options)))
+        (run-command-recipes-command-toggle-option command "toc")
+        (should
+         (run-command-recipes-command-selected-option-p command
+                                                        "toc"))
+        (run-command-recipes-command-toggle-option command "toc")
+        (should-not
+         (run-command-recipes-command-selected-option-p command "toc"))))
 
 (ert-deftest
     run-command-recipes-command-test--expand-shell-code-current-directory
