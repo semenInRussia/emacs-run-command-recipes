@@ -39,11 +39,13 @@
 
 (ert-deftest run-command-recipes-command-test-collect-with-special-base
     ()
-    (should
-     (equal
-      (run-command-recipes-command-collect
-       (run-command-recipes-command :base "pandoc [current-directory]"))
-      (concat "pandoc " default-directory))))
+    (with-temp-buffer
+        (rename-buffer "temp")
+        (should
+         (equal
+          (run-command-recipes-command-collect
+           (run-command-recipes-command :base "pandoc [buffer-name]"))
+          "pandoc temp"))))
 
 (ert-deftest run-command-recipes-command-test-collect-with-suffix
     ()
@@ -55,12 +57,14 @@
 
 (ert-deftest run-command-recipes-command-test-collect-with-special-suffix
     ()
-    (should
-     (equal
-      (run-command-recipes-command-collect
-       (run-command-recipes-command :base "pandoc"
-                                    :suffix "[current-directory]"))
-      (concat "pandoc " default-directory))))
+    (with-temp-buffer
+        (rename-buffer "temp")
+        (should
+         (equal
+          (run-command-recipes-command-collect
+           (run-command-recipes-command :base "pandoc"
+                                        :suffix "[buffer-name]"))
+          "pandoc temp"))))
 
 (ert-deftest run-command-recipes-command-test-select-options
     ()
@@ -150,34 +154,41 @@
 
 (ert-deftest run-command-recipes-command-test-select-one-more-complex-option
     ()
-    (let* ((options
-            '(("data-dir" . "--data-dir=[ current-directory ]")))
+    (let* ((options '(("data-dir" . "--data-dir=[ buffer-name ]")))
            (command
             (run-command-recipes-command :base "pandoc"
                                          :options options)))
-        (should
-         (equal
-          (run-command-recipes-command-collect
-           (run-command-recipes-command-select-one-option command "data-dir"))
-          (concat "pandoc --data-dir=" default-directory)))))
+
+        (with-temp-buffer
+            (rename-buffer "temp")
+            (should
+             (equal
+              (run-command-recipes-command-collect
+               (run-command-recipes-command-select-one-option command
+                                                              "data-dir"))
+              "pandoc --data-dir=temp")))))
 
 (ert-deftest
     run-command-recipes-command-test--expand-shell-code-current-directory
     ()
-    (should
-     (equal
-      (run-command-recipes-command-expand-shell-code
-       "--data-dir=[ current-directory]")
-      (concat "--data-dir=" default-directory))))
+    (with-temp-buffer
+        (rename-buffer "temp")
+        (should
+         (equal
+          (run-command-recipes-command-expand-shell-code
+           "--data-dir=[ buffer-name ]")
+          "--data-dir=temp"))))
 
 (ert-deftest
     run-command-recipes-command-test--expand-lits-of-shell-codes
     ()
-    (should
-     (equal
-      (run-command-recipes-command-expand-list-of-shell-code
-       '("![current-directory]" "[ current-directory]"))
-      (list (concat "!" default-directory) default-directory))))
+    (with-temp-buffer
+        (rename-buffer "temp")
+        (should
+         (equal
+          (run-command-recipes-command-expand-list-of-shell-code
+           '("![buffer-name]" "[ buffer-name]"))
+          '("!temp" "temp")))))
 
 (ert-deftest
     run-command-recipes-command-test-project-root
