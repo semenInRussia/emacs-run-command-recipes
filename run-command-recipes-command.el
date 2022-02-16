@@ -91,7 +91,7 @@ cons from option name as `car', and option as `cdr'"
      (run-command-recipes-command-get-option-with-name it command)
      names))
 
-(defun run-command-recipes-command-get-option-names (command)
+(defun run-command-recipes-command-get-options-names (command)
     "Get some options with names NAMES from options of COMMAND."
     (-map 'car (run-command-recipes-command-options command)))
 
@@ -116,7 +116,7 @@ COMMAND created with `run-command-recipes-command'."
 (defun run-command-recipes-command--ensure-existent-option (command option-name)
     "Ensure that option with name OPTION-NAME existent for COMMAND."
     (unless (-contains-p
-             (run-command-recipes-command-get-option-names command)
+             (run-command-recipes-command-get-options-names command)
              option-name)
         (signal 'run-command-recipes-command-non-existent-option
                 option-name)))
@@ -190,6 +190,9 @@ Example of VAR-USAGE is [ current-directory   ]"
               (list var-name shell-code))))
            (var-content (eval var-code)))
         (s-replace var-usage var-content shell-code)))
+
+(defun run-command-recipes-command-collect-by-user (command)
+    "Select options of COMMAND, collect its to shell command by user.")
 
 (provide 'run-command-recipes-command)
 ;;; run-command-recipes-command.el ends here
