@@ -33,7 +33,10 @@
 
 (defcustom run-command-recipes-command-variables-in-shell-code-alist
   '(("current-directory" . default-directory)
-    ("project-root"      . (run-command-recipes-project-root)))
+    ("project-root"      . (run-command-recipes-project-root))
+    ("file-name"         . (buffer-file-name))
+    ("file-extension"    . (-some-> (buffer-file-name) (f-ext)))
+    ("buffer-name"       . (buffer-name)))
   "All normal for option of command variables alist, keys is quoted code."
   :type '(alist :key-type string :value-type list))
 
