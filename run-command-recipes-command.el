@@ -36,7 +36,8 @@
     ("project-root"      . (run-command-recipes-project-root))
     ("file-name"         . (buffer-file-name))
     ("file-extension"    . (-some-> (buffer-file-name) (f-ext)))
-    ("buffer-name"       . (buffer-name)))
+    ("buffer-name"       . (buffer-name))
+    ("any-string"        . (read-string "Any string, please: ")))
   "All normal for option of command variables alist, keys is quoted code."
   :type '(alist :key-type string :value-type list))
 
@@ -59,7 +60,8 @@
   "Object helping with work with options of shell command.
 BASE is base part of shell command.  For example, in command \"pandoc ...\"
 base is \"pandoc\".  OPTIONS is list of options with type string for shell
-command.  For example, \"--toc\", \"-disable-installer\" for pandoc.")
+command.  For example, \"--toc\", \"-disable-installer\" for pandoc.  SUFFIX
+is string which will expand and append to final shell command.")
 
 (defmethod initialize-instance :after
     ((command run-command-recipes-command)
@@ -84,6 +86,12 @@ cons from option name as `car', and option as `cdr'"
 (defun run-command-recipes-command-get-option-with-name (name command)
     "Get option with name NAME from options of COMMAND."
     (cdr (assoc name (run-command-recipes-command-options command))))
+
+(defun run-command-recipes-command-selected-options-shell-codes (command)
+    "Return some shell codes of COMMAND's selected options."
+    (-> command
+        (run-command-recipes-command-selected-options)
+        (run-command-recipes-command-get-some-options-with-names command)))
 
 (defun run-command-recipes-command-get-some-options-with-names (names command)
     "Get some options with names NAMES from options of COMMAND."
@@ -135,12 +143,9 @@ If option non-existent, then signal
     "If option of COMMAND OPTION-NAME is selected, then unselect, else select.
 If option non-existent, then signal
 `run-command-recipes-command-non-existent-option'"
-    (run-command-recipes-command--ensure-existent-option command option-name)
-    (setf
-     (run-command-recipes-command-selected-options command)
-     (remove option-name
-             (run-command-recipes-command-selected-options command)))
-    command)
+    (if (run-command-recipes-command-selected-option-p command option-name)
+        (run-command-recipes-command-unselect-one-option command option-name)
+        (run-command-recipes-command-select-one-option command option-name)))
 
 (defun run-command-recipes-command--ensure-existent-option (command option-name)
     "Ensure that option with name OPTION-NAME existent for COMMAND."
@@ -159,9 +164,7 @@ If option non-existent, then signal
     (let* ((base (run-command-recipes-command-base command))
            (selected-options
             (-> command
-                (run-command-recipes-command-selected-options)
-                (run-command-recipes-command-get-some-options-with-names
-                 command)
+                (run-command-recipes-command-selected-options-shell-codes)
                 (run-command-recipes-command-expand-list-of-shell-code)))
            (suffix (run-command-recipes-command-suffix command))
            (words
@@ -185,8 +188,7 @@ Example of special syntax:
             (run-command-recipes-command--find-variables-in-shell-code
              shell-code)))
         (run-command-recipes-command--replace-vars-in-shell-code-by-alist
-         shell-code used-vars
-         run-command-recipes-command-variables-in-shell-code-alist)))
+         shell-code used-vars)))
 
 (defun run-command-recipes-command--find-variables-in-shell-code (shell-code)
     "Find all variables like on [current-directory] in SHELL-CODE.
@@ -195,44 +197,51 @@ Return list of lists from variable name and part of source in SHELL-CODE"
 
 (defun run-command-recipes-command--replace-vars-in-shell-code-by-alist ;nofmt
     (shell-code ;nofmt
-     used-vars
-     vars-alist)
+     used-vars)
     "Replace all USED-VARS in SHELL-CODE find var content in VARS-ALIST.
-USED-VARS is list of lists from part of OPTION and used variable name.
-VARS-ALIST is alist where keys is variables' names, values is variables'
-values"
+USED-VARS is list of lists from part of OPTION and used variable name."
     (--reduce-from
      (run-command-recipes-command--use-var-in-shell-code acc
                                                          (-second-item
                                                           it)
-                                                         (-first-item it)
-                                                         vars-alist)
+                                                         (-first-item it))
      shell-code used-vars))
 
 (defun run-command-recipes-command--use-var-in-shell-code (shell-code ;nofmt
                                                            var-name
-                                                           var-usage
-                                                           vars-alist)
+                                                           var-usage)
     "Replace VAR-USAGE with value of VAR-NAME in VARS-LIST in SHELL-CODE.
 Example of VAR-USAGE is [ current-directory   ]"
-    (let* ((var-code
-            (or
-             (alist-get var-name vars-alist nil nil 'equal)
-             (signal
-              'run-command-recipes-command-non-existent-var-name-in-shell-code
-              (list var-name shell-code))))
-           (var-content (eval var-code)))
+    (let* ((var-content
+            (run-command-recipes-lookup-value-of-shell-code-var
+             var-name var-usage)))
         (s-replace var-usage var-content shell-code)))
+
+(defun run-command-recipes-lookup-value-of-shell-code-var (var-name var-usage)
+    "Get value of VAR-NAME, which use in shell code in part of string VAR-USAGE.
+Example of shell code is:
+\"--output-dir=[current-directory]\"
+Here VAR-USAGE is [current-directory].  And VAR-NAME is \"current-directory\""
+    (or
+     (eval
+      (alist-get
+       var-name
+       run-command-recipes-command-variables-in-shell-code-alist
+       nil nil 'equal)
+      `((usage . ,var-usage)))
+     (signal
+      'run-command-recipes-command-non-existent-var-name-in-shell-code
+      (list var-name var-usage))))
 
 (defun run-command-recipes-command-interactively-collect (command)
     "Select options of COMMAND via user, stop when user need."
     (while (run-command-recipes-command-p command)
         (setq command
-              (run-command-recipes-command-interactively-select-one-option
+              (run-command-recipes-command-interactively-toggle-one-option
                command)))
     command)
 
-(defun run-command-recipes-command-interactively-select-one-option (command)
+(defun run-command-recipes-command-interactively-toggle-one-option (command)
     "Select options of COMMAND, if user select, that collect to shell command."
     (->> command
          (run-command-recipes-command-get-options-names)
