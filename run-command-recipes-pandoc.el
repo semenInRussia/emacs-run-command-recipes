@@ -127,7 +127,7 @@ example: org = .(org)), then just don't put pair to this variable."
 (defcustom run-command-recipes-pandoc-major-modes-input-formats
   (->> (make-hash-table :test 'equal)
        (run-command-recipes-pandoc-add-modes-with-format-to-table
-        run-command-recipes-latex-modes "tex")
+        run-command-recipes-latex-modes "latex")
        (run-command-recipes-pandoc-add-modes-with-format-to-table
         run-command-recipes-pandoc-html-modes "html")
        (run-command-recipes-hashtables-put 'markdown-mode "markdown")
