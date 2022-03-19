@@ -37,7 +37,8 @@
     ("file-name"         . (buffer-file-name))
     ("file-extension"    . (-some-> (buffer-file-name) (f-ext)))
     ("buffer-name"       . (buffer-name))
-    ("any-string"        . (read-string "Any string, please: ")))
+    ("any-string"        .
+     (read-string (s-append ": " (or argument "Any string, please")))))
   "All normal for option of command variables alist, keys is quoted code."
   :type '(alist :key-type string :value-type list))
 
@@ -48,7 +49,8 @@
     "In shell code with special syntax non-existent variable")
 
 (defclass run-command-recipes-command ()
-  ((base :initarg :base :accessor run-command-recipes-command-base)
+  ((name :initarg :name :accessor run-command-recipes-command--name)
+   (base :initarg :base :accessor run-command-recipes-command-base)
    (options :initarg :options
             :accessor run-command-recipes-command-options
             :initform nil)
@@ -69,6 +71,12 @@ is string which will expand and append to final shell command.")
     (let ((options (oref command :options)))
         (oset command :options
               (run-command-recipes-command--parse-some-options options))))
+
+(defun run-command-recipes-command-name (command)
+    "Get name of COMMAND."
+    (or
+     (run-command-recipes-command--name command)
+     (run-command-recipes-command-base command)))
 
 (defun run-command-recipes-command--parse-some-options (from)
     "Parse FROM to normal options of `run-command-recipes-command'.
@@ -159,6 +167,7 @@ If option non-existent, then signal
      (run-command-recipes-command-get-options-names command)
      option-name))
 
+
 (defun run-command-recipes-command-collect (command)
     "Collect object COMMAND to shell command with type string."
     (let* ((base (run-command-recipes-command-base command))
@@ -173,6 +182,7 @@ If option non-existent, then signal
              (-keep 'identity)
              (-flatten)
              (run-command-recipes-command-expand-list-of-shell-code))))
+        (run-command-recipes-command-save-command-in-buffer command)
         (s-join " " words)))
 
 (defun run-command-recipes-command-expand-list-of-shell-code (shell-codes)
@@ -193,7 +203,8 @@ Example of special syntax:
 (defun run-command-recipes-command--find-variables-in-shell-code (shell-code)
     "Find all variables like on [current-directory] in SHELL-CODE.
 Return list of lists from variable name and part of source in SHELL-CODE"
-    (s-match-strings-all "\\[\\W*\\([^\] ]*\\)\\W*\\]" shell-code))
+    (s-match-strings-all
+     "\\[\\W*\\([^] ]*\\)\\W*:?W*\\([^]]*\\)?\\W*\\]" shell-code))
 
 (defun run-command-recipes-command--replace-vars-in-shell-code-by-alist ;nofmt
     (shell-code ;nofmt
@@ -204,34 +215,44 @@ USED-VARS is list of lists from part of OPTION and used variable name."
      (run-command-recipes-command--use-var-in-shell-code acc
                                                          (-second-item
                                                           it)
-                                                         (-first-item it))
+                                                         (-first-item it)
+                                                         (-third-item it))
      shell-code used-vars))
 
 (defun run-command-recipes-command--use-var-in-shell-code (shell-code ;nofmt
                                                            var-name
-                                                           var-usage)
+                                                           var-usage
+                                                           argument)
     "Replace VAR-USAGE with value of VAR-NAME in VARS-LIST in SHELL-CODE.
 Example of VAR-USAGE is [ current-directory   ]"
     (let* ((var-content
             (run-command-recipes-lookup-value-of-shell-code-var
-             var-name var-usage)))
+             var-name var-usage argument)))
         (s-replace var-usage var-content shell-code)))
 
-(defun run-command-recipes-lookup-value-of-shell-code-var (var-name var-usage)
+(defun run-command-recipes-lookup-value-of-shell-code-var (var-name ;nofmt
+                                                           var-usage
+                                                           argument)
     "Get value of VAR-NAME, which use in shell code in part of string VAR-USAGE.
+Using for var ARGUMENT (any stuff, no required)
+
 Example of shell code is:
-\"--output-dir=[current-directory]\"
-Here VAR-USAGE is [current-directory].  And VAR-NAME is \"current-directory\""
-    (or
-     (eval
-      (alist-get
-       var-name
-       run-command-recipes-command-variables-in-shell-code-alist
-       nil nil 'equal)
-      `((usage . ,var-usage)))
-     (signal
-      'run-command-recipes-command-non-existent-var-name-in-shell-code
-      (list var-name var-usage))))
+\"--output-dir=[any-string : Type output directory]\"
+Here VAR-USAGE is [current-directory : Type output directory].
+And VAR-NAME is \"current-directory\".
+ARGUMENT - \"Type output directory\""
+    (-if-let
+        (var-sexp
+         (alist-get
+          var-name
+          run-command-recipes-command-variables-in-shell-code-alist
+          nil nil 'equal))
+        (eval var-sexp
+              `((usage . ,var-usage)
+                (argument . ,argument)))
+        (signal
+         'run-command-recipes-command-non-existent-var-name-in-shell-code
+         (list var-name var-usage))))
 
 (defun run-command-recipes-command-interactively-collect (command)
     "Select options of COMMAND via user, stop when user need."

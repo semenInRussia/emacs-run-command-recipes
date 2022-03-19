@@ -92,7 +92,6 @@
 
 (ert-deftest run-command-recipes-command-test-selected-option-p
     ()
-    ()
     (let* ((options '("--toc" "-disable-installer"))
            (command
             (run-command-recipes-command :base "pandoc" :options options)))
@@ -227,7 +226,7 @@
          (run-command-recipes-command-selected-option-p command "toc"))))
 
 (ert-deftest
-    run-command-recipes-command-test--expand-shell-code-current-directory
+    run-command-recipes-command-test-expand-shell-code
     ()
     (with-temp-buffer
         (rename-buffer "temp")
@@ -238,7 +237,7 @@
           "--data-dir=temp"))))
 
 (ert-deftest
-    run-command-recipes-command-test--expand-lits-of-shell-codes
+    run-command-recipes-command-test--expand-list-of-shell-codes
     ()
     (with-temp-buffer
         (rename-buffer "temp")
@@ -280,6 +279,37 @@
           (run-command-recipes-command-get-option-with-name "-disable-checker"
                                                             command)
           "-disable-checker"))))
+
+(ert-deftest run-command-recipes-command-test-name
+    ()
+    (let ((command (run-command-recipes-command :name "pandoc")))
+        (should
+         (string-equal
+          (run-command-recipes-command-name command)
+          "pandoc"))))
+
+(ert-deftest run-command-recipes-command-test-default-name
+    ()
+    (let ((command (run-command-recipes-command :base "pandoc")))
+        (should
+         (string-equal
+          (run-command-recipes-command-name command)
+          "pandoc"))))
+
+(ert-deftest run-command-recipes-command-test-save-command-in-buffer
+    ()
+    (let* ((options '(("toc" . "--toc") "-disable-checker"))
+           (command
+            (run-command-recipes-command :name "pandoc"
+                                         :base "pandoc"
+                                         :options options)))
+        (with-temp-buffer
+            (run-command-recipes-command-select-one-option command "toc")
+            (run-command-recipes-command-collect command)
+            (should
+             (string-equal
+              (run-command-recipes-command-saved command)
+              "pandoc --toc")))))
 
 (ert-deftest run-command-recipes-command-test-selected-options-shell-codes
     ()
