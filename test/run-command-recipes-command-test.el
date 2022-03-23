@@ -25,6 +25,7 @@
 
 ;;; Code:
 
+(require 'dash)
 (require 'ert)
 (require 'run-command-recipes-command)
 (require 'run-command-recipes-project)
@@ -225,27 +226,101 @@
         (should-not
          (run-command-recipes-command-selected-option-p command "toc"))))
 
+(ert-deftest run-command-recipes-command-test-parse-variable-usage
+    ()
+    (let* ((string "[ print : 1  ]")
+           (usage
+            (run-command-recipes-command-variable-usage-parse string)))
+        (should
+         (equal
+          (run-command-recipes-command-variable-usage-source usage)
+          "[ print : 1  ]"))
+        (should
+         (equal
+          (run-command-recipes-command-variable-usage-name usage)
+          "print"))
+        (should
+         (equal
+          (run-command-recipes-command-variable-usage-argument usage)
+          "1"))))
+
+(ert-deftest
+    run-command-recipes-command-test-parse-variable-usage-without-argument
+    ()
+    (let* ((string "[ print  ]")
+           (usage
+            (run-command-recipes-command-variable-usage-parse string)))
+        (should
+         (equal
+          (run-command-recipes-command-variable-usage-source usage)
+          "[ print  ]"))
+        (should
+         (equal
+          (run-command-recipes-command-variable-usage-name usage)
+          "print"))
+        (should
+         (equal
+          (run-command-recipes-command-variable-usage-argument usage)
+          nil))))
+
+(ert-deftest
+    run-command-recipes-command-test-parse-variable-usage-new-val
+    ()
+    (with-temp-buffer
+        (rename-buffer "temp")
+        (let* ((string "[ buffer-name  ]")
+               (usage
+                (run-command-recipes-command-variable-usage-parse string)))
+            (should
+             (equal
+              (run-command-recipes-command-variable-usage-new-val usage)
+              "temp"))
+            ;; Repeat, because last lookup of new value should saved
+            (should
+             (equal
+              (run-command-recipes-command-variable-usage-new-val usage)
+              "temp")))))
+
+(ert-deftest
+    run-command-recipes-command-test-expanding-result
+    ()
+    (let ((exp-result
+           (run-command-recipes-command-expanding-result
+            :string "print"
+            :variables-usages nil)))
+        (should
+         (equal
+          (run-command-recipes-command-expanding-result-string exp-result)
+          "print"))
+        (should
+         (equal
+          (run-command-recipes-command-expanding-result-variables-usages
+           exp-result)
+          nil))))
+
+
 (ert-deftest
     run-command-recipes-command-test-expand-shell-code
     ()
     (with-temp-buffer
         (rename-buffer "temp")
-        (should
-         (equal
-          (run-command-recipes-command-expand-shell-code
-           "--data-dir=[ buffer-name ]")
-          "--data-dir=temp"))))
-
-(ert-deftest
-    run-command-recipes-command-test--expand-list-of-shell-codes
-    ()
-    (with-temp-buffer
-        (rename-buffer "temp")
-        (should
-         (equal
-          (run-command-recipes-command-expand-list-of-shell-code
-           '("![buffer-name]" "[ buffer-name]"))
-          '("!temp" "temp")))))
+        (let* ((exp-result
+                (run-command-recipes-command-expand-shell-code
+                 "--data-dir=[buffer-name]"))
+               (string
+                (run-command-recipes-command-expanding-result-string
+                 exp-result))
+               (variables-usages
+                (run-command-recipes-command-expanding-result-variables-usages
+                 exp-result)))
+            (should
+             (equal
+              (car variables-usages)
+              (run-command-recipes-command-variable-usage
+               :name "buffer-name"
+               :source "[buffer-name]"
+               :new-val "temp")))
+            (should (equal string "--data-dir=temp")))))
 
 (ert-deftest
     run-command-recipes-command-test-project-root
@@ -260,8 +335,9 @@
     ()
     (should
      (equal
-      (run-command-recipes-command-expand-shell-code
-       "--data-dir=[project-root]")
+      (run-command-recipes-command-expanding-result-string
+       (run-command-recipes-command-expand-shell-code
+        "--data-dir=[project-root]"))
       (concat "--data-dir=" (run-command-recipes-project-root)))))
 
 (ert-deftest run-command-recipes-command-test-get-option-with-name
@@ -295,21 +371,6 @@
          (string-equal
           (run-command-recipes-command-name command)
           "pandoc"))))
-
-(ert-deftest run-command-recipes-command-test-save-command-in-buffer
-    ()
-    (let* ((options '(("toc" . "--toc") "-disable-checker"))
-           (command
-            (run-command-recipes-command :name "pandoc"
-                                         :base "pandoc"
-                                         :options options)))
-        (with-temp-buffer
-            (run-command-recipes-command-select-one-option command "toc")
-            (run-command-recipes-command-collect command)
-            (should
-             (string-equal
-              (run-command-recipes-command-saved command)
-              "pandoc --toc")))))
 
 (ert-deftest run-command-recipes-command-test-selected-options-shell-codes
     ()
