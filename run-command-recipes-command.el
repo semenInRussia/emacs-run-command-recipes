@@ -30,6 +30,12 @@
 (require 's)
 (require 'run-command-recipes-project)
 
+(defvar run-command-recipes-command--saved nil
+  "Saved `run-command-recipes-command'-s, alist of names and commands.
+You can take this value via some special functions.  Also you can save
+value via function `run-command-recipes-command-save-command-in-buffer'.
+By idea for each buffer value must be different")
+
 (defcustom run-command-recipes-command-variables-in-shell-code-alist
   '(("current-directory" . default-directory)
     ("project-root"      . (run-command-recipes-project-root))
@@ -88,17 +94,6 @@ is string which will expand and append to final shell command.")
 EXPANDED-STRING is string which taked after expanding of shell-code.
 EXPANDED-VARIABLES-USAGES is list of objects of
 `run-command-recipes-command-variable-usage' class")
-
-(defun run-command-recipes-command-expanding-result-string-and-variables-usages ;nofmt
-    (expanding-result)
-    "Get pair from expanded string and change s of EXPANDING-RESULT."
-    (let ((expanded-variables-usages
-           (run-command-recipes-command-expanding-result-variables-usages
-            expanding-result))
-          (expanded-string
-           (run-command-recipes-command-expanding-result-string
-            expanding-result)))
-        (cons expanded-string expanded-variables-usages)))
 
 (defun run-command-recipes-command--parse-some-options (from)
     "Parse FROM to normal options of `run-command-recipes-command'.
@@ -203,7 +198,7 @@ If option non-existent, then signal
              (--map
               (run-command-recipes-command-expanding-result-string
                (run-command-recipes-command-expand-shell-code it))))))
-        ;; (run-command-recipes-command-save-command-in-buffer command)
+        (run-command-recipes-command-save-command-in-buffer command)
         (s-join " " words)))
 
 (defun run-command-recipes-command-expand-shell-code (shell-code)
@@ -317,6 +312,26 @@ Return list of lists from variable name and part of source in SHELL-CODE"
 STRING must have only variable usage."
     (car
      (run-command-recipes-command--find-variables-in-shell-code string)))
+
+
+(defun run-command-recipes-command-save-command-in-buffer (command)
+    "Save in current buffer COMMAND, you can take this via special function."
+    (->>
+     (acons
+      (run-command-recipes-command-name command)
+      command
+      run-command-recipes-command--saved)
+     (setq-local run-command-recipes-command--saved)))
+
+(defun run-command-recipes-command-saved-with-name (name)
+    "Take saved command which have name NAME.
+By Idea, in each buffer must return different values."
+    (alist-get
+     name
+     run-command-recipes-command--saved
+     nil
+     nil
+     #'string-equal))
 
 (defun run-command-recipes-command-interactively-collect (command)
     "Select options of COMMAND via user, stop when user need."

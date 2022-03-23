@@ -176,8 +176,6 @@
           (run-command-recipes-command-collect command)
           "pandoc --toc"))))
 
-
-
 (ert-deftest run-command-recipes-command-test-select-one-more-complex-option
     ()
     (let* ((options '(("data-dir" . "--data-dir=[ buffer-name ]")))
@@ -298,7 +296,6 @@
            exp-result)
           nil))))
 
-
 (ert-deftest
     run-command-recipes-command-test-expand-shell-code
     ()
@@ -384,6 +381,28 @@
           (run-command-recipes-command-selected-options-shell-codes command)
           '("--toc")))))
 
+(ert-deftest run-command-recipes-command-test-save-command-in-buffer
+    ()
+    (let* ((options '(("toc" . "--toc") "-disable-checker"))
+           (command
+            (run-command-recipes-command :name "pandoc"
+                                         :base "pandoc"
+                                         :options options))
+           (excepted
+            (run-command-recipes-command-select-one-option command "toc")))
+        (with-temp-buffer
+            (run-command-recipes-command-select-one-option command "toc")
+            (run-command-recipes-command-collect command)
+            (should
+             (equal
+              (run-command-recipes-command-saved-with-name "pandoc")
+              excepted)))
+        (with-temp-buffer
+            (should
+             (equal
+              (run-command-recipes-command-saved-with-name "pandoc")
+              nil)))))
+
 (ert-deftest run-command-recipes-command-test-get-options-names
     ()
     (let* ((options '(("toc" . "--toc") "-disable-installer"))
@@ -394,7 +413,6 @@
          (equal
           (run-command-recipes-command-get-options-names command)
           '("toc" "-disable-installer")))))
-
 
 (provide 'run-command-recipes-command-test)
 
