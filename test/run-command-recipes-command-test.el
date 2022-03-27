@@ -29,6 +29,7 @@
 (require 'ert)
 (require 'run-command-recipes-command)
 (require 'run-command-recipes-project)
+(require 's)
 
 (ert-deftest run-command-recipes-command-test-collect-most-simple-command
     ()
@@ -37,6 +38,73 @@
     (run-command-recipes-command-collect
      (run-command-recipes-command :base "pandoc"))
     "pandoc")))
+
+(ert-deftest run-command-recipes-command-complex-test
+    ()
+  (let* ((options
+          '(("File Scope"             . "--file-scope")
+            ("Sandbox"                . "--sandbox")
+            ("Standalone"             . "--standalone")
+            ("Ascii"                  . "--ascii")
+            ("Toc"                    . "--toc")
+            ("Table Of Contents"      . "--table-of-contents")
+            ("Number Sections"        . "--number-sections")
+            ("No Highlight"           . "--no-highlight")
+            ("Preserve Tabs"          . "--preserve-tabs")
+            ("Self Contained"         . "--self-contained")
+            ("No Check Certificate"   . "--no-check-certificate")
+            ("Strip Empty Paragraphs" . "--strip-empty-paragraphs")
+            ("Strip Comments"         . "--strip-comments")
+            ("Reference Links"        . "--reference-links")
+            ("Atx Headers"            . "--atx-headers")
+            ("Listings"               . "--listings")
+            ("Incremental"            . "--incremental")
+            ("Section Divs"           . "--section-divs")
+            ("Html Q Tags"            . "--html-q-tags")))
+         (command
+          (run-command-recipes-command
+           :base "pandoc"
+           :suffix "[buffer-name]"
+           :options options)))
+    (run-command-recipes-command-select-options
+     command
+     '("File Scope"
+       "Sandbox"
+       "Standalone"
+       "Ascii"
+       "Toc"
+       "Table Of Contents"
+       "Number Sections"
+       "No Highlight"
+       "Preserve Tabs"
+       "Self Contained"
+       "No Check Certificate"
+       "Strip Empty Paragraphs"
+       "Strip Comments"
+       "Reference Links"))
+    (with-temp-buffer
+      (rename-buffer "temp.tex")
+      (should
+       (string-equal
+        (run-command-recipes-command-collect command)
+        (s-join
+         " "
+         '("pandoc"
+           "--reference-links"
+           "--strip-comments"
+           "--strip-empty-paragraphs"
+           "--no-check-certificate"
+           "--self-contained"
+           "--preserve-tabs"
+           "--no-highlight"
+           "--number-sections"
+           "--table-of-contents"
+           "--toc"
+           "--ascii"
+           "--standalone"
+           "--sandbox"
+           "--file-scope temp.tex")))))))
+
 
 (ert-deftest run-command-recipes-command-test-existent-option-p
     ()
