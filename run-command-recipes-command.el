@@ -73,15 +73,15 @@ is string which will expand and append to final shell command.")
 (defmethod initialize-instance :after
     ((command run-command-recipes-command)
      &key)
-    (let ((options (oref command :options)))
-        (oset command :options
-              (run-command-recipes-command--parse-some-options options))))
+  (let ((options (oref command :options)))
+    (oset command :options
+          (run-command-recipes-command--parse-some-options options))))
 
 (defun run-command-recipes-command-name (command)
-    "Get name of COMMAND."
-    (or
-     (run-command-recipes-command--name command)
-     (run-command-recipes-command-base command)))
+  "Get name of COMMAND."
+  (or
+   (run-command-recipes-command--name command)
+   (run-command-recipes-command-base command)))
 
 (defclass run-command-recipes-command-expanding-result ()
   ((expanded-string
@@ -96,128 +96,129 @@ EXPANDED-VARIABLES-USAGES is list of objects of
 `run-command-recipes-command-variable-usage' class")
 
 (defun run-command-recipes-command--parse-some-options (from)
-    "Parse FROM to normal options of `run-command-recipes-command'.
+  "Parse FROM to normal options of `run-command-recipes-command'.
 This is alist in which keys is names of options, values is options.
 For example:
 \((\"toc\" . \"--toc\") (\"disable-installer\" . \"-disable-installer\"))"
-    (-map 'run-command-recipes-command--parse-option from))
+  (-map 'run-command-recipes-command--parse-option from))
 
 (defun run-command-recipes-command--parse-option (from)
-    "Parse FROM to normal `run-command-recipes-command' option.
+  "Parse FROM to normal `run-command-recipes-command' option.
 FROM may be one of: string, cons from string and string.  Normal option is
 cons from option name as `car', and option as `cdr'"
-    (cl-typecase from (string `(,from . ,from)) (cons from)))
+  (cl-typecase from (string `(,from . ,from)) (cons from)))
 
 (defun run-command-recipes-command-get-option-with-name (name command)
-    "Get option with name NAME from options of COMMAND."
-    (cdr (assoc name (run-command-recipes-command-options command))))
+  "Get option with name NAME from options of COMMAND."
+  (cdr (assoc name (run-command-recipes-command-options command))))
 
 (defun run-command-recipes-command-selected-options-shell-codes (command)
-    "Return some shell codes of COMMAND's selected options."
-    (-> command
-        (run-command-recipes-command-selected-options)
-        (run-command-recipes-command-get-some-options-with-names command)))
+  "Return some shell codes of COMMAND's selected options."
+  (-> command
+      (run-command-recipes-command-selected-options)
+      (run-command-recipes-command-get-some-options-with-names command)))
 
 (defun run-command-recipes-command-get-some-options-with-names (names command)
-    "Get some options with names NAMES from options of COMMAND."
-    (--map
-     (run-command-recipes-command-get-option-with-name it command)
-     names))
+  "Get some options with names NAMES from options of COMMAND."
+  (--map
+   (run-command-recipes-command-get-option-with-name it command)
+   names))
 
 (defun run-command-recipes-command-get-options-names (command)
-    "Get some options with names NAMES from options of COMMAND."
-    (-map 'car (run-command-recipes-command-options command)))
+  "Get some options with names NAMES from options of COMMAND."
+  (-map 'car (run-command-recipes-command-options command)))
 
 (defun run-command-recipes-command-select-options (command options-names)
-    "Select in object COMMAND some options with names OPTIONS-NAMES.
+  "Select in object COMMAND some options with names OPTIONS-NAMES.
 COMMAND created with `run-command-recipes-command'."
-    (--reduce-from
-     (run-command-recipes-command-select-one-option acc it)
-     command
-     options-names))
+  (--reduce-from
+   (run-command-recipes-command-select-one-option acc it)
+   command
+   options-names))
 
 (defun run-command-recipes-command-selected-option-p (command option-name)
-    "Return t, when option of COMMAND with name OPTION-NAME was selected."
-    (-contains-p
-     (run-command-recipes-command-selected-options command)
-     option-name))
+  "Return t, when option of COMMAND with name OPTION-NAME was selected."
+  (-contains-p
+   (run-command-recipes-command-selected-options command)
+   option-name))
 
 (defun run-command-recipes-command-select-one-option (command option-name)
-    "Select in object COMMAND option with name OPTION-NAME.
+  "Select in object COMMAND option with name OPTION-NAME.
 If option non-existent, then signal
 `run-command-recipes-command-non-existent-option'."
-    (run-command-recipes-command--ensure-existent-option command option-name)
-    (setf
-     (run-command-recipes-command-selected-options command)
-     (cons option-name
-           (run-command-recipes-command-selected-options command)))
-    command)
+  (run-command-recipes-command--ensure-existent-option command option-name)
+  (setf
+   (run-command-recipes-command-selected-options command)
+   (cons option-name
+         (run-command-recipes-command-selected-options command)))
+  command)
 
 (defun run-command-recipes-command-unselect-one-option (command option-name)
-    "UnSelect in object COMMAND option with name OPTION-NAME.
+  "UnSelect in object COMMAND option with name OPTION-NAME.
 If option non-existent, then signal
  `run-command-recipes-command-non-existent-option'"
-    (run-command-recipes-command--ensure-existent-option command option-name)
-    (setf
-     (run-command-recipes-command-selected-options command)
-     (remove option-name
-             (run-command-recipes-command-selected-options command)))
-    command)
+  (run-command-recipes-command--ensure-existent-option command option-name)
+  (setf
+   (run-command-recipes-command-selected-options command)
+   (remove option-name
+           (run-command-recipes-command-selected-options command)))
+  command)
 
 (defun run-command-recipes-command-toggle-option (command option-name)
-    "If option of COMMAND OPTION-NAME is selected, then unselect, else select.
+  "If option of COMMAND OPTION-NAME is selected, then unselect, else select.
 If option non-existent, then signal
 `run-command-recipes-command-non-existent-option'"
-    (if (run-command-recipes-command-selected-option-p command option-name)
-        (run-command-recipes-command-unselect-one-option command option-name)
-        (run-command-recipes-command-select-one-option command option-name)))
+  (if (run-command-recipes-command-selected-option-p command option-name)
+      (run-command-recipes-command-unselect-one-option command option-name)
+    (run-command-recipes-command-select-one-option command option-name)))
 
 (defun run-command-recipes-command--ensure-existent-option (command option-name)
-    "Ensure that option with name OPTION-NAME existent for COMMAND."
-    (unless (run-command-recipes-command-existent-option-p command option-name)
-        (signal 'run-command-recipes-command-non-existent-option
-                option-name)))
+  "Ensure that option with name OPTION-NAME existent for COMMAND."
+  (unless (run-command-recipes-command-existent-option-p command option-name)
+    (signal 'run-command-recipes-command-non-existent-option
+            option-name)))
 
 (defun run-command-recipes-command-existent-option-p (command option-name)
-    "Return t, when OPTION-NAME is name of existent option of COMMAND."
-    (-contains-p
-     (run-command-recipes-command-get-options-names command)
-     option-name))
+  "Return t, when OPTION-NAME is name of existent option of COMMAND."
+  (-contains-p
+   (run-command-recipes-command-get-options-names command)
+   option-name))
 
 (defun run-command-recipes-command-collect (command)
-    "Collect object COMMAND to shell command with type string."
-    (let* ((base (run-command-recipes-command-base command))
-           (selected-options
-            (run-command-recipes-command-selected-options-shell-codes command))
-           (suffix (run-command-recipes-command-suffix command))
-           (words
-            (->>
-             (list base selected-options suffix)
-             (-non-nil)
-             (-flatten)
-             (--map
-              (run-command-recipes-command-expanding-result-string
-               (run-command-recipes-command-expand-shell-code it))))))
-        (run-command-recipes-command-save-command-in-buffer command)
-        (s-join " " words)))
+  "Collect object COMMAND to shell command with type string."
+  (let* ((base (run-command-recipes-command-base command))
+         (selected-options
+          (run-command-recipes-command-selected-options-shell-codes command))
+         (suffix (run-command-recipes-command-suffix command))
+         (collected
+          (->>
+           (list base selected-options suffix)
+           (-non-nil)
+           (-flatten)
+           (--map
+            (run-command-recipes-command-expanding-result-string
+             (run-command-recipes-command-expand-shell-code it)))
+           (s-join " "))))
+    (run-command-recipes-command-save-command-in-buffer command)
+    collected))
 
 (defun run-command-recipes-command-expand-shell-code (shell-code)
-    "Expand SHELL-CODE with special syntax, [current-directory] is example."
-    (let ((vars-usages
-           (->>
-            shell-code
-            (run-command-recipes-command--find-variables-in-shell-code)
-            (run-command-recipes-command-variable-usages-set-new-values)))
-          (expanded-string shell-code))
-        (--each vars-usages
-            (setq expanded-string
-                  (s-replace
-                   (run-command-recipes-command-variable-usage-source it)
-                   (run-command-recipes-command-variable-usage-new-val it)
-                   expanded-string)))
-        (run-command-recipes-command-expanding-result
-         :string expanded-string
-         :variables-usages vars-usages)))
+  "Expand SHELL-CODE with special syntax, [current-directory] is example."
+  (let ((vars-usages
+         (->>
+          shell-code
+          (run-command-recipes-command--find-variables-in-shell-code)
+          (run-command-recipes-command-variable-usages-set-new-values)))
+        (expanded-string shell-code))
+    (--each vars-usages
+      (setq expanded-string
+            (s-replace
+             (run-command-recipes-command-variable-usage-source it)
+             (run-command-recipes-command-variable-usage-new-val it)
+             expanded-string)))
+    (run-command-recipes-command-expanding-result
+     :string expanded-string
+     :variables-usages vars-usages)))
 
 (defclass run-command-recipes-command-variable-usage ()
   ((name :initarg :name
@@ -235,143 +236,149 @@ Examples of shell-codes:
 - -o [file-name].txt")
 
 (defun run-command-recipes-command-variable-usage-new-val (variable-usage)
-    "Take VARIABLE-USAGE and get its new value, if is nil, then compute new."
-    (or
-     (run-command-recipes-command-variable-usage--new-val variable-usage)
-     (setf
-      (run-command-recipes-command-variable-usage--new-val variable-usage)
-      (run-command-recipes-command-variable-usage-lookup-new-val
-       variable-usage))))
+  "Take VARIABLE-USAGE and get its new value, if is nil, then compute new."
+  (or
+   (run-command-recipes-command-variable-usage--new-val variable-usage)
+   (setf
+    (run-command-recipes-command-variable-usage--new-val variable-usage)
+    (run-command-recipes-command-variable-usage-lookup-new-val
+     variable-usage))))
 
 (defun run-command-recipes-command-variable-usage-lookup-new-val (var-usage)
-    "Compute new value of VAR-USAGE."
-    (let ((var-name
-           (run-command-recipes-command-variable-usage-name var-usage))
-          (source
-           (run-command-recipes-command-variable-usage-source
-            var-usage))
-          (argument
-           (run-command-recipes-command-variable-usage-argument
-            var-usage)))
-        (or
-         (eval
-          (alist-get
-           var-name
-           run-command-recipes-command-variables-in-shell-code-alist
-           nil nil 'equal)
-          `((source . ,source)
-            (arg . ,argument)))
-         (signal
-          'run-command-recipes-command-non-existent-var-name-in-shell-code
-          (list var-name source)))))
+  "Compute new value of VAR-USAGE."
+  (let ((var-name
+         (run-command-recipes-command-variable-usage-name var-usage))
+        (source
+         (run-command-recipes-command-variable-usage-source var-usage))
+        (argument
+         (run-command-recipes-command-variable-usage-argument
+          var-usage)))
+    (or
+     (eval
+      (alist-get
+       var-name
+       run-command-recipes-command-variables-in-shell-code-alist
+       nil nil 'equal)
+      `((source . ,source)
+        (arg . ,argument)))
+     (signal
+      'run-command-recipes-command-non-existent-var-name-in-shell-code
+      (list var-name source)))))
 
 (defun run-command-recipes-command-interactively-collect (command)
-    "Select options of COMMAND via user, stop when user need."
-    (while (run-command-recipes-command-p command)
-        (setq command
-              (run-command-recipes-command-interactively-toggle-one-option
-               command)))
-    command)
+  "Select options of COMMAND via user, stop when user need."
+  (while (run-command-recipes-command-p command)
+    (setq command
+          (run-command-recipes-command-interactively-toggle-one-option
+           command)))
+  command)
 
 (defun run-command-recipes-command-interactively-toggle-one-option (command)
-    "Select options of COMMAND, if user select, that collect to shell command."
-    (->> command
-         (run-command-recipes-command-get-options-names)
-         (--map
-          (run-command-recipes-command--append-option-suffix
-           command it))
-         (cons "*Already Ready*")
-         (completing-read "Please Select Option of Shell Command:")
-         (run-command-recipes-command--chop-option-suffix)
-         (run-command-recipes-command--select-or-collect command)))
+  "Select options of COMMAND, if user select, that collect to shell command."
+  (->> command
+       (run-command-recipes-command-get-options-names)
+       (--map
+        (run-command-recipes-command--append-option-suffix
+         command it))
+       (cons "*Already Ready*")
+       (completing-read "Please Select Option of Shell Command:")
+       (run-command-recipes-command--chop-option-suffix)
+       (run-command-recipes-command--select-or-collect command)))
 
 (defun run-command-recipes-command-variable-usages-set-new-values ;nofmt
     (variables-usages)
-    "Take some VARIABLES-USAGES and set their `new-val', get VARIABLES-USAGES."
-    (-each
-        variables-usages
-        #'run-command-recipes-command-variable-usage-new-val)
-    variables-usages)
+  "Take some VARIABLES-USAGES and set their `new-val', get VARIABLES-USAGES."
+  (-each
+      variables-usages
+    #'run-command-recipes-command-variable-usage-new-val)
+  variables-usages)
 
 (defun run-command-recipes-command--find-variables-in-shell-code (shell-code)
-    "Find all variables like on [current-directory] in SHELL-CODE.
+  "Find all variables like on [current-directory] in SHELL-CODE.
 Return list of lists from variable name and part of source in SHELL-CODE"
-    (->>
-     shell-code
-     (s-match-strings-all
-      "\\[\\W*\\([^] :]*\\)\\W*\\(:\\W*\\([^]#]*\\)\\)?\\(#\\W*\\(.*\\)\\)?\\]")
-     (--map
-      (run-command-recipes-command-variable-usage
-       :source (-first-item it)
-       :name (-second-item it)
-       :argument (-some-> (-fourth-item it) (s-trim-right))))))
+  (->>
+   shell-code
+   (s-match-strings-all
+    "\\[\\W*\\([^] :]*\\)\\W*\\(:\\W*\\([^]#]*\\)\\)?\\(#\\W*\\(.*\\)\\)?\\]")
+   (--map
+    (run-command-recipes-command-variable-usage
+     :source (-first-item it)
+     :name (-second-item it)
+     :argument (-some-> (-fourth-item it) (s-trim-right))))))
 
 
 (defun run-command-recipes-command-variable-usage-parse (string)
-    "Parse usage of variable in shell-code from STRING.
+  "Parse usage of variable in shell-code from STRING.
 STRING must have only variable usage."
-    (car
-     (run-command-recipes-command--find-variables-in-shell-code string)))
+  (car
+   (run-command-recipes-command--find-variables-in-shell-code string)))
 
 
 (defun run-command-recipes-command-save-command-in-buffer (command)
-    "Save in current buffer COMMAND, you can take this via special function."
-    (->>
-     (acons
-      (run-command-recipes-command-name command)
-      command
-      run-command-recipes-command--saved)
-     (setq-local run-command-recipes-command--saved)))
+  "Save in current buffer COMMAND, you can take this via special function."
+  (->>
+   (acons
+    (run-command-recipes-command-name command)
+    command
+    run-command-recipes-command--saved)
+   (setq-local run-command-recipes-command--saved)))
 
 (defun run-command-recipes-command-saved-with-name (name)
-    "Take saved command which have name NAME.
+  "Take saved command which have name NAME.
 By Idea, in each buffer must return different values."
-    (alist-get
-     name
-     run-command-recipes-command--saved
-     nil
-     nil
-     #'string-equal))
+  (alist-get
+   name
+   run-command-recipes-command--saved
+   nil
+   nil
+   #'string-equal))
+
+(defun run-command-recipes-command-collect-saved-with-name (name)
+  "Take saved command which have name NAME and collect to string.
+By Idea, in each buffer must return different values."
+  (->>
+   (run-command-recipes-command-saved-with-name name)
+   (run-command-recipes-command-collect)))
 
 (defun run-command-recipes-command-interactively-collect (command)
-    "Select options of COMMAND via user, stop when user need."
-    (while (run-command-recipes-command-p command)
-        (setq command
-              (run-command-recipes-command-interactively-toggle-one-option
-               command)))
-    command)
+  "Select options of COMMAND via user, stop when user need."
+  (while (run-command-recipes-command-p command)
+    (setq command
+          (run-command-recipes-command-interactively-toggle-one-option
+           command)))
+  command)
 
 (defun run-command-recipes-command-interactively-toggle-one-option (command)
-    "Select options of COMMAND, if user select, that collect to shell command."
-    (->> command
-         (run-command-recipes-command-get-options-names)
-         (--map
-          (run-command-recipes-command--append-option-suffix
-           command it))
-         (cons "*Already Ready*")
-         (completing-read "Please Select Option of Shell Command:")
-         (run-command-recipes-command--chop-option-suffix)
-         (run-command-recipes-command--select-or-collect command)))
+  "Select options of COMMAND, if user select, that collect to shell command."
+  (->> command
+       (run-command-recipes-command-get-options-names)
+       (--map
+        (run-command-recipes-command--append-option-suffix
+         command it))
+       (cons "*Already Ready*")
+       (completing-read "Please Select Option of Shell Command:")
+       (run-command-recipes-command--chop-option-suffix)
+       (run-command-recipes-command--select-or-collect command)))
 
 (defun run-command-recipes-command--select-or-collect (command
                                                        ;;nofmt
                                                        option)
-    "If OPTION is existent for COMMAND, then select, otherwise collect COMMAND."
-    (if (run-command-recipes-command-existent-option-p command option)
-        (run-command-recipes-command-select-one-option command option)
-        (run-command-recipes-command-collect command)))
+  "If OPTION is existent for COMMAND, then select, otherwise collect COMMAND."
+  (if (run-command-recipes-command-existent-option-p command option)
+      (run-command-recipes-command-select-one-option command option)
+    (run-command-recipes-command-collect command)))
 
 (defun run-command-recipes-command--append-option-suffix (command option-name)
-    "Add right suffix to OPTION-NAME of COMMAND, depends on selection state."
-    (s-append
-     (if (run-command-recipes-command-selected-option-p command option-name)
-         " (selected)"
-         " (non selected)")
-     option-name))
+  "Add right suffix to OPTION-NAME of COMMAND, depends on selection state."
+  (s-append
+   (if (run-command-recipes-command-selected-option-p command option-name)
+       " (selected)"
+     " (non selected)")
+   option-name))
 
 (defun run-command-recipes-command--chop-option-suffix (option-name)
-    "Chop suffix of OPTION-NAME of COMMAND, depends on selection state."
-    (s-chop-suffixes '(" (selected)" " (non selected)") option-name))
+  "Chop suffix of OPTION-NAME of COMMAND, depends on selection state."
+  (s-chop-suffixes '(" (selected)" " (non selected)") option-name))
 
 (provide 'run-command-recipes-command)
 ;;; run-command-recipes-command.el ends here

@@ -32,387 +32,374 @@
 
 (ert-deftest run-command-recipes-command-test-collect-most-simple-command
     ()
-    (should
-     (equal
-      (run-command-recipes-command-collect
-       (run-command-recipes-command :base "pandoc"))
-      "pandoc")))
+  (should
+   (equal
+    (run-command-recipes-command-collect
+     (run-command-recipes-command :base "pandoc"))
+    "pandoc")))
 
 (ert-deftest run-command-recipes-command-test-existent-option-p
     ()
-    (let ((command
-           (run-command-recipes-command
-            :base "pandoc"
-            :options '("--toc" "-disable-installer"))))
-        (should
-         (run-command-recipes-command-existent-option-p command "--toc"))
-        (should-not
-         (run-command-recipes-command-existent-option-p command "lldl"))))
+  (let ((command
+         (run-command-recipes-command
+          :base "pandoc"
+          :options '("--toc" "-disable-installer"))))
+    (should
+     (run-command-recipes-command-existent-option-p command "--toc"))
+    (should-not
+     (run-command-recipes-command-existent-option-p command "lldl"))))
 
 (ert-deftest run-command-recipes-command-test-collect-with-special-base
     ()
-    (with-temp-buffer
-        (rename-buffer "temp")
-        (should
-         (equal
-          (run-command-recipes-command-collect
-           (run-command-recipes-command :base "pandoc [buffer-name]"))
-          "pandoc temp"))))
-
-(ert-deftest run-command-recipes-command-test-collect-with-suffix
-    ()
+  (with-temp-buffer
+    (rename-buffer "temp")
     (should
      (equal
       (run-command-recipes-command-collect
-       (run-command-recipes-command :base "pandoc" :suffix "~"))
-      "pandoc ~")))
+       (run-command-recipes-command :base "pandoc [buffer-name]"))
+      "pandoc temp"))))
+
+(ert-deftest run-command-recipes-command-test-collect-with-suffix
+    ()
+  (should
+   (equal
+    (run-command-recipes-command-collect
+     (run-command-recipes-command :base "pandoc" :suffix "~"))
+    "pandoc ~")))
 
 (ert-deftest run-command-recipes-command-test-collect-with-special-suffix
     ()
-    (with-temp-buffer
-        (rename-buffer "temp")
-        (should
-         (equal
-          (run-command-recipes-command-collect
-           (run-command-recipes-command :base "pandoc"
-                                        :suffix "[buffer-name]"))
-          "pandoc temp"))))
+  (with-temp-buffer
+    (rename-buffer "temp")
+    (should
+     (equal
+      (run-command-recipes-command-collect
+       (run-command-recipes-command :base "pandoc"
+                                    :suffix "[buffer-name]"))
+      "pandoc temp"))))
 
 (ert-deftest run-command-recipes-command-test-select-options
     ()
-    (let* ((options '("--toc" "-disable-installer"))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options)))
-        (should
-         (equal
-          (run-command-recipes-command-collect
-           (run-command-recipes-command-select-options command
-                                                       '("--toc")))
-          "pandoc --toc"))))
+  (let* ((options '("--toc" "-disable-installer"))
+         (command
+          (run-command-recipes-command :base "pandoc" :options options)))
+    (should
+     (equal
+      (run-command-recipes-command-collect
+       (run-command-recipes-command-select-options command
+                                                   '("--toc")))
+      "pandoc --toc"))))
 
 (ert-deftest run-command-recipes-command-test-selected-option-p
     ()
-    (let* ((options '("--toc" "-disable-installer"))
-           (command
-            (run-command-recipes-command :base "pandoc" :options options)))
-        (should-not
-         (run-command-recipes-command-selected-option-p command "--toc"))
-        (should
-         (run-command-recipes-command-selected-option-p
-          (run-command-recipes-command-select-one-option command "--toc")
-          "--toc"))))
+  (let* ((options '("--toc" "-disable-installer"))
+         (command
+          (run-command-recipes-command :base "pandoc" :options options)))
+    (should-not
+     (run-command-recipes-command-selected-option-p command "--toc"))
+    (should
+     (run-command-recipes-command-selected-option-p
+      (run-command-recipes-command-select-one-option command "--toc")
+      "--toc"))))
 
 (ert-deftest run-command-recipes-command-test-select-options-with-suffix
     ()
-    (let* ((options '("--toc" "-disable-installer"))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options
-                                         :suffix "~/README.md")))
-        (should
-         (equal
-          (run-command-recipes-command-collect
-           (run-command-recipes-command-select-options command
-                                                       '("--toc")))
-          "pandoc --toc ~/README.md"))))
+  (let* ((options '("--toc" "-disable-installer"))
+         (command
+          (run-command-recipes-command :base "pandoc"
+                                       :options options
+                                       :suffix "~/README.md")))
+    (should
+     (equal
+      (run-command-recipes-command-collect
+       (run-command-recipes-command-select-options command
+                                                   '("--toc")))
+      "pandoc --toc ~/README.md"))))
 
 (ert-deftest run-command-recipes-command-test-select-options-some-times
     ()
-    (let* ((options '("--toc" "-disable-installer"))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options)))
-        (should
-         (equal
-          (run-command-recipes-command-collect
-           (run-command-recipes-command-select-options
-            (run-command-recipes-command-select-options command
-                                                        '("--toc"))
-            '("-disable-installer")))
-          "pandoc -disable-installer --toc"))))
+  (let* ((options '("--toc" "-disable-installer"))
+         (command
+          (run-command-recipes-command :base "pandoc" :options options)))
+    (should
+     (equal
+      (run-command-recipes-command-collect
+       (run-command-recipes-command-select-options
+        (run-command-recipes-command-select-options command
+                                                    '("--toc"))
+        '("-disable-installer")))
+      "pandoc -disable-installer --toc"))))
 
 (ert-deftest run-command-recipes-command-test-select-non-existent-options
     ()
-    (let* ((options '("--toc" "-disable-installer"))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options)))
-        (should-error
-         (run-command-recipes-command-select-options command
-                                                     '("--lll"))
-         :type 'run-command-recipes-command-non-existent-option)))
+  (let* ((options '("--toc" "-disable-installer"))
+         (command
+          (run-command-recipes-command :base "pandoc" :options options)))
+    (should-error
+     (run-command-recipes-command-select-options command '("--lll"))
+     :type 'run-command-recipes-command-non-existent-option)))
 
 (ert-deftest run-command-recipes-command-test-select-options-with-names
     ()
-    (let* ((options
-            '(("toc"               . "--toc")
-              ("disable-installer" . "-disable-installer")))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options)))
-        (should
-         (equal
-          (run-command-recipes-command-collect
-           (run-command-recipes-command-select-options command
-                                                       '("toc")))
-          "pandoc --toc"))))
+  (let* ((options
+          '(("toc"               . "--toc")
+            ("disable-installer" . "-disable-installer")))
+         (command
+          (run-command-recipes-command :base "pandoc" :options options)))
+    (should
+     (equal
+      (run-command-recipes-command-collect
+       (run-command-recipes-command-select-options command '("toc")))
+      "pandoc --toc"))))
 
 (ert-deftest run-command-recipes-command-test-select-one-option
     ()
-    (let* ((options '("--toc" "-disable-installer"))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options)))
-        (setq command
-              (run-command-recipes-command-select-one-option
-               command "--toc"))
-        (should
-         (equal
-          (run-command-recipes-command-selected-options command)
-          '("--toc")))
-        (should
-         (equal
-          (run-command-recipes-command-collect command)
-          "pandoc --toc"))))
+  (let* ((options '("--toc" "-disable-installer"))
+         (command
+          (run-command-recipes-command :base "pandoc" :options options)))
+    (setq command
+          (run-command-recipes-command-select-one-option
+           command "--toc"))
+    (should
+     (equal
+      (run-command-recipes-command-selected-options command)
+      '("--toc")))
+    (should
+     (equal
+      (run-command-recipes-command-collect command)
+      "pandoc --toc"))))
 
 (ert-deftest run-command-recipes-command-test-select-one-more-complex-option
     ()
-    (let* ((options '(("data-dir" . "--data-dir=[ buffer-name ]")))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options)))
-        (with-temp-buffer
-            (rename-buffer "temp")
-            (should
-             (equal
-              (run-command-recipes-command-collect
-               (run-command-recipes-command-select-one-option command
-                                                              "data-dir"))
-              "pandoc --data-dir=temp")))))
+  (let* ((options '(("data-dir" . "--data-dir=[ buffer-name ]")))
+         (command
+          (run-command-recipes-command :base "pandoc" :options options)))
+    (with-temp-buffer
+      (rename-buffer "temp")
+      (should
+       (equal
+        (run-command-recipes-command-collect
+         (run-command-recipes-command-select-one-option command
+                                                        "data-dir"))
+        "pandoc --data-dir=temp")))))
 
 (ert-deftest run-command-recipes-command-test-unselect-one-option
     ()
-    (let* ((options
-            '(("disable-installer" . "--disable-installer")
-              ("toc"               . "--toc")))
-           (command
-            (run-command-recipes-command-select-one-option
-             (run-command-recipes-command :base "pandoc"
-                                          :options options)
-             "toc")))
-        (message "command is %s" command)
-        (should
-         (run-command-recipes-command-selected-option-p command "toc"))
-        (run-command-recipes-command-unselect-one-option command "toc")
-        (should-not
-         (run-command-recipes-command-selected-option-p command "toc"))))
+  (let* ((options
+          '(("disable-installer" . "--disable-installer")
+            ("toc"               . "--toc")))
+         (command
+          (run-command-recipes-command-select-one-option
+           (run-command-recipes-command :base "pandoc"
+                                        :options options)
+           "toc")))
+    (message "command is %s" command)
+    (should
+     (run-command-recipes-command-selected-option-p command "toc"))
+    (run-command-recipes-command-unselect-one-option command "toc")
+    (should-not
+     (run-command-recipes-command-selected-option-p command "toc"))))
 
 (ert-deftest run-command-recipes-command-test-toggle-option
     ()
-    (let* ((options
-            '(("disable-installer" . "--disable-installer")
-              ("toc"               . "--toc")))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options)))
-        (run-command-recipes-command-toggle-option command "toc")
-        (should
-         (run-command-recipes-command-selected-option-p command
-                                                        "toc"))
-        (run-command-recipes-command-toggle-option command "toc")
-        (should-not
-         (run-command-recipes-command-selected-option-p command "toc"))))
+  (let* ((options
+          '(("disable-installer" . "--disable-installer")
+            ("toc"               . "--toc")))
+         (command
+          (run-command-recipes-command :base "pandoc" :options options)))
+    (run-command-recipes-command-toggle-option command "toc")
+    (should
+     (run-command-recipes-command-selected-option-p command "toc"))
+    (run-command-recipes-command-toggle-option command "toc")
+    (should-not
+     (run-command-recipes-command-selected-option-p command "toc"))))
 
 (ert-deftest run-command-recipes-command-test-parse-variable-usage
     ()
-    (let* ((string "[ print : 1  ]")
-           (usage
-            (run-command-recipes-command-variable-usage-parse string)))
-        (should
-         (equal
-          (run-command-recipes-command-variable-usage-source usage)
-          "[ print : 1  ]"))
-        (should
-         (equal
-          (run-command-recipes-command-variable-usage-name usage)
-          "print"))
-        (should
-         (equal
-          (run-command-recipes-command-variable-usage-argument usage)
-          "1"))))
+  (let* ((string "[ print : 1  ]")
+         (usage
+          (run-command-recipes-command-variable-usage-parse string)))
+    (should
+     (equal
+      (run-command-recipes-command-variable-usage-source usage)
+      "[ print : 1  ]"))
+    (should
+     (equal
+      (run-command-recipes-command-variable-usage-name usage)
+      "print"))
+    (should
+     (equal
+      (run-command-recipes-command-variable-usage-argument usage)
+      "1"))))
 
 (ert-deftest
     run-command-recipes-command-test-parse-variable-usage-without-argument
     ()
-    (let* ((string "[ print  ]")
-           (usage
-            (run-command-recipes-command-variable-usage-parse string)))
-        (should
-         (equal
-          (run-command-recipes-command-variable-usage-source usage)
-          "[ print  ]"))
-        (should
-         (equal
-          (run-command-recipes-command-variable-usage-name usage)
-          "print"))
-        (should
-         (equal
-          (run-command-recipes-command-variable-usage-argument usage)
-          nil))))
+  (let* ((string "[ print  ]")
+         (usage
+          (run-command-recipes-command-variable-usage-parse string)))
+    (should
+     (equal
+      (run-command-recipes-command-variable-usage-source usage)
+      "[ print  ]"))
+    (should
+     (equal
+      (run-command-recipes-command-variable-usage-name usage)
+      "print"))
+    (should
+     (equal
+      (run-command-recipes-command-variable-usage-argument usage)
+      nil))))
 
 (ert-deftest
     run-command-recipes-command-test-parse-variable-usage-new-val
     ()
-    (with-temp-buffer
-        (rename-buffer "temp")
-        (let* ((string "[ buffer-name  ]")
-               (usage
-                (run-command-recipes-command-variable-usage-parse string)))
-            (should
-             (equal
-              (run-command-recipes-command-variable-usage-new-val usage)
-              "temp"))
-            ;; Repeat, because last lookup of new value should saved
-            (should
-             (equal
-              (run-command-recipes-command-variable-usage-new-val usage)
-              "temp")))))
+  (with-temp-buffer
+    (rename-buffer "temp")
+    (let* ((string "[ buffer-name  ]")
+           (usage
+            (run-command-recipes-command-variable-usage-parse string)))
+      (should
+       (equal
+        (run-command-recipes-command-variable-usage-new-val usage)
+        "temp"))
+      ;; Repeat, because last lookup of new value should saved
+      (should
+       (equal
+        (run-command-recipes-command-variable-usage-new-val usage)
+        "temp")))))
 
 (ert-deftest
     run-command-recipes-command-test-expanding-result
     ()
-    (let ((exp-result
-           (run-command-recipes-command-expanding-result
-            :string "print"
-            :variables-usages nil)))
-        (should
-         (equal
-          (run-command-recipes-command-expanding-result-string exp-result)
-          "print"))
-        (should
-         (equal
-          (run-command-recipes-command-expanding-result-variables-usages
-           exp-result)
-          nil))))
+  (let ((exp-result
+         (run-command-recipes-command-expanding-result
+          :string "print"
+          :variables-usages nil)))
+    (should
+     (equal
+      (run-command-recipes-command-expanding-result-string exp-result)
+      "print"))
+    (should
+     (equal
+      (run-command-recipes-command-expanding-result-variables-usages
+       exp-result)
+      nil))))
 
 (ert-deftest
     run-command-recipes-command-test-expand-shell-code
     ()
-    (with-temp-buffer
-        (rename-buffer "temp")
-        (let* ((exp-result
-                (run-command-recipes-command-expand-shell-code
-                 "--data-dir=[buffer-name]"))
-               (string
-                (run-command-recipes-command-expanding-result-string
-                 exp-result))
-               (variables-usages
-                (run-command-recipes-command-expanding-result-variables-usages
-                 exp-result)))
-            (should
-             (equal
-              (car variables-usages)
-              (run-command-recipes-command-variable-usage
-               :name "buffer-name"
-               :source "[buffer-name]"
-               :new-val "temp")))
-            (should (equal string "--data-dir=temp")))))
+  (with-temp-buffer
+    (rename-buffer "temp")
+    (let* ((exp-result
+            (run-command-recipes-command-expand-shell-code
+             "--data-dir=[buffer-name]"))
+           (string
+            (run-command-recipes-command-expanding-result-string
+             exp-result))
+           (variables-usages
+            (run-command-recipes-command-expanding-result-variables-usages
+             exp-result)))
+      (should
+       (equal
+        (car variables-usages)
+        (run-command-recipes-command-variable-usage
+         :name "buffer-name"
+         :source "[buffer-name]"
+         :new-val "temp")))
+      (should (equal string "--data-dir=temp")))))
 
 (ert-deftest
     run-command-recipes-command-test-project-root
     ()
-    (should-error
-     (run-command-recipes-command-expand-shell-code
-      "--data-dir=[dkdkdkkdkdkdkdkdkdd]")
-     :type 'run-command-recipes-command-non-existent-var-name-in-shell-code))
+  (should-error
+   (run-command-recipes-command-expand-shell-code
+    "--data-dir=[dkdkdkkdkdkdkdkdkdd]")
+   :type 'run-command-recipes-command-non-existent-var-name-in-shell-code))
 
 (ert-deftest
     run-command-recipes-command-test-expand-shell-code-project-root
     ()
-    (should
-     (equal
-      (run-command-recipes-command-expanding-result-string
-       (run-command-recipes-command-expand-shell-code
-        "--data-dir=[project-root]"))
-      (concat "--data-dir=" (run-command-recipes-project-root)))))
+  (should
+   (equal
+    (run-command-recipes-command-expanding-result-string
+     (run-command-recipes-command-expand-shell-code
+      "--data-dir=[project-root]"))
+    (concat "--data-dir=" (run-command-recipes-project-root)))))
 
 (ert-deftest run-command-recipes-command-test-get-option-with-name
     ()
-    (let* ((options '(("toc" . "--toc") "-disable-checker"))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options)))
-        (should
-         (equal
-          (run-command-recipes-command-get-option-with-name "toc" command)
-          "--toc"))
-        (should
-         (equal
-          (run-command-recipes-command-get-option-with-name "-disable-checker"
-                                                            command)
-          "-disable-checker"))))
+  (let* ((options '(("toc" . "--toc") "-disable-checker"))
+         (command
+          (run-command-recipes-command :base "pandoc" :options options)))
+    (should
+     (equal
+      (run-command-recipes-command-get-option-with-name "toc" command)
+      "--toc"))
+    (should
+     (equal
+      (run-command-recipes-command-get-option-with-name "-disable-checker"
+                                                        command)
+      "-disable-checker"))))
 
 (ert-deftest run-command-recipes-command-test-name
     ()
-    (let ((command (run-command-recipes-command :name "pandoc")))
-        (should
-         (string-equal
-          (run-command-recipes-command-name command)
-          "pandoc"))))
+  (let ((command (run-command-recipes-command :name "pandoc")))
+    (should
+     (string-equal
+      (run-command-recipes-command-name command)
+      "pandoc"))))
 
 (ert-deftest run-command-recipes-command-test-default-name
     ()
-    (let ((command (run-command-recipes-command :base "pandoc")))
-        (should
-         (string-equal
-          (run-command-recipes-command-name command)
-          "pandoc"))))
+  (let ((command (run-command-recipes-command :base "pandoc")))
+    (should
+     (string-equal
+      (run-command-recipes-command-name command)
+      "pandoc"))))
 
 (ert-deftest run-command-recipes-command-test-selected-options-shell-codes
     ()
-    (let* ((options '(("toc" . "--toc") "-disable-installer"))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options)))
-        (run-command-recipes-command-select-one-option command "toc")
-        (should
-         (equal
-          (run-command-recipes-command-selected-options-shell-codes command)
-          '("--toc")))))
+  (let* ((options '(("toc" . "--toc") "-disable-installer"))
+         (command
+          (run-command-recipes-command :base "pandoc" :options options)))
+    (run-command-recipes-command-select-one-option command "toc")
+    (should
+     (equal
+      (run-command-recipes-command-selected-options-shell-codes command)
+      '("--toc")))))
 
 (ert-deftest run-command-recipes-command-test-save-command-in-buffer
     ()
-    (let* ((options '(("toc" . "--toc") "-disable-checker"))
-           (command
-            (run-command-recipes-command :name "pandoc"
-                                         :base "pandoc"
-                                         :options options))
-           (excepted
-            (run-command-recipes-command-select-one-option command "toc")))
-        (with-temp-buffer
-            (run-command-recipes-command-select-one-option command "toc")
-            (run-command-recipes-command-collect command)
-            (should
-             (equal
-              (run-command-recipes-command-saved-with-name "pandoc")
-              excepted)))
-        (with-temp-buffer
-            (should
-             (equal
-              (run-command-recipes-command-saved-with-name "pandoc")
-              nil)))))
+  (let* ((options '(("toc" . "--toc") "-disable-checker"))
+         (command
+          (run-command-recipes-command :name "pandoc"
+                                       :base "pandoc"
+                                       :options options))
+         (excepted
+          (run-command-recipes-command-select-one-option command "toc")))
+    (with-temp-buffer
+      (run-command-recipes-command-select-one-option command "toc")
+      (run-command-recipes-command-collect command)
+      (should
+       (equal
+        (run-command-recipes-command-saved-with-name "pandoc")
+        excepted)))
+    (with-temp-buffer
+      (should
+       (equal
+        (run-command-recipes-command-saved-with-name "pandoc")
+        nil)))))
 
 (ert-deftest run-command-recipes-command-test-get-options-names
     ()
-    (let* ((options '(("toc" . "--toc") "-disable-installer"))
-           (command
-            (run-command-recipes-command :base "pandoc"
-                                         :options options)))
-        (should
-         (equal
-          (run-command-recipes-command-get-options-names command)
-          '("toc" "-disable-installer")))))
+  (let* ((options '(("toc" . "--toc") "-disable-installer"))
+         (command
+          (run-command-recipes-command :base "pandoc" :options options)))
+    (should
+     (equal
+      (run-command-recipes-command-get-options-names command)
+      '("toc" "-disable-installer")))))
 
 (provide 'run-command-recipes-command-test)
 
