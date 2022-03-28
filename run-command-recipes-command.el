@@ -147,10 +147,11 @@ COMMAND created with `run-command-recipes-command'."
 If option non-existent, then signal
 `run-command-recipes-command-non-existent-option'."
   (run-command-recipes-command--ensure-existent-option command option-name)
-  (setf
-   (run-command-recipes-command-selected-options command)
-   (cons option-name
-         (run-command-recipes-command-selected-options command)))
+  (unless (run-command-recipes-command-selected-option-p command option-name)
+    (setf
+     (run-command-recipes-command-selected-options command)
+     (cons option-name
+           (run-command-recipes-command-selected-options command))))
   command)
 
 (defun run-command-recipes-command-unselect-one-option (command option-name)
@@ -199,7 +200,7 @@ If option non-existent, then signal
             (run-command-recipes-command-expanding-result-string
              (run-command-recipes-command-expand-shell-code it)))
            (s-join " "))))
-    (run-command-recipes-command-save-command-in-buffer command)
+    (run-command-recipes-command-save-command-in-buffer command collected)
     collected))
 
 (defun run-command-recipes-command-expand-shell-code (shell-code)
@@ -314,12 +315,14 @@ STRING must have only variable usage."
    (run-command-recipes-command--find-variables-in-shell-code string)))
 
 
-(defun run-command-recipes-command-save-command-in-buffer (command)
-  "Save in current buffer COMMAND, you can take this via special function."
+(defun run-command-recipes-command-save-command-in-buffer (command collected)
+  "Save in current buffer COMMAND as COLLECTED.
+You can take this via special function
+`run-command-recipes-command-saved-with-name'."
   (->>
    (acons
     (run-command-recipes-command-name command)
-    command
+    collected
     run-command-recipes-command--saved)
    (setq-local run-command-recipes-command--saved)))
 
