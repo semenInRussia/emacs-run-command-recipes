@@ -32,8 +32,8 @@
 
 
 (defun run-command-recipes-_recipe-name_ ()
-    "This is recipe for `run-command' from `run-command-recipes'."
-    nil)
+  "This is recipe for `run-command' from `run-command-recipes'."
+  nil)
 
 
 (provide 'run-command-recipes-_recipe-name_)

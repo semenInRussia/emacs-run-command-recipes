@@ -33,10 +33,10 @@
 
 (defcustom run-command-recipes-latex-command
   (concat "pdflatex"
-            " -interaction nonstopmode"
-            " -file-line-error"
-            " --output-directory \"%s\""
-            " \"%s\"")
+          " -interaction nonstopmode"
+          " -file-line-error"
+          " --output-directory \"%s\""
+          " \"%s\"")
   "Command for run `pdflatex`, ignoring errors."
   :type 'string
   :group 'run-command-recipes)
@@ -50,18 +50,19 @@
 
 
 (defun run-command-recipes-latex ()
-    "Recipe for LaTeX `run-command'.
+  "Recipe for LaTeX `run-command'.
 See https://github.com/bard/emacs-run-command#examples."
-    (-when-let (file-path (buffer-file-name))
-        (when (-contains-p run-command-recipes-latex-modes major-mode)
-            (list
-             (list
-              :display "Convert to PDF with `pdflatex`, ignoring errors"
-              :command-name "pdflatex"
-              :command-line (format
-                             run-command-recipes-latex-command
-                             (f-dirname file-path)
-                             file-path))))))
+  (-when-let
+      (file-path (buffer-file-name))
+    (when (-contains-p run-command-recipes-latex-modes major-mode)
+      (list
+       (list
+        :display "Convert to PDF with `pdflatex`, ignoring errors"
+        :command-name "pdflatex"
+        :command-line (format
+                       run-command-recipes-latex-command
+                       (f-dirname file-path)
+                       file-path))))))
 
 
 (provide 'run-command-recipes-latex)

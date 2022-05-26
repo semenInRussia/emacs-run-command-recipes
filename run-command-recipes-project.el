@@ -30,24 +30,25 @@
 (declare-function project-current "project")
 
 (defun run-command-recipes-project-root ()
-    "Return path on project root."
-    (--find it
-            (list
-             (when (require 'projectile nil t) (projectile-acquire-root))
-             (when (and (require 'project nil t) (project-current))
-                 (-first-item (project-roots (project-current))))
-             default-directory)))
+  "Return path on project root."
+  (--find it
+          (list
+           (when (require 'projectile nil t)
+             (projectile-acquire-root))
+           (when (and (require 'project nil t) (project-current))
+             (-first-item (project-roots (project-current))))
+           default-directory)))
 
 
 (defun run-command-recipes-project-root-has (entire)
-    "Return t, when root of current project has ENTIRE (filename or directory)."
-    (f-exists-p (f-join (run-command-recipes-project-root) entire)))
+  "Return t, when root of current project has ENTIRE (filename or directory)."
+  (f-exists-p (f-join (run-command-recipes-project-root) entire)))
 
 
 (defun run-command-recipes-project-root-has-one-of (entires)
-    "Return t, when root of current project has of ENTIRES.
+  "Return t, when root of current project has of ENTIRES.
 Entire is filename or directory."
-    (-any 'run-command-recipes-project-root-has entires))
+  (-any 'run-command-recipes-project-root-has entires))
 
 
 (provide 'run-command-recipes-project)

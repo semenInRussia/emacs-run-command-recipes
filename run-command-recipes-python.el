@@ -30,7 +30,8 @@
 (require 'f)
 (require 'run-command-recipes-project)
 
-(defcustom run-command-recipes-python-modes '(python-mode)
+(defcustom run-command-recipes-python-modes
+  '(python-mode)
   "List of modes in which will work recipe of `run-command' `python'."
   :type '(repeat symbol)
   :group 'run-command-recipes)
@@ -48,7 +49,7 @@ If nil, then use default implementation"
 Implementation depends on `run-command-recipes-python-mode-predicate'"
   (if run-command-recipes-python-mode-p-function
       (funcall run-command-recipes-python-mode-p-function)
-      (-contains-p run-command-recipes-python-modes major-mode)))
+    (-contains-p run-command-recipes-python-modes major-mode)))
 
 
 (defcustom run-command-recipes-python-run-command "python \"%s\""
@@ -85,14 +86,16 @@ If nil, then use default implementation."
 
 
 (defun run-command-recipes-python-test-buffer-p ()
-    "Return t, when current file is test's file of python.
+  "Return t, when current file is test's file of python.
 Implementation depends on `run-command-recipes-python-test-buffer-p-function'"
-    (-when-let (file-name (buffer-file-name))
-        (string-match-p run-command-recipes-python-test-filename
-                        (buffer-file-name))))
+  (-when-let
+      (file-name (buffer-file-name))
+    (string-match-p run-command-recipes-python-test-filename
+                    (buffer-file-name))))
 
 
-(defcustom run-command-recipes-python-tests-dirs '("tests")
+(defcustom run-command-recipes-python-tests-dirs
+  '("tests")
   "List of directories for pytest's tests."
   :type '(repeat string)
   :group 'run-command-recipes)
@@ -106,12 +109,12 @@ If nil, then use default implementation"
 
 
 (defun run-command-recipes-python-pytest-project-p ()
-    "Return t if current project has pytest's test.
+  "Return t if current project has pytest's test.
 If nil, then use default implementation."
-    (if run-command-recipes-python-pytest-project-p-function
-        (funcall run-command-recipes-python-pytest-project-p-function)
-        (run-command-recipes-project-root-has-one-of
-         run-command-recipes-python-tests-dirs)))
+  (if run-command-recipes-python-pytest-project-p-function
+      (funcall run-command-recipes-python-pytest-project-p-function)
+    (run-command-recipes-project-root-has-one-of
+     run-command-recipes-python-tests-dirs)))
 
 
 (defcustom run-command-recipes-python-pytest-project-command "pytest"
@@ -121,34 +124,34 @@ Command will runned on root of project."
   :group 'run-command-recipes)
 
 (defun run-command-recipes-python ()
-    "This is recipe for `run-command' from `run-command-recipes'."
-    (-concat
-     (when (run-command-recipes-python-mode-p)
-         (list
-          (list
-           :command-name "run-python-file"
-           :display "Just Run Current Python File"
-           :command-line (format run-command-recipes-python-run-command
-                                 (buffer-file-name)))
-          (list
-           :command-name "interactively-run-python-file"
-           :display "Run Current Python Interactively File"
-           :command-line (format
-                          run-command-recipes-python-interactively-run-command
-                          (buffer-file-name)))))
+  "This is recipe for `run-command' from `run-command-recipes'."
+  (-concat
+   (when (run-command-recipes-python-mode-p)
      (list
-      (when (run-command-recipes-python-test-buffer-p)
-          (list
-           :command-name "run-pytests-in-current-file"
-           :display "Run `pytest' in Current Pytest File"
-           :command-line (format run-command-recipes-python-pytest-file-command
-                                 (buffer-file-name))))
-      (when (run-command-recipes-python-pytest-project-p)
-          (list
-           :command-name "run-all-pytests-in-project"
-           :display "Run All Tests in Current Project via Pytest"
-           :working-dir (run-command-recipes-project-root)
-           :command-line run-command-recipes-python-pytest-project-command)))))
+      (list
+       :command-name "run-python-file"
+       :display "Just Run Current Python File"
+       :command-line (format run-command-recipes-python-run-command
+                             (buffer-file-name)))
+      (list
+       :command-name "interactively-run-python-file"
+       :display "Run Current Python Interactively File"
+       :command-line (format
+                      run-command-recipes-python-interactively-run-command
+                      (buffer-file-name)))))
+   (list
+    (when (run-command-recipes-python-test-buffer-p)
+      (list
+       :command-name "run-pytests-in-current-file"
+       :display "Run `pytest' in Current Pytest File"
+       :command-line (format run-command-recipes-python-pytest-file-command
+                             (buffer-file-name))))
+    (when (run-command-recipes-python-pytest-project-p)
+      (list
+       :command-name "run-all-pytests-in-project"
+       :display "Run All Tests in Current Project via Pytest"
+       :working-dir (run-command-recipes-project-root)
+       :command-line run-command-recipes-python-pytest-project-command)))))
 
 
 (provide 'run-command-recipes-python)

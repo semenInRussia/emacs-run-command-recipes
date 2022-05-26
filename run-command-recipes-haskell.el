@@ -37,37 +37,39 @@
 (defcustom run-command-recipes-haskell-run-function
   (if (fboundp 'haskell-compile)
       'haskell-compile
-      #'(user-error
-         "Run-command-recipes-haskell.el: Install `haskell-mode', pls!"))
+    #'(user-error
+       "Run-command-recipes-haskell.el: Install `haskell-mode', pls!"))
   "This function run when run recipe \"Run Haskell File by Context\"."
   :type 'function
   :group 'run-command-recipes-haskell)
 
 
-(defcustom run-command-recipes-haskell-modes '(haskell-mode)
+(defcustom run-command-recipes-haskell-modes
+  '(haskell-mode)
   "List of `major-modes` for Haskell."
   :type '(repeat function)
   :group 'run-command-recipes)
 
 
 (defcustom run-command-recipes-haskell-mode-p
-  (lambda () (-contains-p run-command-recipes-haskell-modes major-mode))
+  (lambda ()
+    (-contains-p run-command-recipes-haskell-modes major-mode))
   "Predicate whic get t, when current `major-mode' is for Haskell."
   :type 'predicate
   :group 'run-command-recipes)
 
 
 (defun run-command-recipes-haskell ()
-    "`run-command''s recipe for `haskell`."
-    (when (funcall run-command-recipes-haskell-mode-p)
-        (list
-         (list :command-name "stack-run"
-               :command-line "stack run"
-               :display "Run this Project with Stack"
-               :working-dir (run-command-recipes-project-root))
-         (list :command-name "haskell-run-by-context"
-               :lisp-function run-command-recipes-haskell-run-function
-               :display "Run Haskell File by Context"))))
+  "`run-command''s recipe for `haskell`."
+  (when (funcall run-command-recipes-haskell-mode-p)
+    (list
+     (list :command-name "stack-run"
+           :command-line "stack run"
+           :display "Run this Project with Stack"
+           :working-dir (run-command-recipes-project-root))
+     (list :command-name "haskell-run-by-context"
+           :lisp-function run-command-recipes-haskell-run-function
+           :display "Run Haskell File by Context"))))
 
 
 (provide 'run-command-recipes-haskell)

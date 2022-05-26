@@ -24,9 +24,9 @@
 ;;; Code:
 
 (defun run-command-recipes-hashtables-put (key val table)
-    "Put KEY with VAL to TABLE, and get new TABLE."
-    (puthash key val table)
-    table)
+  "Put KEY with VAL to TABLE, and get new TABLE."
+  (puthash key val table)
+  table)
 
 (provide 'run-command-recipes-hashtables)
 ;;; run-command-recipes-hashtables.el ends here

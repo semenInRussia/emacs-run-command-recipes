@@ -40,15 +40,16 @@
 
 
 (defcustom run-command-recipes-rust-mode-p-funtion
-  (lambda () (-contains-p run-command-recipes-rust-modes major-mode))
+  (lambda ()
+    (-contains-p run-command-recipes-rust-modes major-mode))
   "Predicate, return non-nil value, if current `major-mode' is Emacs Lisp mode."
   :type 'predicate
   :group 'run-command-recipes)
 
 
 (defun run-command-recipes-rust-mode-p ()
-    "Get t, when current `major-mode' is Emacs Lisp mode."
-    (funcall run-command-recipes-rust-mode-p-funtion))
+  "Get t, when current `major-mode' is Emacs Lisp mode."
+  (funcall run-command-recipes-rust-mode-p-funtion))
 
 
 (defcustom run-command-recipes-rust-cargo-project-p-function nil
@@ -66,11 +67,11 @@ has `run-command-recipes-rust-cargo-filename' in root of project."
 
 
 (defun run-command-recipes-rust-cargo-project-p ()
-    "Get non-nil when current opened project is Cargo project."
-    (if run-command-recipes-rust-cargo-project-p-function
-        (funcall run-command-recipes-rust-cargo-project-p-function)
-        (run-command-recipes-project-root-has
-         run-command-recipes-rust-cargo-filename)))
+  "Get non-nil when current opened project is Cargo project."
+  (if run-command-recipes-rust-cargo-project-p-function
+      (funcall run-command-recipes-rust-cargo-project-p-function)
+    (run-command-recipes-project-root-has
+     run-command-recipes-rust-cargo-filename)))
 
 
 (defcustom run-command-recipes-rust-rustc-compile-command
@@ -92,56 +93,56 @@ Instead of first \"%s\" put filename of file, instead of second binary file."
 
 
 (defun run-command-recipes-rust ()
-    "This is recipe for `run-command' from `run-command-recipes'."
-    (list
-     (when (run-command-recipes-rust-cargo-project-p)
-         (list
-          :command-name "cargo-install"
-          :display "Install Dependecies from Cargo Project"
-          :command-line "cargo install"))
-     (when (run-command-recipes-rust-cargo-project-p)
-         (list
-          :command-name "cargo-run"
-          :display "Run Cargo Project"
-          :command-line "cargo run"))
-     (when (run-command-recipes-rust-cargo-project-p)
-         (list
-          :command-name "cargo-build"
-          :display "Build Cargo Project"
-          :command-line "cargo build"))
-     (when (run-command-recipes-rust-cargo-project-p)
-         (list
-          :command-name "cargo-doc"
-          :display "Build Documentation for Cargo Project"
-          :command-line "cargo doc"))
-     (when (run-command-recipes-rust-cargo-project-p)
-         (list
-          :command-name "cargo-test"
-          :display "Run Tests for Cargo Project"
-          :command-line "cargo test"))
-     (when (run-command-recipes-rust-cargo-project-p)
-         (list
-          :command-name "cargo-update"
-          :display "Update Dependecies for Cargo Project"
-          :command-line "cargo update"))
-     (when (run-command-recipes-rust-cargo-project-p)
-         (list
-          :command-name "cargo-publish"
-          :display "Publish Cargo Project to https://crates.io"
-          :command-line "cargo publish"))
-     (when (run-command-recipes-rust-mode-p)
-         (list
-          :command-name "rustc-compile"
-          :display "Compile Rust File with `rustc'"
-          :command-line (format run-command-recipes-rust-rustc-compile-command
-                                (buffer-file-name))))
-     (when (run-command-recipes-rust-mode-p)
-         (list
-          :command-name "rustc-run"
-          :display "Run Rust File with `rustc'"
-          :command-line (format run-command-recipes-rust-rustc-run-command
-                                (buffer-file-name)
-                                (f-no-ext (buffer-file-name)))))))
+  "This is recipe for `run-command' from `run-command-recipes'."
+  (list
+   (when (run-command-recipes-rust-cargo-project-p)
+     (list
+      :command-name "cargo-install"
+      :display "Install Dependecies from Cargo Project"
+      :command-line "cargo install"))
+   (when (run-command-recipes-rust-cargo-project-p)
+     (list
+      :command-name "cargo-run"
+      :display "Run Cargo Project"
+      :command-line "cargo run"))
+   (when (run-command-recipes-rust-cargo-project-p)
+     (list
+      :command-name "cargo-build"
+      :display "Build Cargo Project"
+      :command-line "cargo build"))
+   (when (run-command-recipes-rust-cargo-project-p)
+     (list
+      :command-name "cargo-doc"
+      :display "Build Documentation for Cargo Project"
+      :command-line "cargo doc"))
+   (when (run-command-recipes-rust-cargo-project-p)
+     (list
+      :command-name "cargo-test"
+      :display "Run Tests for Cargo Project"
+      :command-line "cargo test"))
+   (when (run-command-recipes-rust-cargo-project-p)
+     (list
+      :command-name "cargo-update"
+      :display "Update Dependecies for Cargo Project"
+      :command-line "cargo update"))
+   (when (run-command-recipes-rust-cargo-project-p)
+     (list
+      :command-name "cargo-publish"
+      :display "Publish Cargo Project to https://crates.io"
+      :command-line "cargo publish"))
+   (when (run-command-recipes-rust-mode-p)
+     (list
+      :command-name "rustc-compile"
+      :display "Compile Rust File with `rustc'"
+      :command-line (format run-command-recipes-rust-rustc-compile-command
+                            (buffer-file-name))))
+   (when (run-command-recipes-rust-mode-p)
+     (list
+      :command-name "rustc-run"
+      :display "Run Rust File with `rustc'"
+      :command-line (format run-command-recipes-rust-rustc-run-command
+                            (buffer-file-name)
+                            (f-no-ext (buffer-file-name)))))))
 
 
 (provide 'run-command-recipes-rust)
