@@ -1,0 +1,28 @@
+* Panoc Variable =run-command-recipes-pandoc-formats-and-extensions=
+  :PROPERTIES:
+  :CUSTOM_ID: panoc-variable-run-command-recipes-pandoc-formats-and-extensions
+  :END:
+This is list of files' extensions for Pandoc's input formats, which
+has not equal format name and extension (for example =html= input
+Pandoc's input format have extension equal to format name =.html=).
+
+Defaults to this formats (this is only formats which has different
+with format's name extension):
+
+- =asciidoc=
+- =context=
+- =docbook=
+- =markdown=
+- =ms=
+- =latex=
+- =texinfo=
+- =mediawiki=
+- =biblatex=
+
+For add new use this code:
+
+#+begin_src emacs-lisp
+(puthash "markdown"
+         "md"
+         run-command-recipes-pandoc-formats-and-extensions)
+#+end_src

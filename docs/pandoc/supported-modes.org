@@ -1,0 +1,32 @@
+* Pandoc - =run-command-recipes-pandoc-major-modes-input-formats=
+  :PROPERTIES:
+  :CUSTOM_ID: pandoc---run-command-recipes-pandoc-major-modes-input-formats
+  :END:
+This is the list of major modes for Emacs in which
+=run-command-recipe-pandoc= will worked
+
+This is list:
+- =latex-mode=
+- =LaTeX-mode=
+- =tex-mode=
+- =TeX-mode=
+- =web-mode=
+- =html-mode=
+- =markdown-mode=
+- =gfm-mode=
+- =haskell-mode=
+- =rtf-mode=
+- =rst-mode=
+- =txt2tags-mode=
+- =textile-mode=
+- =org-mode=
+- =csv-mode=
+- =json-mode=
+
+For support of new mode use followed code:
+
+#+begin_src emacs-lisp
+(puthash "markdown"
+         'markdown-mode
+         run-command-recipes-pandoc-major-modes-input-formats)
+#+end_src

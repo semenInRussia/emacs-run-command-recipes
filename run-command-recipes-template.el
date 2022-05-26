@@ -30,11 +30,9 @@
 (require 'f)
 (require 'run-command-recipes-project)
 
-
 (defun run-command-recipes-_recipe-name_ ()
   "This is recipe for `run-command' from `run-command-recipes'."
   nil)
-
 
 (provide 'run-command-recipes-_recipe-name_)
 ;;; run-command-recipes-_recipe-name_.el ends here

@@ -1,0 +1,64 @@
+* Cool Variable for Pandoc Recipe =run-command-recipes-pandoc-output-formats=
+  :PROPERTIES:
+  :CUSTOM_ID: cool-variable-for-pandoc-recipe-run-command-recipes-pandoc-output-formats
+  :END:
+This is the list of strings -- Pandoc's output formats in which
+=run-command-recipe-pandoc= worked.
+
+Defaults to:
+
+- =asciidoc=
+- =beamer=
+- =bibtex=
+- =biblatex=
+- =commonmark=
+- =context=
+- =csljson=
+- =docbook=
+- =docbook5=
+- =docx=
+- =dokuwiki=
+- =epub=
+- =epub2=
+- =fb2=
+- =gfm=
+- =haddock=
+- =html=
+- =html4=
+- =icml=
+- =ipynb=
+- =jats=
+- =jira=
+- =json=
+- =latex=
+- =man=
+- =markdown=
+- =mediawiki=
+- =ms=
+- =muse=
+- =native=
+- =odt=
+- =opml=
+- =opendocument=
+- =org=
+- =pdf=
+- =plain=
+- =pptx=
+- =rst=
+- =rtf=
+- =texinfo=
+- =textile=
+- =slideous=
+- =slidy=
+- =dzslides=
+- =revealjs=
+- =s5=
+- =tei=
+- =xwiki=
+- =zimwiki=
+
+For support of a new output format use followed code
+
+#+begin_src emacs-lisp
+(add-to-list 'run-command-recipes-pandoc-output-formats "docx")
+#+end_src

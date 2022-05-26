@@ -1,0 +1,73 @@
+* Elisp recipe
+  :PROPERTIES:
+  :CUSTOM_ID: elisp-recipe
+  :END:
+
+** Table of Contents                                                    :TOC:
+- [[#elisp-recipe][Elisp recipe]]
+  - [[#commands][Commands]]
+  - [[#customization][Customization]]
+    - [[#detect-elisp][Detect Elisp]]
+    - [[#cask][Cask]]
+
+** Commands
+   :PROPERTIES:
+   :CUSTOM_ID: commands
+   :END:
+This repo support 4 commands, followed command is first:
+- Complie/ReCompile to Bytes This File
+
+(If file was compiled then only compile, otherwise only recompile)
+
+- ReComplie to Bytes Current Directory
+
+Only when root directory has one of
+=run-command-recipes-elisp-cask-filename= (by default Cask)
+
+- Install Cask's Dependicies
+
+Also when root directory has directory with name as
+=run-command-recipes-elisp-ert-tests-directory=
+
+- Run One ERT test
+- Run All ERT Tests
+
+** Customization
+   :PROPERTIES:
+   :CUSTOM_ID: customization
+   :END:
+*** Detect Elisp
+    :PROPERTIES:
+    :CUSTOM_ID: detect-elisp
+    :END:
+=run-command-recipes-elisp-modes=. If you very need to support
+=special mode=, which must-have =run-command-recipes= commands, then use
+this:
+
+#+begin_src emacs-lisp
+  (add-to-list 'run-command-recipes-elisp-modes 'special-mode)
+#+end_src 
+
+Or set =run-command-recipes-mode-p-function= to special function, this
+function must not take arguments and return non-nil value, when current
+mode needs to have =run-command-recipes-elisp= commands
+
+*** Cask
+    :PROPERTIES:
+    :CUSTOM_ID: cask
+    :END:
+=run-command-recipes-elisp-cask-filename=. If you want to set to
+"Cask.el" of Main file of Cask, just use this:
+
+#+begin_src
+(setq run-command-recipes-elisp-cask-filename "Cask.el")
+#+end_src
+
+Or set =run-command-recipes-cask-project-p-function= to special
+function, this function must not take arguments and return non-nil
+value, when current mode is have Cask ### ERT
+=run-command-recipes-elisp-ert-tests-directory= is name of directory is
+which place of ERT tests. Defaults to =test=.
+
+=run-command-recipes-elisp-has-ert-tests-p-function= is function which
+return t, when current project has ERT tests

@@ -51,17 +51,11 @@
 (require 'f)
 (require 's)
 
-
 (defgroup run-command-recipes nil
   "Group for `run-command-recipes'"
   :group 'tools
   :link '(url-link :tag "GitHub"
           "https://github.com/semenInRussia/emacs-run-command-recipes"))
-
-
-(add-to-list 'run-command-experiments
-             'run-command-experiment-lisp-commands)
-
 
 (defcustom run-command-recipes-supported-recipes
   '(latex pandoc haskell elisp rust python)
@@ -69,6 +63,8 @@
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
+(add-to-list 'run-command-experiments
+             'run-command-experiment-lisp-commands)
 
 (defcustom run-command-recipes-source-path
   "~/projects/emacs-run-command-recipes"
@@ -77,21 +73,41 @@ Used when create new recipe."
   :type 'string
   :group 'run-command-recipes)
 
+(defcustom run-command-recipes-main-file-path
+  (f-join run-command-recipes-source-path "run-command-recipes.el")
+  "Path to main file of this project."
+  :type 'string
+  :group 'run-command-recipes)
+
+(defcustom run-command-recipes-readme-file-path
+  (f-join run-command-recipes-source-path "README.org")
+  "Path to README.me file of this project."
+  :type 'string
+  :group 'run-command-recipes)
+
+(defcustom run-command-recipes-doc-template-file-path
+  (f-join run-command-recipes-source-path "docs" "template.org")
+  "Path to template file for documentation file of this project."
+  :type 'string
+  :group 'run-command-recipes)
+
+(defcustom run-command-recipes-template-file-path
+  (f-join run-command-recipes-source-path "run-command-recipes-template.el")
+  "Path to template file for recipe file of this project."
+  :type 'string
+  :group 'run-command-recipes)
 
 (defmacro run-command-recipes-use-all ()
   "Use all recipes for `run-command' from this package."
   `(run-command-recipes-use ,@run-command-recipes-supported-recipes))
 
-
 (defmacro run-command-recipes-use (&rest recipes)
   "Use RECIPES for `run-command' from this package."
   `(--each ',recipes (run-command-recipes-use-one it)))
 
-
 (defmacro run-command-recipes-useq-one (recipe)
   "Use RECIPE for `run-command' from `run-command-recipes' with quote RECIPE."
   `(run-command-recipes-use-one ',recipe))
-
 
 (defun run-command-recipes-use-one (recipe)
   "Use RECIPE for `run-command' from `run-command-recipes' without quote."
@@ -101,7 +117,6 @@ Used when create new recipe."
                (intern
                 (concat "run-command-recipes-" (symbol-name recipe)))))
 
-
 (defun run-command-recipes-use-template (template-path recipe-name)
   "Insert template with TEMPLATE-PATH with changed RECIPE-NAME."
   (->>
@@ -109,27 +124,22 @@ Used when create new recipe."
    (s-replace "_recipe-name_" recipe-name)
    (insert)))
 
-
-(defun run-command-recipes-insert-gfm-link-on-support (recipe-name)
-  "Insert link to support of RECIPE-NAME using Github Markdown Syntax."
+(defun run-command-recipes-insert-org-link-to-support (recipe-name)
+  "Insert link to support of RECIPE-NAME using Org mode syntax."
   (insert
    (format
-    "* `%s`([link on support](docs/%s.md \"SUPER DOC!\"))"
+    "- =%s= ([[file:docs/%s.org][link on support]])"
     recipe-name
     recipe-name)))
 
-
-(defun run-command-recipes-add-supported-recipe-to-readme (readme-file-path recipe-name)
-  "Visit README-FILE-PATH and add to list of recipes support of RECIPE-NAME.
-List of recipes like to this:
-* `python`([link on support](docs/python.md \"SUPER DOC!\"))"
-  (find-file readme-file-path)
+(defun run-command-recipes-add-supported-recipe-to-readme (recipe-name)
+  "Visit README-FILE-PATH and add to list of recipes support of RECIPE-NAME."
+  (find-file run-command-recipes-readme-file-path)
   (goto-char (point-max))
-  (search-backward-regexp "\\* `.*`(\\[link on support](docs/.*\.md")
+  (search-backward-regexp "- =[^=]+= (")
   (end-of-line)
   (newline)
-  (run-command-recipes-insert-gfm-link-on-support recipe-name))
-
+  (run-command-recipes-insert-org-link-to-support recipe-name))
 
 (defun run-command-recipes-goto-last-recipe-list-item-in-elisp-comment ()
   "In current elisp file visit last item of supported recipes list.
@@ -143,37 +153,31 @@ Here this function navigate to rust"
   (goto-char (point-min))
   (search-forward-regexp ";; - [^\n]*\n\n"))
 
-
-(defun run-command-recipes-add-supported-recipe-to-elisp-comment (elisp-filepath recipe-name)
+(defun run-command-recipes-add-supported-recipe-to-elisp-comment (recipe-name)
   "In ELISP-FILEPATH add RECIPE-NAME to list of recipes in commentary.
 Commentary put on \";;; Commentary:\" section
 List of recipes look like to this:
 
 ;; - elisp
 ;; - rust"
-  (find-file elisp-filepath)
+  (find-file run-command-recipes-main-file-path)
   (run-command-recipes-goto-last-recipe-list-item-in-elisp-comment)
   (forward-line -1)
   (insert (format ";; - %s\n" recipe-name)))
-
 
 (defun run-command-recipes-goto-end-of-supported-recipes-elisp-variable ()
   "Go to end of `run-command-recipes-supported-recipes' variable's content."
   (goto-char (point-min))
   (search-forward-regexp
-   "(defcustom run-command-recipes-supported-recipes '(")
+   "(defcustom run-command-recipes-supported-recipes$")
   (search-forward ")"))
 
-
-(defun run-command-recipes-add-supported-recipe-to-elisp-variable (elisp-file recipe-name)
-  "Find elisp variable in ELISP-FILE supported recipes, add RECIPE-NAME."
-  (find-file elisp-file)
+(defun run-command-recipes-add-supported-recipe-to-elisp-variable (recipe-name)
+  "Find elisp variable for supported recipes, add to it RECIPE-NAME."
+  (find-file run-command-recipes-main-file-path)
   (run-command-recipes-goto-end-of-supported-recipes-elisp-variable)
-  (forward-line -1)
-  (end-of-line)
-  (newline-and-indent)
-  (insert recipe-name))
-
+  (forward-char -1)
+  (insert " " recipe-name))
 
 (defun run-command-recipes-create-recipe (recipe-name)
   "Create `run-command' recipe with RECIPE-NAME."
@@ -182,30 +186,19 @@ List of recipes look like to this:
           (f-join
            run-command-recipes-source-path
            (s-concat "run-command-recipes-" recipe-name ".el")))
-         (elisp-template-file
-          (f-join run-command-recipes-source-path
-                  "run-command-recipes-template.el"))
          (doc-file
           (f-join run-command-recipes-source-path
                   "docs"
-                  (s-concat recipe-name ".md")))
-         (doc-template-file
-          (f-join run-command-recipes-source-path "docs" "template.md"))
-         (pkg-file
-          (f-join run-command-recipes-source-path
-                  "run-command-recipes.el"))
-         (readme-file
-          (f-join run-command-recipes-source-path "README.md")))
-    (run-command-recipes-add-supported-recipe-to-elisp-comment pkg-file
-                                                               recipe-name)
-    (run-command-recipes-add-supported-recipe-to-elisp-variable pkg-file
-                                                                recipe-name)
-    (run-command-recipes-add-supported-recipe-to-readme readme-file
-                                                        recipe-name)
+                  (s-concat recipe-name ".org"))))
+    (run-command-recipes-add-supported-recipe-to-elisp-comment recipe-name)
+    (run-command-recipes-add-supported-recipe-to-elisp-variable recipe-name)
+    (run-command-recipes-add-supported-recipe-to-readme recipe-name)
     (find-file doc-file)
-    (run-command-recipes-use-template doc-template-file recipe-name)
+    (run-command-recipes-use-template
+     run-command-recipes-doc-template-file-path recipe-name)
     (find-file elisp-file)
-    (run-command-recipes-use-template elisp-template-file recipe-name)))
+    (run-command-recipes-use-template
+     run-command-recipes-template-file-path recipe-name)))
 
 (provide 'run-command-recipes)
 ;;; run-command-recipes.el ends here

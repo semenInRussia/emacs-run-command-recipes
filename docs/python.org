@@ -1,0 +1,65 @@
+* =run-command='s Recipe for Python
+  :PROPERTIES:
+  :CUSTOM_ID: run-commands-recipe-for-python
+  :END:
+** Table of Contents                                                    :TOC:
+- [[#run-commands-recipe-for-python][=run-command='s Recipe for Python]]
+  - [[#commands][Commands]]
+  - [[#customization][Customization]]
+    - [[#detect-python-file][Detect Python File]]
+    - [[#detect-pythons-tests][Detect Python's Tests]]
+    - [[#shell-commands][Shell Commands]]
+
+** Commands
+   :PROPERTIES:
+   :CUSTOM_ID: commands
+   :END:
+Has 4 commands:
+
+- Just Run Current Python File
+- Run Current Python File Interactively (with flag =-i=) (you may find
+  its [[https://docs.python.org/3/using/cmdline.html][here]])
+- Run =pytest= in Current Pytest File
+- Run All Tests in Current Project via Pytest
+** Customization
+   :PROPERTIES:
+   :CUSTOM_ID: customization
+   :END:
+*** Detect Python File
+    :PROPERTIES:
+    :CUSTOM_ID: detect-python-file
+    :END:
+Variable =run-command-recipes-python-modes= is list of major modes, in
+which this amazing recipe of =run-command= will work.
+
+Variable =run-command-recipes-python-mode-p-function= Function
+(predicate) non-taking arguments, returning t if in current file can
+work =run-command-recipes-python=. When set to nil, use default
+implementation
+
+*** Detect Python's Tests
+    :PROPERTIES:
+    :CUSTOM_ID: detect-pythons-tests
+    :END:
+=run-command-recipes-python-test-filename= is regexp which match on
+Python test files.
+
+=run-command-recipes-python-test-buffer-p-function= is predicate which
+get t, when current file is test's file of Python, nil when no. If set
+to nil, then use default implementation.
+
+=run-command-recipes-python-tests-dirs= list of dirictories names on
+which will work =pytest=. Defautls to: * tests
+
+*** Shell Commands
+    :PROPERTIES:
+    :CUSTOM_ID: shell-commands
+    :END:
+=run-command-recipes-python-run-command= is common shell command, which
+just run current Python file.
+
+=run-command-recipes-python-pytest-file-command= is shell command which
+run =pytest= for current single test file.
+
+=run-command-recipes-python-interactively-run-command= is shell command
+which run =python= on this file INTERACTIVELY.

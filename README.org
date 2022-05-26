@@ -55,12 +55,12 @@
    Also Instead of =LaTeX= and =pandoc= you can use something from
    this:
 
-- =latex= ([[file:docs/latex.md][link on support]])
-- =pandoc= ([[file:docs/pandoc.md][link on support]])
-- =haskell= ([[file:docs/haskell.md][link on support]])
-- =elisp= ([[file:docs/elisp.md][link on support]] )
-- =rust= ([[file:docs/rust.md][link on support]])
-- =python= ([[file:docs/python.md][link on support]])
+- =latex= ([[file:docs/latex.org][link on support]])
+- =pandoc= ([[file:docs/pandoc.org][link on support]])
+- =haskell= ([[file:docs/haskell.org][link on support]])
+- =elisp= ([[file:docs/elisp.org][link on support]])
+- =rust= ([[file:docs/rust.org][link on support]])
+- =python= ([[file:docs/python.org][link on support]])
 
 ** Contribute
    :PROPERTIES:
@@ -81,3 +81,4 @@
    current project
 6. Commit, Commit, Push all to your fork
 7. [[https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests][Pull Request]] to this repository
+

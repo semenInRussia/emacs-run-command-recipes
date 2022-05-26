@@ -1,0 +1,38 @@
+* =run-command='s Recipe for Pandoc
+  :PROPERTIES:
+  :CUSTOM_ID: run-commands-recipe-for-pandoc
+  :END:
+
+** Table of Contents                                                    :TOC:
+- [[#run-commands-recipe-for-pandoc][=run-command='s Recipe for Pandoc]]
+  - [[#commands][Commands]]
+  - [[#requirements][Requirements]]
+  - [[#customization][Customization]]
+
+** Commands
+   :PROPERTIES:
+   :CUSTOM_ID: commands
+   :END:
+The 2 commands:
+
+- Run Haskell file by Context
+- Run Haskell Project with Stack
+
+** Requirements
+   :PROPERTIES:
+   :CUSTOM_ID: requirements
+   :END:
+This is cool recipe needs to requirements in [[https://github.com/haskell/haskell-mode][haskell-mode]], without
+=haskell-mode= this recipe hasn't command "Run Haskell file by context"
+
+** Customization
+   :PROPERTIES:
+   :CUSTOM_ID: customization
+   :END:
+This recipe has variable =run-command-recipes-haskell-modes=. This is
+list of all =haskell-modes=. Defautls to 1 mode =haskell-mode=. You can
+add own mode to this variable
+
+Also this recipe has =run-command-recipes-haskell-complie-function=.
+This is function which not take arguments and comlie and run Haskell
+file of current buffer. Defautls to =haskell-complie=.
