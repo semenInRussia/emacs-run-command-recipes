@@ -12,7 +12,20 @@
    :PROPERTIES:
    :CUSTOM_ID: commands
    :END:
+
+   Here the list of commands for =C= (4 commands, by my count):
+
+   - Compile and Execute Current file via =gcc=
+   - Compile Only Current file via =gcc=
+   - Compile and Execute Current file via =clang=
+   - Compile Only Current file via =clang=
+   
 ** Customization
    :PROPERTIES:
    :CUSTOM_ID: customization
    :END:
+You can customize detection of =c= recipe.  This recipe work only when
+function =run-command-recipes-c-p= return t, you can look on current
+imlementation and make something new.
+
+
