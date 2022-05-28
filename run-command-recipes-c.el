@@ -35,7 +35,8 @@
 (defcustom run-command-recipes-c-major-modes
   '(c-mode)
   "List of major modes in which this recipe will work."
-  :type '(repeat symbol))
+  :type '(repeat symbol)
+  :group 'run-command-recipes)
 
 (defun run-command-recipes-c ()
   "This is recipe of `run-command' for c."

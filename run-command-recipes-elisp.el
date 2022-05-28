@@ -121,7 +121,7 @@ By default this is function which return t, when root of project has directory
 
 
 (defcustom run-command-recipes-elisp-run-ert
-  (lambda () (call-interactively 'ert))
+  #'(lambda () (call-interactively 'ert))
   "Function which run `ert'."
   :type 'function
   :group 'run-command-recipes)

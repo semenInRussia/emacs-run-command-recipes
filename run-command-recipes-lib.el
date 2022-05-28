@@ -37,7 +37,8 @@
 Alist in which keys are fragments of strings, values are Lisp sexps which will
 replace source string.  In string at :command-line {file-name} will be replaced
 to value of this alist at key \"file-name\""
-  :type '(alist :key-type string :value-type list))
+  :type '(alist :key-type string :value-type list)
+  :group 'run-command-recipes)
 
 (defun run-command-recipes-lib-bind-in-recipe (body)
   "Replace some things in :command-line of evaluated BODY."
