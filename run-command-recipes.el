@@ -42,6 +42,7 @@
 ;; - elisp
 ;; - rust
 ;; - python
+;; - c
 
 ;;; Code:
 
@@ -58,7 +59,7 @@
           "https://github.com/semenInRussia/emacs-run-command-recipes"))
 
 (defcustom run-command-recipes-supported-recipes
-  '(latex pandoc haskell elisp rust python)
+  '(latex pandoc haskell elisp rust python c)
   "List of recipes' names, which `run-command-recipes' support."
   :type '(repeat symbol)
   :group 'run-command-recipes)
@@ -117,68 +118,6 @@ Used when create new recipe."
                (intern
                 (concat "run-command-recipes-" (symbol-name recipe)))))
 
-(defun run-command-recipes-use-template (template-path recipe-name)
-  "Insert template with TEMPLATE-PATH with changed RECIPE-NAME."
-  (->>
-   (f-read template-path)
-   (s-replace "_recipe-name_" recipe-name)
-   (insert)))
-
-(defun run-command-recipes-insert-org-link-to-support (recipe-name)
-  "Insert link to support of RECIPE-NAME using Org mode syntax."
-  (insert
-   (format
-    "- =%s= ([[file:docs/%s.org][link on support]])"
-    recipe-name
-    recipe-name)))
-
-(defun run-command-recipes-add-supported-recipe-to-readme (recipe-name)
-  "Visit README-FILE-PATH and add to list of recipes support of RECIPE-NAME."
-  (find-file run-command-recipes-readme-file-path)
-  (goto-char (point-max))
-  (search-backward-regexp "- =[^=]+= (")
-  (end-of-line)
-  (newline)
-  (run-command-recipes-insert-org-link-to-support recipe-name))
-
-(defun run-command-recipes-goto-last-recipe-list-item-in-elisp-comment ()
-  "In current elisp file visit last item of supported recipes list.
-List put on \";;; Commentary:\" section
-List of recipes look like to this:
-
-;; - elisp
-;; - rust
-
-Here this function navigate to rust"
-  (goto-char (point-min))
-  (search-forward-regexp ";; - [^\n]*\n\n"))
-
-(defun run-command-recipes-add-supported-recipe-to-elisp-comment (recipe-name)
-  "In ELISP-FILEPATH add RECIPE-NAME to list of recipes in commentary.
-Commentary put on \";;; Commentary:\" section
-List of recipes look like to this:
-
-;; - elisp
-;; - rust"
-  (find-file run-command-recipes-main-file-path)
-  (run-command-recipes-goto-last-recipe-list-item-in-elisp-comment)
-  (forward-line -1)
-  (insert (format ";; - %s\n" recipe-name)))
-
-(defun run-command-recipes-goto-end-of-supported-recipes-elisp-variable ()
-  "Go to end of `run-command-recipes-supported-recipes' variable's content."
-  (goto-char (point-min))
-  (search-forward-regexp
-   "(defcustom run-command-recipes-supported-recipes$")
-  (search-forward ")"))
-
-(defun run-command-recipes-add-supported-recipe-to-elisp-variable (recipe-name)
-  "Find elisp variable for supported recipes, add to it RECIPE-NAME."
-  (find-file run-command-recipes-main-file-path)
-  (run-command-recipes-goto-end-of-supported-recipes-elisp-variable)
-  (forward-char -1)
-  (insert " " recipe-name))
-
 (defun run-command-recipes-create-recipe (recipe-name)
   "Create `run-command' recipe with RECIPE-NAME."
   (interactive (list (read-string "Enter new recipe's name: ")))
@@ -199,6 +138,67 @@ List of recipes look like to this:
     (find-file elisp-file)
     (run-command-recipes-use-template
      run-command-recipes-template-file-path recipe-name)))
+
+(defun run-command-recipes-use-template (template-path recipe-name)
+  "Insert template with TEMPLATE-PATH with changed RECIPE-NAME."
+  (->>
+   (f-read template-path)
+   (s-replace "_recipe-name_" recipe-name)
+   (insert)))
+
+(defun run-command-recipes-add-supported-recipe-to-readme (recipe-name)
+  "Visit README-FILE-PATH and add to list of recipes support of RECIPE-NAME."
+  (find-file run-command-recipes-readme-file-path)
+  (goto-char (point-max))
+  (search-backward-regexp "- =[^=]+= (")
+  (end-of-line)
+  (newline)
+  (run-command-recipes-insert-org-link-to-support recipe-name))
+
+(defun run-command-recipes-insert-org-link-to-support (recipe-name)
+  "Insert link to support of RECIPE-NAME using Org mode syntax."
+  (insert
+   (format
+    "- =%s= ([[file:docs/%s.org][link on support]])"
+    recipe-name
+    recipe-name)))
+
+(defun run-command-recipes-add-supported-recipe-to-elisp-comment (recipe-name)
+  "Add RECIPE-NAME to list of recipes in comment of main elisp file of project .
+Commentary put on \";;; Commentary:\" section
+List of recipes look like to this:
+
+;; - elisp
+;; - rust"
+  (run-command-recipes-goto-last-recipe-list-item-in-elisp-comment)
+  (forward-line -1)
+  (insert (format ";; - %s\n" recipe-name)))
+
+(defun run-command-recipes-goto-last-recipe-list-item-in-elisp-comment ()
+  "In current elisp file visit last item of supported recipes list.
+List put on \";;; Commentary:\" section
+List of recipes look like to this:
+
+;; - elisp
+;; - rust
+
+Here this function navigate to rust"
+  (goto-char (point-min))
+  (search-forward-regexp ";; - [^\n]*\n\n"))
+
+(defun run-command-recipes-add-supported-recipe-to-elisp-variable (recipe-name)
+  "Find elisp variable for supported recipes, add to it RECIPE-NAME."
+  (run-command-recipes-goto-end-of-supported-recipes-elisp-variable)
+  (forward-char -1)
+  (insert " " recipe-name))
+
+(defun run-command-recipes-goto-end-of-supported-recipes-elisp-variable ()
+  "Go to end of `run-command-recipes-supported-recipes' variable's content."
+  (find-file run-command-recipes-main-file-path)
+  (goto-char (point-min))
+  (search-forward-regexp
+   "(defcustom run-command-recipes-supported-recipes$")
+  (search-forward ")"))
 
 (provide 'run-command-recipes)
 ;;; run-command-recipes.el ends here

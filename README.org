@@ -61,6 +61,7 @@
 - =elisp= ([[file:docs/elisp.org][link on support]])
 - =rust= ([[file:docs/rust.org][link on support]])
 - =python= ([[file:docs/python.org][link on support]])
+- =c= ([[file:docs/c.org][link on support]])
 
 ** Contribute
    :PROPERTIES:
