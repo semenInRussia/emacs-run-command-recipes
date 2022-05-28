@@ -71,7 +71,7 @@
 
 (defun run-command-recipes-c-clang ()
   "Recipe of `run-command' for clang compiler of c."
-  (when (executable-find "clang")
+  (when (and (executable-find "clang") (buffer-file-name))
     (run-command-recipes-lib-bind-in-recipe
      (list
       (list
