@@ -72,16 +72,17 @@
 (defun run-command-recipes-c-clang ()
   "Recipe of `run-command' for clang compiler of c."
   (when (executable-find "clang")
-    (list
+    (run-command-recipes-lib-bind-in-recipe
      (list
-      :display "Compile and Execute Current file via `clang'"
-      :command-line ;nofmt
-      "clang {file-name} -o {file-name-no-ext} && {file-name-no-ext}"
-      :command-name "clang-compile-and-exec")
-     (list
-      :display "Only Compile Current file via `clang'"
-      :command-line "clang {file-name} -o {file-name-no-ext}"
-      :command-name "clang-only-compile"))))
+      (list
+       :display "Compile and Execute Current file via `clang'"
+       :command-line ;nofmt
+       "clang {file-name} -o {file-name-no-ext} && {file-name-no-ext}"
+       :command-name "clang-compile-and-exec")
+      (list
+       :display "Only Compile Current file via `clang'"
+       :command-line "clang {file-name} -o {file-name-no-ext}"
+       :command-name "clang-only-compile")))))
 
 (provide 'run-command-recipes-c)
 ;;; run-command-recipes-c.el ends here
