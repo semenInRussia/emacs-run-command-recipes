@@ -2,8 +2,7 @@
   :PROPERTIES:
   :CUSTOM_ID: package-emacs-run-command-recipes
   :END:
-  [[https://melpa.org/#/run-command-recipes][[[https://melpa.org/packages/run-command-recipes-badge.svg]]]]
-
+  [[https://melpa.org/#/run-command-recipes][file:https://melpa.org/packages/run-command-recipes-badge.svg]]
   This is collection of recipes to [[https://github.com/bard/emacs-run-command][run-command]].
   
 ** Table of Contents                                                    :TOC:
