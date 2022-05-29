@@ -97,17 +97,16 @@ See https://pandoc.org"
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-pandoc-formats-and-extensions
-  (->>
-   (make-hash-table :test 'equal)
-   (run-command-recipes-hashtables-put "asciidoc" "adoc")
-   (run-command-recipes-hashtables-put "context" "ctx")
-   (run-command-recipes-hashtables-put "docbook" "db")
-   (run-command-recipes-hashtables-put "markdown" "md")
-   (run-command-recipes-hashtables-put "ms" "roff")
-   (run-command-recipes-hashtables-put "latex" "tex")
-   (run-command-recipes-hashtables-put "texinfo" "texi")
-   (run-command-recipes-hashtables-put "mediawiki" "wiki")
-   (run-command-recipes-hashtables-put "biblatex" "bib"))
+  (ht
+   ("asciidoc" "adoc")
+   ("context" "ctx")
+   ("docbook" "db")
+   ("markdown" "md")
+   ("ms" "roff")
+   ("latex" "tex")
+   ("texinfo" "texi")
+   ("mediawiki" "wiki")
+   ("biblatex" "bib"))
   "This is map of pandoc's format code and extension of file.
 If your pandoc's code have extensions, which equal to pandoc's code (for
 example: org = .(org)), then just don't put pair to this variable."

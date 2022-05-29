@@ -45,7 +45,7 @@ to value of this alist at key \"file-name\""
   (->>
    body
    (--map
-    (run-command-recipes-plists-plist-map
+    (run-command-recipes-lib-plist-map
      it
      :command-line #'run-command-recipes-lib--change-command-line))))
 
@@ -59,6 +59,15 @@ to value of this alist at key \"file-name\""
             (s-concat "{" (car it) "}")
             (eval (cdr it)))))))
     (s-replace-all replacements command-line)))
+
+(defun run-command-recipes-lib-plist-map (plist prop transformer)
+  "Transform the value of PROP in PLIST with TRANSFORMER.
+This function modifies plist with `plist-put'.  So it does the same
+side-effects."
+  (->>
+   (plist-get plist prop)
+   (funcall transformer)
+   (plist-put plist prop)))
 
 (provide 'run-command-recipes-lib)
 ;;; run-command-recipes-lib.el ends here

@@ -4,7 +4,7 @@
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "25.1") (dash "2.18.0") (f "0.20.0") (run-command "0.1.0") (s "1.12.0"))
+;; Package-Requires: ((emacs "25.1") (dash "2.18.0") (f "0.20.0") (run-command "0.1.0") (s "1.12.0") (ht "2.4"))
 ;; Keywords: extensions, run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 
