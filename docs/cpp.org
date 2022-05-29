@@ -1,0 +1,32 @@
+* =run-command='s Recipe for cpp
+  :PROPERTIES:
+  :CUSTOM_ID: run-commands-recipe-for-recipe-name
+  :END:
+
+** Table of Contents                                                    :TOC:
+- [[#run-commands-recipe-for-cpp][=run-command='s Recipe for cpp]]
+  - [[#commands][Commands]]
+  - [[#customization][Customization]]
+
+** Commands
+   :PROPERTIES:
+   :CUSTOM_ID: commands
+   :END:
+
+   This no very cool recipe has only 2 commands yet (because you
+   didn't commits):
+
+   - Compile and Execute Current C++ File via =g++=
+   - Compile Only Current C++ File via =g++=
+
+** Customization
+   :PROPERTIES:
+   :CUSTOM_ID: customization
+   :END:
+
+   You can change detection of =c++= modes in which this recipe is
+   working, for this just change variable
+   =run-command-recipes-cpp-modes=.  If you need to special way of
+   recipe's work detection try redefine function
+   =run-command-recipes-cpp-p= which return t, when this recipe should
+   work now

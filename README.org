@@ -54,13 +54,14 @@
    Also Instead of =LaTeX= and =pandoc= you can use something from
    this:
 
-- =latex= ([[file:docs/latex.org][link on support]])
+- =python= ([[file:docs/python.org][link on support]])
 - =pandoc= ([[file:docs/pandoc.org][link on support]])
-- =haskell= ([[file:docs/haskell.org][link on support]])
+- =latex= ([[file:docs/latex.org][link on support]])
 - =elisp= ([[file:docs/elisp.org][link on support]])
 - =rust= ([[file:docs/rust.org][link on support]])
-- =python= ([[file:docs/python.org][link on support]])
 - =c= ([[file:docs/c.org][link on support]])
+- =cpp= ([[file:docs/cpp.org][link on support]])
+- =haskell= ([[file:docs/haskell.org][link on support]])
 
 ** Contribute
    :PROPERTIES:
