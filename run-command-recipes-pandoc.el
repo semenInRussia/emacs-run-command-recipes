@@ -1,4 +1,4 @@
-;;; run-command-recipes-pandoc.el --- Recipe of `run-command' for `pandoc` -*- lexical-binding: t; 
+;;; run-command-recipes-pandoc.el --- Recipe of `run-command' for `pandoc` -*- lexical-binding: t;
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.1
@@ -34,7 +34,6 @@
 (require 'run-command)
 (require 'run-command-recipes-hashtables)
 (require 'run-command-recipes-latex)
-
 
 (defcustom run-command-recipes-pandoc-output-formats
   '("asciidoc"
@@ -91,13 +90,11 @@ See https://pandoc.org"
   :type '(repeat string)
   :group 'run-command-recipes)
 
-
 (defcustom run-command-recipes-pandoc-html-modes
   '(html-mode web-mode)
   "List of modes which created for HTML."
   :type '(repeat symbol)
   :group 'run-command-recipes)
-
 
 (defcustom run-command-recipes-pandoc-formats-and-extensions
   (->>
@@ -117,21 +114,19 @@ example: org = .(org)), then just don't put pair to this variable."
   :group 'run-command-recipes
   :type 'hashtable)
 
-
-(defun run-command-recipes-pandoc-add-modes-with-format-to-table (modes format table)
+(defun run-command-recipes-pandoc-add-modes-with-format-to-table ;nofmt
+    (modes format table)
   "Add MODES as vals, and one FORMAT as keys to TABLE."
   (--reduce-from
    (run-command-recipes-hashtables-put it format acc)
    table
    modes))
 
-
 (defcustom run-command-recipes-pandoc-major-modes-input-formats
-<<<<<<< HEAD
   (->>
    (make-hash-table :test 'equal)
    (run-command-recipes-pandoc-add-modes-with-format-to-table
-    run-command-recipes-latex-modes "tex")
+    run-command-recipes-latex-modes "latex")
    (run-command-recipes-pandoc-add-modes-with-format-to-table
     run-command-recipes-pandoc-html-modes "html")
    (run-command-recipes-hashtables-put 'markdown-mode "markdown")
@@ -144,28 +139,10 @@ example: org = .(org)), then just don't put pair to this variable."
    (run-command-recipes-hashtables-put 'json-mode "json")
    (run-command-recipes-hashtables-put 'csv-mode "csv")
    (run-command-recipes-hashtables-put 'org-mode "org"))
-=======
-  (->> (make-hash-table :test 'equal)
-       (run-command-recipes-pandoc-add-modes-with-format-to-table
-        run-command-recipes-latex-modes "latex")
-       (run-command-recipes-pandoc-add-modes-with-format-to-table
-        run-command-recipes-pandoc-html-modes "html")
-       (run-command-recipes-hashtables-put 'markdown-mode "markdown")
-       (run-command-recipes-hashtables-put 'gfm-mode "gfm")
-       (run-command-recipes-hashtables-put 'haskell-mode "native")
-       (run-command-recipes-hashtables-put 'rtf-mode "rtf")
-       (run-command-recipes-hashtables-put 'rst-mode "rst")
-       (run-command-recipes-hashtables-put 'txt2tags-mode "t2t")
-       (run-command-recipes-hashtables-put 'textile-mode "textile")
-       (run-command-recipes-hashtables-put 'json-mode "json")
-       (run-command-recipes-hashtables-put 'csv-mode "csv")
-       (run-command-recipes-hashtables-put 'org-mode "org"))
->>>>>>> 02a4d366e309b7dd6a45f8a94669a25d6fe80ea1
   "Hashtable with keys major modes and values pandoc's input format's codes.
 See https://pandoc.org for see pandoc's input formats."
   :type 'hashtable
   :group 'run-command-recipes)
-
 
 (defun run-command-recipes-pandoc-change-format-of-file (filename new-format)
   "Change FILENAME with pandoc's format to filename with pandoc's NEW-FORMAT."
@@ -176,12 +153,10 @@ See https://pandoc.org for see pandoc's input formats."
           new-format)))
     (f-swap-ext filename new-ext)))
 
-
 (defmacro run-command-recipes-pandoc-format-for-major-mode (mode)
   "Return format name when MODE is one of Pandoc input formats.
 See pandoc input formats: https://pandoc.org"
   `(gethash ,mode run-command-recipes-pandoc-major-modes-input-formats))
-
 
 (defun run-command-recipes-pandoc ()
   "Pandoc `run-command` recipe, for transform to other formats.
@@ -210,7 +185,6 @@ https://github.com/bard/emacs-run-command#examples"
                          output-format input-format
                          output-file input-file)))
        run-command-recipes-pandoc-output-formats))))
-
 
 (provide 'run-command-recipes-pandoc)
 ;;; run-command-recipes-pandoc.el ends here

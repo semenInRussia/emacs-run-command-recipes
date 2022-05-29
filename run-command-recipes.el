@@ -54,7 +54,7 @@
 (require 's)
 
 (defgroup run-command-recipes nil
-  "Group for `run-command-recipes'"
+  "Group for `run-command-recipes'."
   :group 'tools
   :link '(url-link :tag "GitHub"
           "https://github.com/semenInRussia/emacs-run-command-recipes"))

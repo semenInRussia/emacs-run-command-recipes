@@ -1,6 +1,6 @@
 ;;; run-command-recipes-lib.el --- Standard library for `run-command-recipes' -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2022 Free Software Foundation, Inc.
+;; Copyright (C) 2022 semenInRussia
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 
@@ -28,7 +28,7 @@
 
 (defun run-command-recipes-lib-compose-recipes (&rest recipes)
   "Return composition of all RECIPES."
-  (->> recipes (-map #'funcall) (apply '-concat)))
+  (->> recipes (-map #'funcall) (apply #'-concat)))
 
 (defcustom run-command-recipes-lib-bind-variables
   '(("file-name" . (buffer-file-name))
@@ -45,8 +45,9 @@ to value of this alist at key \"file-name\""
   (->>
    body
    (--map
-    (plist-map it
-               :command-line #'run-command-recipes-lib--change-command-line))))
+    (run-command-recipes-plists-plist-map
+     it
+     :command-line #'run-command-recipes-lib--change-command-line))))
 
 (defun run-command-recipes-lib--change-command-line (command-line)
   "Replace some fragments of COMMAND-LINE to respective things."
