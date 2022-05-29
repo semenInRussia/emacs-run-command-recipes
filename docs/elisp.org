@@ -9,6 +9,7 @@
   - [[#customization][Customization]]
     - [[#detect-elisp][Detect Elisp]]
     - [[#cask][Cask]]
+    - [[#turn-off-subrecipes][Turn off Subrecipes]]
 
 ** Commands
    :PROPERTIES:
@@ -71,3 +72,8 @@ which place of ERT tests. Defaults to =test=.
 
 =run-command-recipes-elisp-has-ert-tests-p-function= is function which
 return t, when current project has ERT tests
+
+*** Turn off Subrecipes
+    By default, this recipe has 3 subrecipes:
+
+    - 
