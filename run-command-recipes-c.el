@@ -40,7 +40,7 @@
 
 (defun run-command-recipes-c ()
   "This is recipe of `run-command' for c."
-  (when (run-command-recipe-c-p)
+  (when (run-command-recipes-c-p)
     (run-command-recipes-lib-compose-recipes
      #'run-command-recipes-c-gcc
      #'run-command-recipes-c-clang)))
@@ -60,14 +60,13 @@
      (list
       (list
        :display "Compile and Execute Current file via `gcc'"
-       :command-line ;;nofmt
+       :command-line ;nofmt
        (s-concat "gcc {file-name} -Wall -Werror -o {file-name-no-ext} "
                  "&& {file-name-no-ext}")
        :command-name "gcc-compile-and-exec")
       (list
        :display "Only Compile Current file via `gcc'"
-       :command-line ;;nofmt
-       "gcc {file-name} -Wall -Werror -o {file-name-no-ext}"
+       :command-line "gcc {file-name} -Wall -Werror -o {file-name-no-ext}"
        :command-name "gcc-only-compile")))))
 
 (defun run-command-recipes-c-clang ()
