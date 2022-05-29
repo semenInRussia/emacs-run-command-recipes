@@ -67,19 +67,18 @@
    :PROPERTIES:
    :CUSTOM_ID: contribute
    :END:
-   All contribution is good.  For add recipe to this repository:
+   All contribution is good.  For add recipe to this repository (here
+   you should read =<recipe-name>= as name of your recipe):
 
-1. [[https://docs.github.com/en/get-started/quickstart/fork-a-repo][fork]] this repository
-2. Create file with name =run-command-recipes-<recipe-name>.el= instead
-   of =recipe-name= put name of your new recipe
-3. Create in its function recipe for =run-command= with name
-   =run-command-recipes-<recipe-name>=
-4. Open =run-command-recipes.el= and add =recipe-name= to
-   =run-command-recipes-supported-recipes= variable (this is requres
-   for =run-command-recipes-use-all=)
-5. Suggest use =run-command-recipes-project=, this package has function
-   =run-command-recipes-project-root= which return root root of
-   current project
+1. [[https://docs.github.com/en/get-started/quickstart/fork-a-repo][Fork]] this repository
+2. Run command =run-command-recipes-create-recipe=.  It modify
+   =README.org= (for updating list of supported modes) and
+   =run-command-recipes.el= (also for updating list of supported
+   modes), also it create some files, first is =<recipe-name>.org=
+   (for documentation of new recipe), second is
+   =run-command-recipes-<recipe-name>.el=
+3. In =run-command-recipes-<recipe-name>.el= you may find a function,
+   change this function (see offical [[https://github.com/bard/emacs-run-command#cookbook][cookbook]] of =run-command=)
 6. Commit, Commit, Push all to your fork
-7. [[https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests][Pull Request]] to this repository
+7. [[https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests][Pull Request]] of your repo to this repo
 
