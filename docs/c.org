@@ -7,6 +7,8 @@
 - [[#run-commands-recipe-for-c][=run-command='s Recipe for C]]
   - [[#commands][Commands]]
   - [[#customization][Customization]]
+    - [[#detection][Detection]]
+    - [[#turn-off-subrecipes][Turn off subrecipes]]
 
 ** Commands
    :PROPERTIES:
@@ -24,8 +26,31 @@
    :PROPERTIES:
    :CUSTOM_ID: customization
    :END:
-You can customize detection of =c= recipe.  This recipe work only when
-function =run-command-recipes-c-p= return t, you can look on current
-imlementation and make something new.
+
+*** Detection
+    You can customize detection of =c= recipe.  This recipe work only
+    when function =run-command-recipes-c-p= return t, you can look on
+    current imlementation and make something new.
+
+*** Turn off subrecipes
+    By default, this recipe contains 2 subrecipes:
+
+    - =run-command-recipes-c-gcc= (for =gcc= compiler)
+    - =run-command-recipes-c-clang= (for =clang= compiler)
+
+    Each of subrecipes work only when current computer has special
+    executable file, so if you haven't installed =clang= subrecipe for
+    =clang= won't work.
+
+    If you want to turn off one of subrecipes, just use followed code:
+
+    #+BEGIN_SRC emacs-lisp
+      (setq run-command-recipes-c-subrecipes
+            (-remove-item 'run-command-recipes-c-clang
+                          run-command-recipes-c-subrecipes))
+    #+END_SRC
+
+    (here instead of =run-command-recipes-c-clang= you may insert
+    anything other)
 
 

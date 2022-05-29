@@ -38,12 +38,17 @@
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
+(defcustom run-command-recipes-c-subrecipes
+  '(run-command-recipes-c-gcc run-command-recipes-c-clang)
+  "List of subrecipes for recipe of `run-command' for c."
+  :type '(repeat symbol)
+  :group 'run-command-recipes)
+
 (defun run-command-recipes-c ()
   "This is recipe of `run-command' for c."
   (when (run-command-recipes-c-p)
-    (run-command-recipes-lib-compose-recipes
-     #'run-command-recipes-c-gcc
-     #'run-command-recipes-c-clang)))
+    (apply #'run-command-recipes-lib-compose-recipes
+           run-command-recipes-c-subrecipes)))
 
 (defun run-command-recipes-c-p ()
   "Return t, when recipe of `run-command' for C should work."
