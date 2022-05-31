@@ -44,6 +44,7 @@
 ;; - python
 ;; - c
 ;; - cpp
+;; - csharp
 
 ;;; Code:
 
@@ -60,7 +61,7 @@
           "https://github.com/semenInRussia/emacs-run-command-recipes"))
 
 (defcustom run-command-recipes-supported-recipes
-  '(latex pandoc haskell elisp rust python c cpp)
+  '(latex pandoc haskell elisp rust python c cpp csharp)
   "List of recipes' names, which `run-command-recipes' support."
   :type '(repeat symbol)
   :group 'run-command-recipes)
@@ -184,6 +185,7 @@ List of recipes look like to this:
 ;; - rust
 
 Here this function navigate to rust"
+  (find-file run-command-recipes-main-file-path)
   (goto-char (point-min))
   (search-forward-regexp ";; - [^\n]*\n\n"))
 
