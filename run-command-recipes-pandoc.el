@@ -151,38 +151,31 @@ See https://pandoc.org for see pandoc's input formats."
           new-format)))
     (f-swap-ext filename new-ext)))
 
-(defmacro run-command-recipes-pandoc-format-for-major-mode (mode)
+(defun run-command-recipes-pandoc-format-for-major-mode (mode)
   "Return format name when MODE is one of Pandoc input formats.
 See pandoc input formats: https://pandoc.org"
-  `(gethash ,mode run-command-recipes-pandoc-major-modes-input-formats))
+  (gethash mode run-command-recipes-pandoc-major-modes-input-formats))
+
+(defun run-command-recipe-pandoc-rule-for-pandoc-format (from to input-file)
+  "Return recipe rule for transform INPUT-FILE FROM format to TO via `pandoc'."
+  (let* ((output-file
+          (run-command-recipes-pandoc-change-format-of-file input-file to)))
+    (list
+     :command-name (format "pandoc-%s-to-%s" from to)
+     :display (format "Convert %s to %s via Pandoc" (upcase from) (upcase to))
+     :command-line (format "pandoc -t %s -f %s -o \"%s\" \"%s\""
+                           to from output-file input-file))))
 
 (defun run-command-recipes-pandoc ()
-  "Pandoc `run-command` recipe, for transform to other formats.
-See `run-command-recipes`:
-https://github.com/bard/emacs-run-command#examples"
-  (-when-let
-      (input-file (buffer-file-name))
-    (-when-let
-        (input-format
-         (run-command-recipes-pandoc-format-for-major-mode
-          major-mode))
-      (--map
-       (let* ((output-format it)
-              (output-file
-               (run-command-recipes-pandoc-change-format-of-file
-                input-file
-                output-format)))
-         (list
-          :command-name (format "pandoc-%s-to-%s" input-format output-format)
-          :display (format
-                    "Convert %s to %s with Pandoc"
-                    (upcase input-format)
-                    (upcase output-format))
-          :command-line (format
-                         "pandoc -t %s -f %s -o \"%s\" \"%s\""
-                         output-format input-format
-                         output-file input-file)))
-       run-command-recipes-pandoc-output-formats))))
+  "Pandoc `run-command' recipe, for transform file to other formats."
+  (-when-let*
+      ((input-file (buffer-file-name))
+       (from-format
+        (run-command-recipes-pandoc-format-for-major-mode major-mode)))
+    (--map
+     (run-command-recipe-pandoc-rule-for-pandoc-format
+      from-format it input-file)
+     run-command-recipes-pandoc-output-formats)))
 
 (provide 'run-command-recipes-pandoc)
 ;;; run-command-recipes-pandoc.el ends here
