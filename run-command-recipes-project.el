@@ -30,14 +30,13 @@
 (declare-function project-current "project")
 
 (defun run-command-recipes-project-root ()
-  "Return path on project root."
-  (--find it
-          (list
-           (when (require 'projectile nil t)
-             (projectile-acquire-root))
-           (when (and (require 'project nil t) (project-current))
-             (-first-item (project-roots (project-current))))
-           default-directory)))
+  "Return path to project root."
+  (cond
+    ((and (require 'projectile nil t) projectile-mode)
+     (projectile-acquire-root))
+    ((and (require 'project nil t) (project-current))
+     (-first-item (project-roots (project-current))))
+    (t default-directory)))
 
 (defun run-command-recipes-project-root-has (entire)
   "Return t, when root of current project has ENTIRE (filename or directory)."
