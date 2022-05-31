@@ -52,12 +52,11 @@ to value of this alist at key \"file-name\""
 (defun run-command-recipes-lib--change-command-line (command-line)
   "Replace some fragments of COMMAND-LINE to respective things."
   (let ((replacements
-         (->>
-          run-command-recipes-lib-bind-variables
-          (--map
-           (cons
-            (s-concat "{" (car it) "}")
-            (eval (cdr it)))))))
+         (--map
+          (cons
+           (s-concat "{" (car it) "}")
+           (eval (cdr it)))
+          run-command-recipes-lib-bind-variables)))
     (s-replace-all replacements command-line)))
 
 (defun run-command-recipes-lib-plist-map (plist prop transformer)
