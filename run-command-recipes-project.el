@@ -29,6 +29,8 @@
 (declare-function project-roots "project")
 (declare-function project-current "project")
 
+(defvar project-mode)
+
 (defun run-command-recipes-project-root ()
   "Return path to project root."
   (cond
