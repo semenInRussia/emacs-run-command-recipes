@@ -30,8 +30,8 @@
 
 (require 'dash)
 (require 'f)
+(require 'ht)
 
-(require 'run-command)
 (require 'run-command-recipes-latex)
 
 (defcustom run-command-recipes-pandoc-output-formats
