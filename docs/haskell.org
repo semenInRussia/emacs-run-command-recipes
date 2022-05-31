@@ -13,26 +13,28 @@
    :PROPERTIES:
    :CUSTOM_ID: commands
    :END:
-The 2 commands:
+   The 2 commands:
 
-- Run Haskell file by Context
-- Run Haskell Project with Stack
+   - Run Haskell file by Context
+   - Run Haskell Project with Stack
 
 ** Requirements
    :PROPERTIES:
    :CUSTOM_ID: requirements
    :END:
-This is cool recipe needs to requirements in [[https://github.com/haskell/haskell-mode][haskell-mode]], without
-=haskell-mode= this recipe hasn't command "Run Haskell file by context"
+   This is cool recipe needs to requirements in [[https://github.com/haskell/haskell-mode][haskell-mode]], without
+   =haskell-mode= this recipe hasn't command "Run Haskell file by context"
 
 ** Customization
    :PROPERTIES:
    :CUSTOM_ID: customization
    :END:
-This recipe has variable =run-command-recipes-haskell-modes=. This is
-list of all =haskell-modes=. Defautls to 1 mode =haskell-mode=. You can
-add own mode to this variable
 
-Also this recipe has =run-command-recipes-haskell-complie-function=.
-This is function which not take arguments and comlie and run Haskell
-file of current buffer. Defautls to =haskell-complie=.
+   This recipe has variable =run-command-recipes-haskell-modes= it's
+   list of all major modes in which recipe for =haskell= should
+   work. Defautls to 1 mode =haskell-mode=. You can add own mode to
+   this variable
+
+   Also this recipe has =run-command-recipes-haskell-complie-function=.
+   This is function which not take arguments and comlie and run Haskell
+   file of current buffer. Defautls to =haskell-complie=.
