@@ -1,0 +1,67 @@
+* Standard Library of =run-command-recipes=
+  This file provide documentation for standard library of
+  =run-command-recipes=.  The library has some useful library which
+  you may use when do contributing
+
+** Function for work with Project
+   First, add followed =require= statement to your recipe's file
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'run-command-recipes-project)
+   #+END_SRC
+
+*** List of Functions
+    
+**** =run-command-recipes-project-root=
+
+     This function returns root path of current project.  May return
+     project's root using one of followed backends (choose first from
+     its which exists in Emacs)
+
+     - [[https://github.com/bbatsov/projectile][projectile]] (default)
+     - =project.el= (built-in)
+     - =default-directory= (just get path to current directory)
+
+**** =run-command-recipes-project-root-has=
+
+     This function returns =t= when taked name of file or directory is
+     file or directory of current project's root
+
+**** =run-command-recipes-project-root-has-one-of=
+
+     This function like on [[*=run-command-recipes-project-root-has=][run-command-recipes-project-root-has]], but
+     take some names of files or directories and return =t= when one
+     of it is file or directory of current project's root
+
+** Function for work with =run-command=
+   
+*** =run-command-recipes-lib-compose-recipes=
+
+    Take some recipes (functions which return list of plists which
+    define work of =run-command=, see [[https://github.com/bard/emacs-run-command#cookbook][docs]]) and make super recipe
+    which compose results of all taked recipes
+
+*** =run-command-recipes-lib-bind-in-recipe=
+
+    Each of recipes may be has =:command-line=, and most of commands'
+    lines is string in which was formatted, for example: name of
+    current file.  If you are programmer then you must follow rule
+    (don't repeat), so this function help us follow this rule.
+
+    For example, in followed code
+
+    #+BEGIN_SRC emacs-lisp
+      (run-command-recipes-lib-bind-in-recipe
+       (when (buffer-file-name)
+         (list
+          :command-name "run-single-python-file"
+          :display "Run current python file"
+          :command-line "python {file-name}")))
+    #+END_SRC
+
+    In "python {file-name}" "{file-name}" will be replaced with path
+    to current file.  Also instead of =file-name= you can use anything
+    from followed list:
+    
+    - file-name-no-ext (path to current file, but without extension)
+    
