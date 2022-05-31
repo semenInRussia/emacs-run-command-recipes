@@ -1,0 +1,29 @@
+* =run-command='s Recipe for csharp
+  :PROPERTIES:
+  :CUSTOM_ID: run-commands-recipe-for-recipe-name
+  :END:
+
+** Table of Contents                                                    :TOC:
+- [[#run-commands-recipe-for-csharp][=run-command='s Recipe for csharp]]
+  - [[#commands][Commands]]
+  - [[#customization][Customization]]
+
+** Commands
+   :PROPERTIES:
+   :CUSTOM_ID: commands
+   :END:
+
+   This stupid recipe of =run-command= for =c#= has only 2 commands:
+
+   - Run .NET Project
+   - Only Compile .NET Project
+
+** Customization
+   :PROPERTIES:
+I   :CUSTOM_ID: customization
+   :END:
+
+   You may customize only detection of =c#= for this either change
+   variable of list of =c#= major modes
+   =run-command-recipes-csharp-modes= or change function
+   =run-command-recipes-chsarp-p=
