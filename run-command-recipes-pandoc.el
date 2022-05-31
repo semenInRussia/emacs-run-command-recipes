@@ -122,21 +122,21 @@ example: org = .(org)), then just don't put pair to this variable."
 
 (defcustom run-command-recipes-pandoc-major-modes-input-formats
   (->>
-   (make-hash-table :test 'equal)
+   (ht
+    ('markdown-mode "markdown")
+    ('gfm-mode "gfm")
+    ('haskell-mode "native")
+    ('rtf-mode "rtf")
+    ('rst-mode "rst")
+    ('txt2tags-mode "t2t")
+    ('textile-mode "textile")
+    ('json-mode "json")
+    ('csv-mode "csv")
+    ('org-mode "org"))
    (run-command-recipes-pandoc-add-modes-with-format-to-table
     run-command-recipes-latex-modes "latex")
    (run-command-recipes-pandoc-add-modes-with-format-to-table
-    run-command-recipes-pandoc-html-modes "html")
-   (run-command-recipes-hashtables-put 'markdown-mode "markdown")
-   (run-command-recipes-hashtables-put 'gfm-mode "gfm")
-   (run-command-recipes-hashtables-put 'haskell-mode "native")
-   (run-command-recipes-hashtables-put 'rtf-mode "rtf")
-   (run-command-recipes-hashtables-put 'rst-mode "rst")
-   (run-command-recipes-hashtables-put 'txt2tags-mode "t2t")
-   (run-command-recipes-hashtables-put 'textile-mode "textile")
-   (run-command-recipes-hashtables-put 'json-mode "json")
-   (run-command-recipes-hashtables-put 'csv-mode "csv")
-   (run-command-recipes-hashtables-put 'org-mode "org"))
+    run-command-recipes-pandoc-html-modes "html"))
   "Hashtable with keys major modes and values pandoc's input format's codes.
 See https://pandoc.org for see pandoc's input formats."
   :type 'hashtable
