@@ -64,4 +64,5 @@
     from followed list:
     
     - file-name-no-ext (path to current file, but without extension)
+    - current-dir (path to current directory)
     

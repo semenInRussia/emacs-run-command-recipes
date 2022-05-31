@@ -32,6 +32,7 @@
 
 (defcustom run-command-recipes-lib-bind-variables
   '(("file-name" . (buffer-file-name))
+    ("current-dir" . default-directory)
     ("file-name-no-ext" . (--when-let (buffer-file-name) (f-no-ext it))))
   "Variables' usages for :command-line in recipes of `run-command'.
 Alist in which keys are fragments of strings, values are Lisp sexps which will
