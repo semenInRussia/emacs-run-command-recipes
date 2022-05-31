@@ -64,10 +64,9 @@ to value of this alist at key \"file-name\""
   "Transform the value of PROP in PLIST with TRANSFORMER.
 This function modifies plist with `plist-put'.  So it does the same
 side-effects."
-  (->>
-   (plist-get plist prop)
-   (funcall transformer)
-   (plist-put plist prop)))
+  (--when-let
+      (plist-get plist prop)
+    (->> it (funcall transformer) (plist-put plist prop))))
 
 (provide 'run-command-recipes-lib)
 ;;; run-command-recipes-lib.el ends here
