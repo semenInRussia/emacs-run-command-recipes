@@ -32,7 +32,6 @@
 (require 'f)
 
 (require 'run-command)
-(require 'run-command-recipes-hashtables)
 (require 'run-command-recipes-latex)
 
 (defcustom run-command-recipes-pandoc-output-formats
