@@ -27,20 +27,17 @@
 ;; ```
 ;;; Code:
 
-(require 'dash)
-(require 'f)
-
+(require 'run-command-recipes-lib)
 
 (defcustom run-command-recipes-latex-command
   (concat "pdflatex"
           " -interaction nonstopmode"
           " -file-line-error"
-          " --output-directory \"%s\""
-          " \"%s\"")
+          " --output-directory \"{current-dir}\""
+          " \"{file-name}\"")
   "Command for run `pdflatex`, ignoring errors."
   :type 'string
   :group 'run-command-recipes)
-
 
 (defcustom run-command-recipes-latex-modes
   '(LaTeX-mode latex-mode tex-mode TeX-mode)
@@ -48,22 +45,15 @@
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
-
 (defun run-command-recipes-latex ()
-  "Recipe for LaTeX `run-command'.
-See https://github.com/bard/emacs-run-command#examples."
-  (-when-let
-      (file-path (buffer-file-name))
-    (when (-contains-p run-command-recipes-latex-modes major-mode)
+  "Recipe for LaTeX `run-command'."
+  (run-command-recipes-lib-bind-in-recipe
+   (when (-contains-p run-command-recipes-latex-modes major-mode)
+     (list
       (list
-       (list
-        :display "Convert to PDF with `pdflatex`, ignoring errors"
-        :command-name "pdflatex"
-        :command-line (format
-                       run-command-recipes-latex-command
-                       (f-dirname file-path)
-                       file-path))))))
-
+       :display "Convert to PDF with `pdflatex`, ignoring errors"
+       :command-name "pdflatex"
+       :command-line run-command-recipes-latex-command)))))
 
 (provide 'run-command-recipes-latex)
 ;;; run-command-recipes-latex.el ends here
