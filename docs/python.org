@@ -7,20 +7,23 @@
   - [[#commands][Commands]]
   - [[#customization][Customization]]
     - [[#detect-python-file][Detect Python File]]
-    - [[#detect-pythons-tests][Detect Python's Tests]]
+    - [[#detect-tests][Detect Tests]]
+      - [[#detect-single-test-file][Detect Single Test File]]
+      - [[#detect-test-directory][Detect Test Directory]]
     - [[#shell-commands][Shell Commands]]
 
 ** Commands
    :PROPERTIES:
    :CUSTOM_ID: commands
    :END:
-Has 4 commands:
+   Has 4 commands:
 
 - Just Run Current Python File
 - Run Current Python File Interactively (with flag =-i=) (you may find
   its [[https://docs.python.org/3/using/cmdline.html][here]])
 - Run =pytest= in Current Pytest File
 - Run All Tests in Current Project via Pytest
+
 ** Customization
    :PROPERTIES:
    :CUSTOM_ID: customization
@@ -29,37 +32,61 @@ Has 4 commands:
     :PROPERTIES:
     :CUSTOM_ID: detect-python-file
     :END:
-Variable =run-command-recipes-python-modes= is list of major modes, in
-which this amazing recipe of =run-command= will work.
 
-Variable =run-command-recipes-python-mode-p-function= Function
-(predicate) non-taking arguments, returning t if in current file can
-work =run-command-recipes-python=. When set to nil, use default
-implementation
+    Variable =run-command-recipes-python-modes= is list of major
+    modes, in which this amazing recipe should work.
 
-*** Detect Python's Tests
+    Function =run-command-recipes-python-mode-p-function= don't take
+    arguments, return t if in current buffer should work
+    =run-command-recipes-python=.
+
+*** Detect Tests
     :PROPERTIES:
     :CUSTOM_ID: detect-pythons-tests
     :END:
-=run-command-recipes-python-test-filename= is regexp which match on
-Python test files.
 
-=run-command-recipes-python-test-buffer-p-function= is predicate which
-get t, when current file is test's file of Python, nil when no. If set
-to nil, then use default implementation.
+**** Detect Single Test File
 
-=run-command-recipes-python-tests-dirs= list of dirictories names on
-which will work =pytest=. Defautls to: * tests
+     =run-command-recipes-python-test-filename= is regexp which match
+     on Python test files.  Defaults to
+
+     #+BEGIN_EXAMPLE
+     test_.*\.py
+     #+END_EXAMPLE
+
+     It matchs to followed filenames, for example:
+
+     - test_something.py
+     - test_lll.py
+
+     =run-command-recipes-python-test-buffer-p= is predicate.  It
+     return t, when current file is Python test file
+
+**** Detect Test Directory
+     =run-command-recipes-python-tests-dirs= is list of dirictories
+     names in which should work =pytest=. Defautls to:
+
+     - tests
 
 *** Shell Commands
     :PROPERTIES:
     :CUSTOM_ID: shell-commands
     :END:
-=run-command-recipes-python-run-command= is common shell command, which
-just run current Python file.
+    *NOTE*: in each of shell command may be used syntax like on
+    followed
 
-=run-command-recipes-python-pytest-file-command= is shell command which
-run =pytest= for current single test file.
+    #+BEGIN_EXAMPLE
+    pytest {file-name}
+    #+END_EXAMPLE
 
-=run-command-recipes-python-interactively-run-command= is shell command
-which run =python= on this file INTERACTIVELY.
+    I suggest you visit standard library [[file:lib.org][documentation]] before
+
+    =run-command-recipes-python-run-command= is shell command,
+    which just run current Python file.
+
+    =run-command-recipes-python-pytest-file-command= is shell command which
+    run =pytest= for current single test file.
+
+    =run-command-recipes-python-interactively-run-command= is shell command
+    which run =python= on this file *inIteractively*.
+
