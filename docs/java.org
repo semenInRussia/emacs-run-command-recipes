@@ -1,0 +1,43 @@
+* =run-command='s Recipe for JAVA
+  :PROPERTIES:
+  :CUSTOM_ID: run-commands-recipe-for-recipe-name
+  :END:
+
+** Table of Contents                                                    :TOC:
+- [[#run-commands-recipe-for-java][=run-command='s Recipe for JAVA]]
+  - [[#commands][Commands]]
+  - [[#customization][Customization]]
+    - [[#detection][Detection]]
+    - [[#commands-1][Commands]]
+
+** Commands
+   :PROPERTIES:
+   :CUSTOM_ID: commands
+   :END:
+
+   This recipe has followed commands:
+
+   - Run Current Java File
+   - Compile Current Java File
+** Customization
+   :PROPERTIES:
+   :CUSTOM_ID: customization
+   :END:
+
+*** Detection
+    You can change implementation of function
+    =run-command-recipes-java-p= which return t, when now recipe for
+    =java= should work
+
+*** Commands
+    Variables =run-command-recipes-java-compile-file-command= and
+    =run-command-recipes-java-run-file-command= define shell commands
+    which defined in recipe for =jave=.  You may change content of
+    variables if you want, for example use followed code:
+
+    #+BEGIN_SRC emacs-lisp
+      (setq run-command-recipes-java-compile-file-command "javac.exe {file-name}")
+    #+END_SRC
+
+    (see [[file:lib.org][documentation of standard library]])
+

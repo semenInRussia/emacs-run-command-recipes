@@ -65,6 +65,7 @@
 - =cpp= ([[file:docs/cpp.org][link on support]])
 - =haskell= ([[file:docs/haskell.org][link on support]])
 - =csharp= ([[file:docs/csharp.org][link on support]])
+- =java= ([[file:docs/java.org][link on support]])
 
 ** Contribute
    :PROPERTIES:
