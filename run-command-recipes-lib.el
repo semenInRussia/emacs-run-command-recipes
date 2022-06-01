@@ -41,10 +41,28 @@ to value of this alist at key \"file-name\""
   :type '(alist :key-type string :value-type list)
   :group 'run-command-recipes)
 
-(defun run-command-recipes-lib-bind-in-recipe (body)
-  "Replace some things in :command-line of evaluated BODY."
+(defun run-command-recipes-lib-bind-in-recipe (plists)
+  "In each plist of PLISTS replace \"some things\" in :command-line.
+
+Each of PLISTS is element of `run-command' recipe result (see variable
+`run-command-recipes'), so each of plists can has value at key :command-line
+
+\"Some things\" must have the followed syntax:
+
+{something}
+
+But insetad of something you may use one of followed list:
+
+- file-name
+Absolute path to current file with quotes \"\".
+
+- file-name-no-ext
+Like on the file-name, but without extension
+
+- current-dir
+Full path to the directory which has the file at current buffer"
   (->>
-   body
+   plists
    (--map
     (run-command-recipes-lib-plist-map
      it
