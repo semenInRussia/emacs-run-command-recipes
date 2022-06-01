@@ -51,7 +51,7 @@ current command"
 (defun run-command-recipes-java ()
   "Recipe of `run-command' for java."
   (run-command-recipes-lib-bind-in-recipe
-   (when (and (executable-p "javac") (run-command-recipes-java-p))
+   (when (and (executable-find "javac") (run-command-recipes-java-p))
      (list
       (list
        :command-name "run-java-file"
