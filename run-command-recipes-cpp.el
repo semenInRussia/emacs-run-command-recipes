@@ -49,10 +49,12 @@
           (run-command-recipes-cpp-p)
           (executable-find "g++"))
      (list
-      :command-name "Compile and Execute Current C++ File via `g++'"
+      :command-name "run-cpp-file"
+      :display "Compile and Execute Current C++ File via `g++'"
       :command-line "g++ {file-name} && {file-name-no-ext}")
      (list
-      :command-name "Compile Only Current C++ File via `g++'"
+      :command-name "compile-cpp-file"
+      :display "Compile Only Current C++ File via `g++'"
       :command-line "g++ -Wall -Werror {file-name}"))))
 
 (provide 'run-command-recipes-cpp)
