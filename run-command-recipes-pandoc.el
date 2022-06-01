@@ -115,10 +115,8 @@ example: org = .(org)), then just don't put pair to this variable."
 (defun run-command-recipes-pandoc-add-modes-with-format-to-table ;nofmt
     (modes format table)
   "Add MODES as vals, and one FORMAT as keys to TABLE."
-  (--reduce-from
-   (run-command-recipes-hashtables-put it format acc)
-   table
-   modes))
+  (--each modes (ht-set! table it format))
+  table)
 
 (defcustom run-command-recipes-pandoc-major-modes-input-formats
   (->>
