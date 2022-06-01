@@ -36,7 +36,7 @@
   (run-command-recipes-lib-compose-recipes
    #'run-command-recipes-elisp-cask
    #'run-command-recipes-elisp-ert
-   #'run-command-recipes-elisp-vanila))
+   #'run-command-recipes-elisp-virgin))
 
 (defun run-command-recipes-elisp-cask ()
   "Recipe of `run-command' for cask, subrecipe of emacs-lisp recipe."
@@ -66,7 +66,7 @@
 
 (defcustom run-command-recipes-elisp-has-ert-tests-p-function nil
   "Funtion not take arguments, get non-nil, if current project has `ert' tests.
-By default this is function which return t, when root of project has directory
+By virgin this is function which return t, when root of project has directory
 `run-command-recipes-elisp-ert-tests-directory'"
   :type 'predicate
   :group 'run-command-recipes)
@@ -110,8 +110,8 @@ By default this is function which return t, when root of project has directory
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
-(defun run-command-recipes-elisp-vanila ()
-  "Recipe of `run-command' for vanila version of emacs-lisp."
+(defun run-command-recipes-elisp-virgin ()
+  "Recipe of `run-command' for virgin version of emacs-lisp."
   (when (run-command-recipes-elisp-mode-p)
     (list
      (if (run-command-recipes-elisp-file-was-compiled-p)
