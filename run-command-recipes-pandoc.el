@@ -140,6 +140,17 @@ See https://pandoc.org for see pandoc's input formats."
   :type 'hashtable
   :group 'run-command-recipes)
 
+(defun run-command-recipes-pandoc ()
+  "Pandoc `run-command' recipe, for transform file to other formats."
+  (-when-let*
+      ((input-file (buffer-file-name))
+       (from-format
+        (run-command-recipes-pandoc-format-for-major-mode major-mode)))
+    (--map
+     (run-command-recipes-pandoc-rule-for-pandoc-format
+      from-format it input-file)
+     run-command-recipes-pandoc-output-formats)))
+
 (defun run-command-recipes-pandoc-change-format-of-file (filename new-format)
   "Change FILENAME with pandoc's format to filename with pandoc's NEW-FORMAT."
   (let ((new-ext
@@ -154,7 +165,7 @@ See https://pandoc.org for see pandoc's input formats."
 See pandoc input formats: https://pandoc.org"
   (gethash mode run-command-recipes-pandoc-major-modes-input-formats))
 
-(defun run-command-recipe-pandoc-rule-for-pandoc-format (from to input-file)
+(defun run-command-recipes-pandoc-rule-for-pandoc-format (from to input-file)
   "Return recipe rule for transform INPUT-FILE FROM format to TO via `pandoc'."
   (let* ((output-file
           (run-command-recipes-pandoc-change-format-of-file input-file to)))
@@ -163,17 +174,6 @@ See pandoc input formats: https://pandoc.org"
      :display (format "Convert %s to %s via Pandoc" (upcase from) (upcase to))
      :command-line (format "pandoc -t %s -f %s -o \"%s\" \"%s\""
                            to from output-file input-file))))
-
-(defun run-command-recipes-pandoc ()
-  "Pandoc `run-command' recipe, for transform file to other formats."
-  (-when-let*
-      ((input-file (buffer-file-name))
-       (from-format
-        (run-command-recipes-pandoc-format-for-major-mode major-mode)))
-    (--map
-     (run-command-recipe-pandoc-rule-for-pandoc-format
-      from-format it input-file)
-     run-command-recipes-pandoc-output-formats)))
 
 (provide 'run-command-recipes-pandoc)
 ;;; run-command-recipes-pandoc.el ends here
