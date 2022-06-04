@@ -66,6 +66,7 @@
 - =haskell= ([[file:docs/haskell.org][link on support]])
 - =csharp= ([[file:docs/csharp.org][link on support]])
 - =java= ([[file:docs/java.org][link on support]])
+- =racket= ([[file:docs/racket.org][link on support]])
 
 ** Contribute
    :PROPERTIES:
