@@ -35,6 +35,6 @@
    work. Defautls to 1 mode =haskell-mode=. You can add own mode to
    this variable
 
-   Also this recipe has =run-command-recipes-haskell-complie-function=.
+   Also this recipe has =run-command-recipes-haskell-compile-function=.
    This is function which not take arguments and comlie and run Haskell
-   file of current buffer. Defautls to =haskell-complie=.
+   file of current buffer. Defautls to =haskell-compile=.

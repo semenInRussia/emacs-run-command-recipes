@@ -123,7 +123,7 @@ See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
        :command-line run-command-recipes-racket-raco-to-bytecode-command)
       (list
        :command-name "raco-compile-file"
-       :display "Complie Only Racket File"
+       :display "Compile Only Racket File"
        :command-line run-command-recipes-racket-compile-command)
       (list
        :command-name "raco-run-file"

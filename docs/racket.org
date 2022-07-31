@@ -20,7 +20,7 @@
 
    - Run Current Racket File (without compilation!)
    - Check Racket Source File
-   - Complie Only Racket File
+   - Compile Only Racket File
    - Compile and Run Current Racket File
    - Run Tests of Current Racket File
    - Run Racket Tests of Current Directory

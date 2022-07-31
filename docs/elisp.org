@@ -16,11 +16,11 @@
    :CUSTOM_ID: commands
    :END:
 This repo support 4 commands, followed command is first:
-- Complie/ReCompile to Bytes This File
+- Compile/ReCompile to Bytes This File
 
 (If file was compiled then only compile, otherwise only recompile)
 
-- ReComplie to Bytes Current Directory
+- ReCompile to Bytes Current Directory
 
 Only when root directory has one of
 =run-command-recipes-elisp-cask-filename= (by default Cask)

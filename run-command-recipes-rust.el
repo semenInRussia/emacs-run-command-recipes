@@ -54,7 +54,7 @@
 
 (defcustom run-command-recipes-rust-rustc-compile-command
   "rustc {file-name}"
-  "Shell command which complie currenr rust file with `rustc'.
+  "Shell command which compile current rust file with `rustc'.
 Instead of \"%s\" put filename of file."
   :type 'string
   :group 'run-command-recipes)
