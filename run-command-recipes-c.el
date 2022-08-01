@@ -21,7 +21,7 @@
 
 ;;; Commentary:
 
-;; For use this code put this to config:
+;; For use this code put the following to your Emacs configuration:
 
 ;; (run-command-recipes-use-one 'c)
 
@@ -34,18 +34,18 @@
 
 (defcustom run-command-recipes-c-major-modes
   '(c-mode)
-  "List of major modes in which this recipe will work."
+  "List of major modes in which the recipe for C should work."
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-c-subrecipes
   '(run-command-recipes-c-gcc run-command-recipes-c-clang)
-  "List of subrecipes for recipe of `run-command' for c."
+  "List of subrecipes of `run-command' recipe for C."
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
 (defun run-command-recipes-c ()
-  "This is recipe of `run-command' for c."
+  "Recipe of `run-command' for C."
   (when (run-command-recipes-c-p)
     (apply #'run-command-recipes-lib-compose-recipes
            run-command-recipes-c-subrecipes)))
@@ -59,7 +59,9 @@
   (-contains-p run-command-recipes-c-major-modes mode))
 
 (defun run-command-recipes-c-gcc ()
-  "Recipe of `run-command' for gcc compiler of c."
+  "Recipe of `run-command' fort the gcc compiler of c.
+
+Subrecipe of recipe for C."
   (when (and (executable-find "gcc") (buffer-file-name))
     (run-command-recipes-lib-bind-in-recipe
      (list
@@ -75,7 +77,9 @@
        :command-name "gcc-only-compile")))))
 
 (defun run-command-recipes-c-clang ()
-  "Recipe of `run-command' for clang compiler of c."
+  "Recipe of `run-command' for clang compiler of C.
+
+Subrecipe of recipe for C."
   (when (and (executable-find "clang") (buffer-file-name))
     (run-command-recipes-lib-bind-in-recipe
      (list
