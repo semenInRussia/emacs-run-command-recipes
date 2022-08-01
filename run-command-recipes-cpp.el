@@ -20,7 +20,8 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;; For use this code put this to config:
+
+;; For use this code put the following to your Emacs configuration:
 ;;
 ;; (run-command-recipes-use-one 'cpp)
 ;;
@@ -33,21 +34,20 @@
 
 (defcustom run-command-recipes-cpp-modes
   '(c++-mode)
-  "List of all modes in which recipe for c++ should work."
+  "List of all modes in which the recipe for C++ should work."
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
 (defun run-command-recipes-cpp-p ()
-  "Return t, when recipe for c++ should work now."
-  (-contains-p run-command-recipes-cpp-modes major-mode))
+  "Return t, when recipe for C++ should work."
+  (and
+   (buffer-file-name)
+   (-contains-p run-command-recipes-cpp-modes major-mode)))
 
 (defun run-command-recipes-cpp ()
   "Recipe of `run-command' for c++."
   (run-command-recipes-lib-bind-in-recipe
-   (when (and
-          (buffer-file-name)
-          (run-command-recipes-cpp-p)
-          (executable-find "g++"))
+   (when (and (run-command-recipes-cpp-p) (executable-find "g++"))
      (list
       :command-name "run-cpp-file"
       :display "Compile and Execute Current C++ File via `g++'"
