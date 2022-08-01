@@ -38,7 +38,7 @@
     - =racket-mode=
 
 *** Commands
-    You can customize shell commands of this recipe, see to followed
+    You can customize shell commands of this recipe, see to following
     list:
 
     - =run-command-recipes-racket-raco-to-bytecode-command=. Command

@@ -15,7 +15,7 @@
    :PROPERTIES:
    :CUSTOM_ID: commands
    :END:
-This repo support 4 commands, followed command is first:
+This repo support 4 commands, following command is first:
 - Compile/ReCompile to Bytes This File
 
 (If file was compiled then only compile, otherwise only recompile)

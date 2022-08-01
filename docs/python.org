@@ -54,7 +54,7 @@
      test_.*\.py
      #+END_EXAMPLE
 
-     It matchs to followed filenames, for example:
+     It matchs to following filenames, for example:
 
      - test_something.py
      - test_lll.py
@@ -73,7 +73,7 @@
     :CUSTOM_ID: shell-commands
     :END:
     *NOTE*: in each of shell command may be used syntax like on
-    followed
+    following
 
     #+BEGIN_EXAMPLE
     pytest {file-name}

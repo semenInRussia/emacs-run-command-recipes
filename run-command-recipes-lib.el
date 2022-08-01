@@ -47,11 +47,11 @@ to value of this alist at key \"file-name\""
 Each of PLISTS is element of `run-command' recipe result (see variable
 `run-command-recipes'), so each of plists can has value at key :command-line
 
-\"Some things\" must have the followed syntax:
+\"Some things\" must have the following syntax:
 
 {something}
 
-But insetad of something you may use one of followed list:
+But insetad of something you may use one of following list:
 
 - file-name
 Absolute path to current file with quotes \"\".

@@ -15,7 +15,7 @@
    :CUSTOM_ID: commands
    :END:
 
-   This recipe has followed commands:
+   This recipe has following commands:
 
    - Run Current Java File
    - Compile Current Java File
@@ -33,7 +33,7 @@
     Variables =run-command-recipes-java-compile-file-command= and
     =run-command-recipes-java-run-file-command= define shell commands
     which defined in recipe for =jave=.  You may change content of
-    variables if you want, for example use followed code:
+    variables if you want, for example use following code:
 
     #+BEGIN_SRC emacs-lisp
       (setq run-command-recipes-java-compile-file-command "javac.exe {file-name}")

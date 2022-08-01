@@ -57,7 +57,7 @@ Defaults to:
 - =xwiki=
 - =zimwiki=
 
-For support of a new output format use followed code
+For support of a new output format use following code
 
 #+begin_src emacs-lisp
 (add-to-list 'run-command-recipes-pandoc-output-formats "docx")

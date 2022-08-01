@@ -21,7 +21,7 @@
 
 ;;; Commentary:
 
-;; For use this code put this to config:
+;; For use this code put the following to your Emacs configuration:
 ;; ```
 ;; (run-command-recipes-use-one 'pandoc)
 ;; ```

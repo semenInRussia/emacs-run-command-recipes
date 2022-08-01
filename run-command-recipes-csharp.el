@@ -20,7 +20,7 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;; For use this code put the followed to your Emacs configuration:
+;; For use this code put the following to your Emacs configuration:
 ;;
 ;; (run-command-recipes-use-one 'csharp)
 ;;

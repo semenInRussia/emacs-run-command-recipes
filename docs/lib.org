@@ -4,7 +4,7 @@
   you may use when do contributing
 
 ** Function for work with Project
-   First, add followed =require= statement to your recipe's file
+   First, add following =require= statement to your recipe's file
 
    #+BEGIN_SRC emacs-lisp
      (require 'run-command-recipes-project)
@@ -15,7 +15,7 @@
 **** =run-command-recipes-project-root=
 
      This function returns root path of current project.  May return
-     project's root using one of followed backends (choose first from
+     project's root using one of following backends (choose first from
      its which exists in Emacs)
 
      - [[https://github.com/bbatsov/projectile][projectile]] (default)
@@ -48,7 +48,7 @@
     current file.  If you are programmer then you must follow rule
     (don't repeat), so this function help us follow this rule.
 
-    For example, in followed code
+    For example, in following code
 
     #+BEGIN_SRC emacs-lisp
       (run-command-recipes-lib-bind-in-recipe
@@ -61,7 +61,7 @@
 
     In "python {file-name}" "{file-name}" will be replaced with path
     to current file.  Also instead of =file-name= you can use anything
-    from followed list:
+    from following list:
     
     - file-name-no-ext (path to current file, but without extension)
     - current-dir (path to current directory)

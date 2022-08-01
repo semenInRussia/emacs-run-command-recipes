@@ -42,7 +42,7 @@
     executable file, so if you haven't installed =clang= subrecipe for
     =clang= won't work.
 
-    If you want to turn off one of subrecipes, just use followed code:
+    If you want to turn off one of subrecipes, just use following code:
 
     #+BEGIN_SRC emacs-lisp
       (setq run-command-recipes-c-subrecipes

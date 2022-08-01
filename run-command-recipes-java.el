@@ -20,7 +20,7 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;; For use this code put this to config:
+;; For use this code put the following to your Emacs configuration:
 ;;
 ;; (run-command-recipes-use-one 'java)
 ;;

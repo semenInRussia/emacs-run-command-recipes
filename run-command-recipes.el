@@ -172,7 +172,7 @@ the start of this file for list of supported recipes."
 
 Commentary be in the \";;; Commentary:\" section
 
-List of recipes look like to the followed:
+List of recipes look like to the following:
 
 ;; - elisp
 ;; - rust"
@@ -185,7 +185,7 @@ List of recipes look like to the followed:
 
 Commentary be in the \";;; Commentary:\" section
 
-List of recipes look like to the followed:
+List of recipes look like to the following:
 
 ;; - elisp
 ;; - rust

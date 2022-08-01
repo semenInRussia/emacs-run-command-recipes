@@ -18,7 +18,7 @@
    :END:
    Melpa has =emacs-run-command-recipes= called as
    =run-command-recipes=, so if you use =use-package=, then just paste
-   followed code to you config:
+   following code to you config:
 
    #+BEGIN_SRC emacs-lisp
      (use-package run-command-recipes
@@ -40,21 +40,23 @@
    :PROPERTIES:
    :CUSTOM_ID: usage
    :END:
-   If you need to use all supported language, just put this to your
-   code:
+
+   If you're going to use all supported languages, just put following
+   to your Emacs configuration:
 
    #+begin_src emacs-lisp
      (run-command-recipes-use-all)
    #+end_src
 
-   If you need to use only special languages, just put this:
+   If you're going to use only some special languages, just put
+   the following:
 
    #+begin_src emacs-lisp
      (run-command-recipes-use latex pandoc)
    #+end_src
 
-   Also Instead of =LaTeX= and =pandoc= you can use something from
-   this:
+   Also Instead of =LaTeX= and =pandoc= you can use anything from
+   following list:
 
 - =python= ([[file:docs/python.org][link on support]])
 - =pandoc= ([[file:docs/pandoc.org][link on support]])

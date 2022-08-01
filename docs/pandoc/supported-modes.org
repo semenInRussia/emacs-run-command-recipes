@@ -23,7 +23,7 @@ This is list:
 - =csv-mode=
 - =json-mode=
 
-For support of new mode use followed code:
+For support of new mode use following code:
 
 #+begin_src emacs-lisp
 (puthash "markdown"
