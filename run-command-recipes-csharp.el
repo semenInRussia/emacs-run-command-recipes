@@ -20,7 +20,7 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;; For use this code put this to config:
+;; For use this code put the followed to your Emacs configuration:
 ;;
 ;; (run-command-recipes-use-one 'csharp)
 ;;
@@ -32,26 +32,25 @@
 
 (defcustom run-command-recipes-csharp-modes
   '(csharp-mode)
-  "List of major modes in which recipe of `run-command' for c# should work."
+  "List of major modes in which the recipe of `run-command' for c# should work."
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
 (defun run-command-recipes-csharp-p ()
-  "Return t, when recipe of `run-command' for c# should be work."
+  "Return t, when `run-command' recipe for c# should work."
   (-contains-p run-command-recipes-csharp-modes major-mode))
 
 (defun run-command-recipes-csharp ()
   "Recipe of `run-command' for c#."
-  (run-command-recipes-lib-bind-in-recipe
-   (when (and (executable-find "dotnet"))
-     (list
-      :command-name "run-dotnet-project"
-      :display "Run .NET Project"
-      :command-line "dotnet run")
-     (list
-      :command-name "compile-dotnet-project"
-      :display "Only Compile .NET Project"
-      :command-line "dotnet build"))))
+  (when (and (executable-find "dotnet") (run-command-recipes-csharp-p))
+    (list
+     :command-name "run-dotnet-project"
+     :display "Run .NET Project"
+     :command-line "dotnet run")
+    (list
+     :command-name "compile-dotnet-project"
+     :display "Only Compile .NET Project"
+     :command-line "dotnet build")))
 
 (provide 'run-command-recipes-csharp)
 ;;; run-command-recipes-csharp.el ends here
