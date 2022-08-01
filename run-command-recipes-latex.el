@@ -22,9 +22,9 @@
 ;;; Commentary:
 
 ;; For use this code put the following to your Emacs configuration:
-;; ```
+;;
 ;; (run-command-recipes-use-one 'latex)
-;; ```
+;;
 ;;; Code:
 
 (require 'run-command-recipes-lib)
@@ -35,18 +35,18 @@
           " -file-line-error"
           " --output-directory \"{current-dir}\""
           " \"{file-name}\"")
-  "Command for run `pdflatex`, ignoring errors."
+  "Command running pdflatex, ignoring errors."
   :type 'string
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-latex-modes
   '(LaTeX-mode latex-mode tex-mode TeX-mode)
-  "List of tex/latex major modes in Emacs."
+  "List of tex/latex major modes in the Emacs."
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
 (defun run-command-recipes-latex ()
-  "Recipe for LaTeX `run-command'."
+  "Recipe of `run-command' for LaTeX."
   (run-command-recipes-lib-bind-in-recipe
    (when (-contains-p run-command-recipes-latex-modes major-mode)
      (list

@@ -18,7 +18,7 @@
 ;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;; Standard library for `run-command-recipes'
+;; Standard library of `run-command-recipes'
 
 ;;; Code:
 
@@ -27,31 +27,24 @@
 (require 's)
 
 (defun run-command-recipes-lib-compose-recipes (&rest recipes)
-  "Return composition of all RECIPES."
+  "Return the composition of all RECIPES."
   (->> recipes (-map #'funcall) (apply #'-concat)))
 
 (defcustom run-command-recipes-lib-bind-variables
   '(("file-name" . (buffer-file-name))
     ("current-dir" . default-directory)
     ("file-name-no-ext" . (--when-let (buffer-file-name) (f-no-ext it))))
-  "Variables' usages for :command-line in recipes of `run-command'.
-Alist in which keys are fragments of strings, values are Lisp sexps which will
-replace source string.  In string at :command-line {file-name} will be replaced
-to value of this alist at key \"file-name\""
-  :type '(alist :key-type string :value-type list)
-  :group 'run-command-recipes)
+  "Variables for :command-line in recipes of `run-command'.
 
-(defun run-command-recipes-lib-bind-in-recipe (plists)
-  "In each plist of PLISTS replace \"some things\" in :command-line.
+This is `alist' in which keys are fragments of strings, values are
+Lisp sexps which should replace fragements to result of its
+evaulating.
 
-Each of PLISTS is element of `run-command' recipe result (see variable
-`run-command-recipes'), so each of plists can has value at key :command-line
+In :command-line of a `run-command' recipe string {file-name} will be replaced
+with the evaulating of key, in the current case, evaluating
+of (buffer-file-name)
 
-\"Some things\" must have the following syntax:
-
-{something}
-
-But insetad of something you may use one of following list:
+List of variables bindings:
 
 - file-name
 Absolute path to current file with quotes \"\".
@@ -61,6 +54,20 @@ Like on the file-name, but without extension
 
 - current-dir
 Full path to the directory which has the file at current buffer"
+  :type '(alist :key-type string :value-type list)
+  :group 'run-command-recipes)
+
+(defun run-command-recipes-lib-bind-in-recipe (plists)
+  "For each plist of PLISTS replace the some things in the :command-line string.
+
+Each of PLISTS is recipe for `run-command', result of this function
+should be list of plists, but each plist will be with replaced
+:command-line string, for example in :command-line string {file-name}
+will be replaced with evaulating of (buffer-file-name), because
+'file-name is the key of `run-command-recipes-lib-bind-variables'
+and (buffer-file-name) is value.
+
+So, see `run-command-recipes-lib-bind-variables' for the list of changes"
   (->>
    plists
    (--map
@@ -80,11 +87,12 @@ Full path to the directory which has the file at current buffer"
 
 (defun run-command-recipes-lib-plist-map (plist prop transformer)
   "Transform the value of PROP in PLIST with TRANSFORMER.
+
 This function modifies plist with `plist-put'.  So it does the same
 side-effects."
   (--when-let
       (plist-get plist prop)
-    (->> it (funcall transformer) (plist-put plist prop))))
+    (plist-put plist prop (funcall transformer it))))
 
 (provide 'run-command-recipes-lib)
 ;;; run-command-recipes-lib.el ends here

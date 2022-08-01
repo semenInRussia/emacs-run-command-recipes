@@ -21,9 +21,9 @@
 
 ;;; Commentary:
 ;; For use this code put the following to your Emacs configuration:
-;; ```
+;;
 ;; (run-command-recipes-use-one 'elisp)
-;; ```
+;;
 ;;; Code:
 
 (require 'dash)
@@ -32,14 +32,19 @@
 (require 'run-command-recipes-lib)
 
 (defun run-command-recipes-elisp ()
-  "Recipe of `run-command' for emacs-lisp."
+  "Recipe of `run-command' for the emacs-lisp."
   (run-command-recipes-lib-compose-recipes
    #'run-command-recipes-elisp-cask
    #'run-command-recipes-elisp-ert
    #'run-command-recipes-elisp-virgin))
 
+(defcustom run-command-recipes-elisp-cask-filename "Cask"
+  "Name of cask file."
+  :type 'string
+  :group 'run-command-recipes)
+
 (defun run-command-recipes-elisp-cask ()
-  "Recipe of `run-command' for cask, subrecipe of emacs-lisp recipe."
+  "Recipe of `run-command' for Cask, subrecipe of the emacs-lisp recipe."
   (when (run-command-recipes-elisp-cask-project-p)
     (list
      (list
@@ -47,29 +52,10 @@
       :display "Install Dependecies from Cask"
       :command-line "cask"))))
 
-(defcustom run-command-recipes-elisp-cask-project-p-function nil
-  "Get non-nil when current opened project have Cask."
-  :type 'predicate
-  :group 'run-command-recipes)
-
-(defcustom run-command-recipes-elisp-cask-filename "Cask"
-  "Name of cask file."
-  :type 'string
-  :group 'run-command-recipes)
-
 (defun run-command-recipes-elisp-cask-project-p ()
   "Get non-nil when current opened project have Cask."
-  (if run-command-recipes-elisp-cask-project-p-function
-      (funcall run-command-recipes-elisp-cask-project-p-function)
-    (run-command-recipes-project-root-has
-     run-command-recipes-elisp-cask-filename)))
-
-(defcustom run-command-recipes-elisp-has-ert-tests-p-function nil
-  "Funtion not take arguments, get non-nil, if current project has `ert' tests.
-By virgin this is function which return t, when root of project has directory
-`run-command-recipes-elisp-ert-tests-directory'"
-  :type 'predicate
-  :group 'run-command-recipes)
+  (run-command-recipes-project-root-has
+   run-command-recipes-elisp-cask-filename))
 
 (defcustom run-command-recipes-elisp-ert-tests-directory "test"
   "This is name of directory in which put ert tests."
@@ -77,7 +63,7 @@ By virgin this is function which return t, when root of project has directory
   :group 'run-command-recipes)
 
 (defun run-command-recipes-elisp-ert ()
-  "Recipe of `run-command' for `ert', subrecipe of emacs-lisp recipe."
+  "Recipe of `run-command' for `ert', subrecipe of the emacs-lisp recipe."
   (when (run-command-recipes-elisp-has-ert-tests-p)
     (list
      (list
@@ -90,11 +76,9 @@ By virgin this is function which return t, when root of project has directory
       :lisp-function #'run-command-recipes-elisp-run-ert))))
 
 (defun run-command-recipes-elisp-has-ert-tests-p ()
-  "Get non-nil, if current project has `ert'."
-  (if run-command-recipes-elisp-has-ert-tests-p-function
-      (funcall run-command-recipes-elisp-has-ert-tests-p-function)
-    (run-command-recipes-project-root-has
-     run-command-recipes-elisp-ert-tests-directory)))
+  "Get non-nil, if current project use `ert'."
+  (run-command-recipes-project-root-has
+   run-command-recipes-elisp-ert-tests-directory))
 
 (defun run-command-recipes-elisp-run-ert-all-tests ()
   "Run all `ert' in directory."
@@ -129,25 +113,25 @@ By virgin this is function which return t, when root of project has directory
       :lisp-function 'run-command-recipes-elisp-recompile-current-directory))))
 
 (defun run-command-recipes-elisp-mode-p ()
-  "Predicate, return non-nil value, if current `major-mode' is Emacs Lisp mode."
+  "Return non-nil value, if current `major-mode' is one Emacs Lisp modes."
   (-contains-p run-command-recipes-elisp-modes major-mode))
 
 (defun run-command-recipes-elisp-file-was-compiled-p ()
-  "Return t when current file was run in `byte-compile'."
+  "Return t, when current file already was compiled via `byte-compile'."
   (-when-let
       (filename (buffer-file-name))
     (f-file-p (f-swap-ext filename "elc"))))
 
 (defun run-command-recipes-elisp-compile-current-file ()
-  "Compile to bytes current Elisp file."
+  "Compile to bytes the current Elisp file."
   (byte-compile-file (buffer-file-name)))
 
 (defun run-command-recipes-elisp-recompile-current-file ()
-  "Recompile to bytes current Elisp file."
+  "Recompile to bytes the current Elisp file."
   (byte-recompile-file (buffer-file-name)))
 
 (defun run-command-recipes-elisp-recompile-current-directory ()
-  "Recompile to bytes current directory."
+  "Recompile to bytes the current directory."
   (byte-recompile-directory (run-command-recipes-project-root)))
 
 (provide 'run-command-recipes-elisp)

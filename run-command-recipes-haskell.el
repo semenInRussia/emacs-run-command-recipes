@@ -37,22 +37,22 @@
       'haskell-compile
     #'(user-error
        "Run-command-recipes-haskell.el: Install `haskell-mode', pls!"))
-  "This function run when run recipe \"Run Haskell File by Context\"."
+  "Run when the recipe \"Run Haskell File by Context\" was choosen."
   :type 'function
   :group 'run-command-recipes-haskell)
 
 (defcustom run-command-recipes-haskell-modes
   '(haskell-mode)
-  "List of `major-modes` for Haskell."
+  "List of `major-modes' for Haskell."
   :type '(repeat function)
   :group 'run-command-recipes)
 
 (defun run-command-recipes-haskell-mode-p ()
-  "Get t, when current `major-mode' is mode for Haskell."
+  "Get t, when current `major-mode' is the mode for Haskell."
   (-contains-p run-command-recipes-haskell-modes major-mode))
 
 (defun run-command-recipes-haskell ()
-  "`run-command''s recipe for `haskell`."
+  "`run-command' recipe for Haskell."
   (when (run-command-recipes-haskell-mode-p)
     (list
      (list

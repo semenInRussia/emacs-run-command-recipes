@@ -30,26 +30,27 @@
 
 (defcustom run-command-recipes-java-run-file-command
   "javac {file-name} && {file-name-no-ext}"
-  "Command which run current java source file."
+  "Command running current Java source file."
   :type 'string
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-java-compile-file-command
   "javac -Werror {file-name}"
-  "Command which only compile current java source file.
+  "Command only compiling current Java file.
+
 See `run-command-recipes-lib-bind-in-recipe' for understand dinamic replaces in
-current command"
+the current shell command"
   :type 'string
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-java-modes
   '(java-mode)
-  "List of major modes in which recipe of `run-command' for java should work."
+  "List of major modes in which the `run-command' recipe for Java should work."
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
 (defun run-command-recipes-java ()
-  "Recipe of `run-command' for java."
+  "Recipe of `run-command' for Java."
   (run-command-recipes-lib-bind-in-recipe
    (when (and (executable-find "javac") (run-command-recipes-java-p))
      (list
@@ -63,7 +64,7 @@ current command"
        :command-line run-command-recipes-java-compile-file-command)))))
 
 (defun run-command-recipes-java-p ()
-  "Return t, when recipe of `run-command' for `java' should work."
+  "Return t, when the recipe of `run-command' for Java should work."
   (-contains-p run-command-recipes-java-modes major-mode))
 
 (provide 'run-command-recipes-java)
