@@ -206,9 +206,15 @@ Here this function navigate to rust"
 
 (defun run-command-recipes-create-recipe-documentation-file (recipe-name)
   "Create file for the documentaion of the recipe named RECIPE-NAME."
-  (find-file doc-file)
+  (find-file (run-command-recipes-recipe-doc-file-path recipe-name))
   (run-command-recipes-use-template run-command-recipes-doc-template-file-path
                                     recipe-name))
+
+(defun run-command-recipes-recipe-doc-file-path (recipe-name)
+  "Get path to the documentation file of the `run-command-recipes' RECIPE-NAME."
+  (f-join run-command-recipes-source-path
+          "docs"
+          (s-concat recipe-name ".org")))
 
 (defun run-command-recipes-create-recipe-source-code-file (recipe-name)
   "Create file for the source code of the recipe named RECIPE-NAME."
