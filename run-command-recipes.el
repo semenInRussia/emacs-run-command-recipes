@@ -101,7 +101,7 @@ Used when creating a new recipe."
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-template-file-path
-  (f-join run-command-recipes-source-path "run-command-recipes-template.el")
+  (f-join run-command-recipes-source-path "run-command-recipes-template.txt")
   "Path to the template file for a `run-command' recipe source code file."
   :type 'string
   :group 'run-command-recipes)
@@ -132,32 +132,27 @@ the start of this file for list of supported recipes."
 (defun run-command-recipes-create-recipe (recipe-name)
   "Create a `run-command' recipe named RECIPE-NAME."
   (interactive (list (read-string "Enter new recipe's name: ")))
-  (let* ((elisp-file
-          (f-join
-           run-command-recipes-source-path
-           (s-concat "run-command-recipes-" recipe-name ".el")))
-         (doc-file
-          (f-join run-command-recipes-source-path
-                  "docs"
-                  (s-concat recipe-name ".org"))))
-    (run-command-recipes-add-supported-recipe-to-elisp-comment recipe-name)
-    (run-command-recipes-add-supported-recipe-to-elisp-variable recipe-name)
-    (run-command-recipes-documentate-supported-recipe-in-readme recipe-name)
-    (run-command-recipes-create-recipe-documentation-file recipe-name)
-    (run-command-recipes-create-recipe-source-code-file recipe-name)))
+  (run-command-recipes-add-supported-recipe-to-elisp-comment recipe-name)
+  (run-command-recipes-add-supported-recipe-to-elisp-variable recipe-name)
+  (run-command-recipes-documentate-supported-recipe-in-readme recipe-name)
+  (run-command-recipes-create-recipe-documentation-file recipe-name)
+  (run-command-recipes-create-recipe-source-code-file recipe-name))
 
 (defun run-command-recipes-documentate-supported-recipe-in-readme (recipe-name)
   "Add RECIPE-NAME to the list of supported recipe in the README.md file."
-  (let ((doc-file
-         (f-join run-command-recipes-source-path
-                 "docs"
-                 (s-concat recipe-name ".org"))))
-    (find-file run-command-recipes-readme-file-path)
-    (goto-char (point-max))
-    (search-backward-regexp "- =[^=]+= (")
-    (end-of-line)
-    (newline)
-    (run-command-recipes-insert-org-link-to-support recipe-name)))
+  (run-command-recipes-goto-supported-recipes-in-readme)
+  (run-command-recipes-insert-org-link-to-support recipe-name))
+
+(defun run-command-recipes-goto-supported-recipes-in-readme ()
+  "Go to list of the supported `run-command' recipes in the README.org file.
+
+The README.org file is file of the `run-command-recipes' directory.  See
+variable `run-command-recipes-readme-file-path'"
+  (find-file run-command-recipes-readme-file-path)
+  (goto-char (point-max))
+  (search-backward-regexp "- =[^=]+= (")
+  (end-of-line)
+  (newline))
 
 (defun run-command-recipes-insert-org-link-to-support (recipe-name)
   "Insert a link to the recipe named RECIPE-NAME using Org mode syntax."
