@@ -1,7 +1,7 @@
 ;;; run-command-recipes-java.el --- Recipe of `run-command' for `java` -*- lexical-binding: t; -*-
 
 ;; Author: semenInRussia <hrams205@gmail.com>
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; Keywords: extensions run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 ;; URL: https://github.com/semenInRussia/emacs-run-command-recipes/blob/main/docs/java.md

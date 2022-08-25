@@ -3,7 +3,7 @@
 ;; Copyright (C) 2022 semenInRussia
 
 ;; Author: semenInRussia <hrams205@gmail.com>
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; Keywords: extensions, run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 
