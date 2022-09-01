@@ -83,10 +83,18 @@ So, see `run-command-recipes-lib-bind-variables' for the list of changes"
   (let ((replacements
          (--map
           (cons
-           (s-concat "{" (car it) "}")
+           (concat "{" (car it) "}")
            (eval (cdr it)))
           run-command-recipes-lib-bind-variables)))
-    (s-replace-all replacements command-line)))
+    (run-command-recipes-lib-replace-all replacements command-line)))
+
+(defun run-command-recipes-lib-replace-all (replacements s)
+  "Replace the `car's of REPLACEMENTS to the `cdr's REPLACEMENTS in S."
+  (replace-regexp-in-string
+   (regexp-opt (-map 'car replacements))
+   (lambda (from)
+     (alist-get from replacements "" nil #'string-equal))
+   s))
 
 (defun run-command-recipes-lib-plist-map (plist prop transformer)
   "Transform the value of PROP in PLIST with TRANSFORMER.

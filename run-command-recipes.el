@@ -4,7 +4,7 @@
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.2
-;; Package-Requires: ((emacs "25.1") (dash "2.18.0") (f "0.20.0") (run-command "0.1.0") (s "1.12.0") (ht "2.4"))
+;; Package-Requires: ((emacs "25.1") (dash "2.18.0") (f "0.20.0") (run-command "0.1.0") (ht "2.4"))
 ;; Keywords: extensions, run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 
@@ -214,14 +214,14 @@ Here this function navigate to rust"
   "Get path to the documentation file of the `run-command-recipes' RECIPE-NAME."
   (f-join run-command-recipes-source-path
           "docs"
-          (s-concat recipe-name ".org")))
+          (concat recipe-name ".org")))
 
 (defun run-command-recipes-create-recipe-source-code-file (recipe-name)
   "Create file for the source code of the recipe named RECIPE-NAME."
   (let ((elisp-file
          (f-join
           run-command-recipes-source-path
-          (s-concat "run-command-recipes-" recipe-name ".el"))))
+          (concat "run-command-recipes-" recipe-name ".el"))))
     (find-file elisp-file)
     (run-command-recipes-use-template run-command-recipes-template-file-path
                                       recipe-name)))
@@ -232,7 +232,7 @@ Here this function navigate to rust"
 The recipe is recipe named RECIPE-NAME."
   (->>
    (f-read template-path)
-   (s-replace "_recipe-name_" recipe-name)
+   (replace-regexp-in-string "_recipe-name_" recipe-name)
    (insert)))
 
 (provide 'run-command-recipes)

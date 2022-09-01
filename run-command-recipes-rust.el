@@ -60,7 +60,7 @@ Instead of \"%s\" put filename of file."
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-rust-rustc-run-command
-  (s-concat
+  (concat
    run-command-recipes-rust-rustc-compile-command
    " && {file-name-no-ext}")
   "Shell command which run currenr rust file with `rustc'.

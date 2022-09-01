@@ -68,8 +68,8 @@ Subrecipe of recipe for C."
       (list
        :display "Compile and Execute Current file via `gcc'"
        :command-line ;nofmt
-       (s-concat "gcc {file-name} -Wall -Werror -o {file-name-no-ext} "
-                 "&& {file-name-no-ext}")
+       (concat "gcc {file-name} -Wall -Werror -o {file-name-no-ext} "
+               "&& {file-name-no-ext}")
        :command-name "gcc-compile-and-exec")
       (list
        :display "Only Compile Current file via `gcc'"
