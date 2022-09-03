@@ -120,9 +120,7 @@ Implementation depends on `run-command-recipes-python-test-buffer-p-function'"
 (defun run-command-recipes-python-virgin ()
   "Recipe of `run-command' for virgin version of python, subrecipe of python."
   (run-command-recipes-lib-bind-in-recipe
-   (when (and
-          (run-command-recipes-python-mode-p)
-          (executable-find "pytest"))
+   (when (run-command-recipes-python-mode-p)
      (list
       (list
        :command-name "run-python-file"
