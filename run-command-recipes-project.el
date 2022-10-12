@@ -1,7 +1,7 @@
 ;;; run-command-recipes-project.el --- Operations on project -*- lexical-binding: t; -*-
 
 ;; Author: semenInRussia <hrams205@gmail.com>
-;; Version: 0.0.2
+;; Version: 0.0.3
 ;; Keywords: extensions run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 
@@ -34,11 +34,11 @@
 (defun run-command-recipes-project-root ()
   "Return path to project root."
   (cond
-    ((and (require 'projectile nil t) projectile-mode)
-     (projectile-acquire-root))
-    ((and (require 'project nil t) (project-current))
-     (-first-item (project-roots (project-current))))
-    (t default-directory)))
+   ((and (require 'projectile nil t) projectile-mode)
+    (projectile-acquire-root))
+   ((and (require 'project nil t) (project-current))
+    (-first-item (project-roots (project-current))))
+   (t default-directory)))
 
 (defun run-command-recipes-project-root-has (entire)
   "Return t, when root of current project has ENTIRE (filename or directory)."

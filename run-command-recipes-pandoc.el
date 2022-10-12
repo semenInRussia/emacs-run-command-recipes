@@ -1,7 +1,7 @@
 ;;; run-command-recipes-pandoc.el --- Recipe of `run-command' for `pandoc` -*- lexical-binding: t;
 
 ;; Author: semenInRussia <hrams205@gmail.com>
-;; Version: 0.0.2
+;; Version: 0.0.3
 ;; Keywords: extensions run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 ;; URL: https://github.com/semenInRussia/emacs-run-command-recipes/blob/main/docs/pandoc.md
