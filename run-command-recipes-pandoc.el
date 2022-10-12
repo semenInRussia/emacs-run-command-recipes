@@ -30,7 +30,6 @@
 
 (require 'dash)
 (require 'f)
-(require 'ht)
 
 (require 'run-command-recipes-latex)
 
