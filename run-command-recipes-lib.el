@@ -3,7 +3,7 @@
 ;; Copyright (C) 2022 semenInRussia
 
 ;; Author: semenInRussia <hrams205@gmail.com>
-;; Version: 0.0.3
+;; Version: 0.0.2
 ;; Keywords: extensions, run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 
@@ -28,6 +28,10 @@
 (require 'dash)
 (require 'f)
 (require 's)
+
+(declare-function run-command--run-compile "run-command")
+(declare-function run-command--run-term "run-command")
+(declare-function run-command--run-vterm "run-command")
 
 (defun run-command-recipes-lib-compose-recipes (&rest recipes)
   "Return the composition of all RECIPES."
@@ -76,7 +80,8 @@ So, see `run-command-recipes-lib-bind-variables' for the list of changes"
    (--map
     (run-command-recipes-lib-plist-map
      it
-     :command-line #'run-command-recipes-lib--change-command-line))))
+     :command-line #'run-command-recipes-lib--change-command-line))
+   (-map 'run-command-recipes-lib--change-method-of-run)))
 
 (defun run-command-recipes-lib--change-command-line (command-line)
   "Replace some fragments of COMMAND-LINE to respective things."
@@ -104,6 +109,55 @@ side-effects."
   (--when-let
       (plist-get plist prop)
     (plist-put plist prop (funcall transformer it))))
+
+(defun run-command-recipes-lib--change-method-of-run (recipe)
+  "Change the run method of RECIPE depends on its attributes.
+
+RECIPE will be runned with `compilation-mode' if :way attribute of
+RECIPE alist setted to 'compile, or if `run-command-run-method' setted to
+'compile and :run-method attribute isn't provided.  Also RECIPE can be runned
+with `term-mode', for enabling either set :run-method attribute of RECIPE to
+'term or set `run-command-run-method' to 'term and don't provide that attribute.
+Also you can run command asynchronously in background with set :run-method
+attribute of RECIPE to 'async."
+  (let* ((run-method (plist-get recipe :run-method))
+         (command-line
+          (if (functionp (plist-get recipe :command-line))
+              (funcall (plist-get recipe :command-line))
+            (plist-get recipe :command-line)))
+         (command-name
+          (or
+           (plist-get recipe :command-name)
+           (plist-get recipe :command-line)))
+         (scope-name
+          (or
+           (plist-get recipe :scope-name)
+           (plist-get recipe :working-dir)
+           default-directory))
+         (buffer-base-name (format "%s[%s]" command-name scope-name)))
+    (when (and command-line run-method)
+      (plist-put recipe
+                 :lisp-function         ;nofmt
+                 (cond
+                  ((eq run-method 'compile)
+                   (message "COMPILE")
+                   (lambda ()
+                     (run-command--run-compile command-line buffer-base-name)))
+                  ((eq run-method 'term)
+                   (lambda ()
+                     (run-command--run-term command-line buffer-base-name)))
+                  ((eq run-method 'vterm)
+                   (lambda ()
+                     (run-command--run-vterm command-line buffer-base-name)))
+                  ((eq run-method 'async)
+                   (lambda ()
+                     (run-command-recipes-lib--run-async
+                      command-line buffer-base-name))))))
+    recipe))
+
+(defun run-command-recipes-lib--run-async (command-line buffer-base-name)
+  "Run COMMAND-LINE asynchronously in background BUFFER-BASE-NAME."
+  (async-shell-command command-line buffer-base-name))
 
 (provide 'run-command-recipes-lib)
 ;;; run-command-recipes-lib.el ends here
