@@ -96,45 +96,43 @@ See https://pandoc.org"
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-pandoc-formats-and-extensions
-  (ht
-   ("asciidoc" "adoc")
-   ("context" "ctx")
-   ("docbook" "db")
-   ("markdown" "md")
-   ("ms" "roff")
-   ("latex" "tex")
-   ("texinfo" "texi")
-   ("mediawiki" "wiki")
-   ("biblatex" "bib"))
+  '(("asciidoc"  . "adoc")
+    ("context"   . "ctx")
+    ("docbook"   . "db")
+    ("markdown"  . "md")
+    ("ms"        . "roff")
+    ("latex"     . "tex")
+    ("texinfo"   . "texi")
+    ("mediawiki" . "wiki")
+    ("biblatex"  . "bib"))
   "This is map of pandoc's format code and extension of file.
 If your pandoc's code have extensions, which equal to pandoc's code (for
 example: org = .(org)), then just don't put pair to this variable."
   :group 'run-command-recipes
-  :type 'hashtable)
+  :type '(alist :key-type string :value-type string))
 
 (defun run-command-recipes-pandoc-add-modes-with-format-to-table ;nofmt
     (modes format table)
   "Add MODES as vals, and one FORMAT as keys to TABLE."
-  (--each modes (ht-set! table it format))
-  table)
+  (--each modes (puthash it format table)))
 
 (defcustom run-command-recipes-pandoc-major-modes-input-formats
-  (->>
-   (ht
-    ('markdown-mode "markdown")
-    ('gfm-mode "gfm")
-    ('haskell-mode "native")
-    ('rtf-mode "rtf")
-    ('rst-mode "rst")
-    ('txt2tags-mode "t2t")
-    ('textile-mode "textile")
-    ('json-mode "json")
-    ('csv-mode "csv")
-    ('org-mode "org"))
-   (run-command-recipes-pandoc-add-modes-with-format-to-table
-    run-command-recipes-latex-modes "latex")
-   (run-command-recipes-pandoc-add-modes-with-format-to-table
-    run-command-recipes-pandoc-html-modes "html"))
+  (let ((hash (make-hash-table :test 'eq)))
+    (puthash 'markdown-mode "markdown" hash)
+    (puthash 'gfm-mode "gfm" hash)
+    (puthash 'haskell-mode "native" hash)
+    (puthash 'rtf-mode "rtf" hash)
+    (puthash 'rst-mode "rst" hash)
+    (puthash 'txt2tags-mode "t2t" hash)
+    (puthash 'textile-mode "textile" hash)
+    (puthash 'json-mode "json" hash)
+    (puthash 'csv-mode "csv" hash)
+    (puthash 'org-mode "org" hash)
+    (run-command-recipes-pandoc-add-modes-with-format-to-table
+     run-command-recipes-latex-modes "latex" hash)
+    (run-command-recipes-pandoc-add-modes-with-format-to-table
+     run-command-recipes-pandoc-html-modes "html" hash)
+    hash)
   "Hashtable with keys major modes and values pandoc's input format's codes.
 See https://pandoc.org for see pandoc's input formats."
   :type 'hashtable
@@ -154,10 +152,11 @@ See https://pandoc.org for see pandoc's input formats."
 (defun run-command-recipes-pandoc-change-format-of-file (filename new-format)
   "Change FILENAME with pandoc's format to filename with pandoc's NEW-FORMAT."
   (let ((new-ext
-         (gethash
-          new-format
-          run-command-recipes-pandoc-formats-and-extensions
-          new-format)))
+         (alist-get new-format
+                    run-command-recipes-pandoc-formats-and-extensions
+                    new-format
+                    nil
+                    'string-equal)))
     (f-swap-ext filename new-ext)))
 
 (defun run-command-recipes-pandoc-format-for-major-mode (mode)

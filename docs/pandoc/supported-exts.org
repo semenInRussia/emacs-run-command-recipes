@@ -1,4 +1,4 @@
-* Panoc Variable =run-command-recipes-pandoc-formats-and-extensions=
+* Pandoc Variable =run-command-recipes-pandoc-formats-and-extensions=
   :PROPERTIES:
   :CUSTOM_ID: panoc-variable-run-command-recipes-pandoc-formats-and-extensions
   :END:
@@ -22,7 +22,7 @@ with format's name extension):
 For add new use this code:
 
 #+begin_src emacs-lisp
-(puthash "markdown"
-         "md"
-         run-command-recipes-pandoc-formats-and-extensions)
+  (setq "markdown"
+           "md"
+           run-command-recipes-pandoc-formats-and-extensions)
 #+end_src

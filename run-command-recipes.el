@@ -4,7 +4,7 @@
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.2
-;; Package-Requires: ((emacs "25.1") (dash "2.18.0") (f "0.20.0") (run-command "0.1.0") (ht "2.4"))
+;; Package-Requires: ((emacs "25.1") (dash "2.18.0") (f "0.20.0") (run-command "0.1.0"))
 ;; Keywords: extensions, run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 
@@ -63,7 +63,7 @@
   "Group for `run-command-recipes'."
   :group 'tools
   :link '(url-link :tag "GitHub"
-          "https://github.com/semenInRussia/emacs-run-command-recipes"))
+                   "https://github.com/semenInRussia/emacs-run-command-recipes"))
 
 (defcustom run-command-recipes-supported-recipes
   '(latex pandoc haskell elisp rust python c cpp csharp java racket)
