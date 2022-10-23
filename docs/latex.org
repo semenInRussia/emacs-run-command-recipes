@@ -5,15 +5,34 @@
 
 ** Table of Contents                                                    :TOC:
 - [[#run-command-recipe-for-latex][=run-command= Recipe for LaTeX]]
+  - [[#requirements][Requirements]]
   - [[#commands][Commands]]
   - [[#customization][Customization]]
 
+** Requirements
+For full enjoy this recipe, i recommend that you install Emacs package
+[[https://github.com/Malabarba/latex-extra][latex-extra]], but this is not required.
+
 ** Commands
-   :PROPERTIES:
-   :CUSTOM_ID: commands
-   :END:
-   This cool recipe can only one command:
+:PROPERTIES:
+:CUSTOM_ID: commands
+:END:
+This cool recipe can 2 commands:
 - Convert to PDF with pdflatex
+- Fully compile the current document, then view it
+
+  *NOTE*: this command requires the [[https://github.com/Malabarba/latex-extra][latex-extra]] Emacs package
+
+  Here "fully compile" denotes run full cycle of =LaTeX= commands, for
+  example:
+
+  + LaTeX
+  + BibTex
+  + LaTeX
+  + view in web-browser
+
+  Each step can be customized specially for you (visit
+  [[https://github.com/Malabarba/latex-extra][the origninal docs from latex-extra]])
 
 ** Customization
    :PROPERTIES:

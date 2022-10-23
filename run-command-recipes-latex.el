@@ -29,6 +29,8 @@
 
 (require 'run-command-recipes-lib)
 
+(declare-function 'latex/compile-commands-until-done "latex-extra")
+
 (defcustom run-command-recipes-latex-command
   (concat "pdflatex"
           " -interaction nonstopmode"
@@ -53,7 +55,12 @@
       (list
        :display "Convert to PDF with `pdflatex`, ignoring errors"
        :command-name "pdflatex"
-       :command-line run-command-recipes-latex-command)))))
+       :command-line run-command-recipes-latex-command)
+      (when (featurep 'latex-extra)
+        (list
+         :display "Fully compile the current document, then view it"
+         :command-name "latex-compile-commands-until-done"
+         :lisp-function 'latex/compile-commands-until-done))))))
 
 (provide 'run-command-recipes-latex)
 ;;; run-command-recipes-latex.el ends here
