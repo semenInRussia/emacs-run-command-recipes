@@ -150,82 +150,99 @@
       (list
        :command-name "eldev-archives"
        :command-line "eldev archives"
+       :working-dir (run-command-recipes-project-root)
        :display "View `Eldev' archives")
       (list
        :command-name "eldev-archives"
        :command-line "eldev archives"
+       :working-dir (run-command-recipes-project-root)
        :display "View `Eldev' archives")
       (list
        :command-name "eldev-upgrade"
        :command-line "eldev upgrade"
+       :working-dir (run-command-recipes-project-root)
        :display "Upgrade `Eldev' Project")
       (list
        :command-name "eldev-targets"
        :command-line "eldev targets"
+       :working-dir (run-command-recipes-project-root)
        :display "View `Eldev' targets")
       (list
        :command-name "eldev-build-main"
        :command-line "eldev build"
+       :working-dir (run-command-recipes-project-root)
        :display "Build Main `Eldev' targets")
       (list
        :command-name "eldev-build-all"
        :command-line "eldev build all"
+       :working-dir (run-command-recipes-project-root)
        :display "Build `Eldev' Targets of Each Set")
       (list
        :command-name "eldev-package-build"
        :command-line "eldev package"
+       :working-dir (run-command-recipes-project-root)
        :display "Build the `Eldev' Package")
       (list
        :command-name "eldev-compile"
        :command-line "eldev compile"
+       :working-dir (run-command-recipes-project-root)
        :display "Byte-compile `Eldev' Project Files")
       (and
        (buffer-file-name)
        (list
         :command-name "eldev-compile-current-file"
         :command-line "eldev compile {file-name}"
+        :working-dir (run-command-recipes-project-root)
         :display "Byte-compile Current `Eldev' File of Project")
        (list
         :command-name "eldev-compile-current-file-warnings-as-errors"
         :command-line "eldev compile {file-name} --warnings-as-errors"
+        :working-dir (run-command-recipes-project-root)
         :display "Compile Current `Eldev' File of Project, Warnings as Errors"))
       (list
        :command-name "eldev-clean"
        :command-line "eldev clean"
+       :working-dir (run-command-recipes-project-root)
        :display "Clean Current `Eldev' Project")
       (list
        :command-name "eldev-test"
        :command-line "eldev test"
+       :working-dir (run-command-recipes-project-root)
        :display "Run Tests of the `Eldev' Project")
       (and
        (buffer-file-name)
        (list
         :command-name "eldev-test-current-file"
         :command-line "eldev test {file-name}"
+        :working-dir (run-command-recipes-project-root)
         :display "Run Tests from Current Test File with `Eldev'"))
       (and
        (buffer-file-name)
        (list
         :command-name "eldev-test-until-unexpected"
         :command-line "eldev test {file-name}"
+        :working-dir (run-command-recipes-project-root)
         :display "Run Tests of Current `Eldev' Project, until Some Fails"))
       (and
        (buffer-file-name)
        (list
         :command-name "eldev-test-failed"
         :command-line "eldev test :fail"
+        :working-dir (run-command-recipes-project-root)
         :display "Run Failed Tests of `Current' Eldev Project"))
       (and
        (buffer-file-name)
        (list
         :command-name "eldev-test-failed"
         :command-line "eldev test :new"
+        :working-dir (run-command-recipes-project-root)
         :display "Run New Tests of `Current' Eldev Project"))
       (and
        (buffer-file-name)
        (list
         :command-name "eldev-lint"
         :command-line "eldev lint"
+        :working-dir (run-command-recipes-project-root)
         :display "Lint Current `Eldev' Project"))))))
 
 (provide 'run-command-recipes-elisp)
