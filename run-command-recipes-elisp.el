@@ -144,7 +144,7 @@
   "Recipe of `run-command' for `eldev', subrecipe of the emacs-lisp recipe."
   (when (and
          (run-command-recipes-elisp-eldev-project-p)
-         (executable-find "Eldev"))
+         (executable-find "eldev"))
     (run-command-recipes-lib-bind-in-recipe
      (list
       (list

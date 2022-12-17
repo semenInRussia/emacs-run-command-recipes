@@ -11,9 +11,6 @@
     - [[#commands-1][Commands]]
 
 ** Commands
-   :PROPERTIES:
-   :CUSTOM_ID: commands
-   :END:
 
    I (semenInRussia, main developer of this repo) very love =racket=,
    so recipe for =racket= has a lot of commands:
@@ -27,9 +24,6 @@
    - Pretty Print Current Racket File
 
 ** Customization
-   :PROPERTIES:
-   :CUSTOM_ID: customization
-   :END:
 *** Detection
     Please, change value of variable
     =run-command-recipes-racket-modes= if you want change list of

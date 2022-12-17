@@ -10,18 +10,12 @@
   - [[#customization][Customization]]
 
 ** Commands
-   :PROPERTIES:
-   :CUSTOM_ID: commands
-   :END:
 This cool recipe has only one thing:
 - convert =SOMETHING= to =ANYTHING=
 
 but its will expanded to more commands has more then one command.
 
 ** What's it Work? (required when you need to customization)
-   :PROPERTIES:
-   :CUSTOM_ID: who-is-work-require-if-you-need-to-customize
-   :END:
 What's it Work and how extend it?
 
 1. When call =run-command-recipe-pandoc=, if this one of [[file:pandoc/supported-modes.md][this]] major
@@ -37,9 +31,6 @@ pandoc -o foo.md -f org -t markdown foo.org
 #+end_example
 
 ** Customization
-   :PROPERTIES:
-   :CUSTOM_ID: customization
-   :END:
 Extension for output file take from [[file:pandoc/supported-exts.md][here]]
 
 So if you need to special pandoc's output format see [[file:pandoc/supported-output-formats.md][this]], if you need
