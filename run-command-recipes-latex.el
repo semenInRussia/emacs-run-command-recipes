@@ -47,20 +47,47 @@
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
+(defcustom run-command-recipes-latexmk-config-filenames
+  '(".latexmkrc" "latexmkrc")
+  "Names of the `latexmk' config files indicating a LaTeX directory list."
+  :type '(repeat symbol)
+  :group 'run-command-recipes)
+
 (defun run-command-recipes-latex ()
   "Recipe of `run-command' for LaTeX."
+  (when (-contains-p run-command-recipes-latex-modes major-mode)
+    (run-command-recipes-lib-compose-recipes 'run-command-recipes-latex-pdflatex
+                                             'run-command-recipes-latex-latexmk)))
+
+(defun run-command-recipes-latex-pdflatex ()
+  "Subrecipe of `run-command' for command tool pdflatex."
   (run-command-recipes-lib-bind-in-recipe
-   (when (-contains-p run-command-recipes-latex-modes major-mode)
-     (list
+   (list
+    (list
+     :display "Convert to PDF using `pdflatex', ignoring errors"
+     :command-name "pdflatex"
+     :command-line run-command-recipes-latex-command)
+    (when (featurep 'latex-extra)
       (list
-       :display "Convert to PDF with `pdflatex`, ignoring errors"
-       :command-name "pdflatex"
-       :command-line run-command-recipes-latex-command)
-      (when (featurep 'latex-extra)
-        (list
-         :display "Fully compile the current document, then view it"
-         :command-name "latex-compile-commands-until-done"
-         :lisp-function 'latex/compile-commands-until-done))))))
+       :display "Fully compile the current document, then view it"
+       :command-name "latex-compile-commands-until-done"
+       :lisp-function 'latex/compile-commands-until-done)))))
+
+(defun run-command-recipes-latex-latexmk ()
+  "Subrecipe of `run-command' for command tool latexmk."
+  (let ((working-dir
+         (and
+          (run-command-recipes-project-root-has-one-of
+           run-command-recipes-latexmk-config-filenames)
+          (run-command-recipes-project-root))))
+    (list
+     (list
+      :display "Compile LaTeX using `latexmk'"
+      :command-name "latexmk"
+      :command-line "latexmk"
+      :working-dir working-dir))))
+
+
 
 (provide 'run-command-recipes-latex)
 ;;; run-command-recipes-latex.el ends here
