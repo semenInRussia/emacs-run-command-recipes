@@ -28,6 +28,7 @@
 ;;; Code:
 
 (require 'run-command-recipes-lib)
+(require 'run-command-recipes-project)
 
 (declare-function 'latex/compile-commands-until-done "latex-extra")
 
@@ -86,8 +87,6 @@
       :command-name "latexmk"
       :command-line "latexmk"
       :working-dir working-dir))))
-
-
 
 (provide 'run-command-recipes-latex)
 ;;; run-command-recipes-latex.el ends here
