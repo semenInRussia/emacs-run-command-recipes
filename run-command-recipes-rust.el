@@ -79,35 +79,36 @@ Instead of first \"%s\" put filename of file, instead of second binary file."
   (when (and
          (run-command-recipes-rust-cargo-project-p)
          (executable-find "cargo"))
-    (list
+    (run-command-recipes-lib-bind-in-recipe
      (list
-      :command-name "cargo-install"
-      :display "Install Dependecies from Cargo Project"
-      :command-line "cargo install")
-     (list
-      :command-name "cargo-run"
-      :display "Run Cargo Project"
-      :command-line "cargo run")
-     (list
-      :command-name "cargo-build"
-      :display "Build Cargo Project"
-      :command-line "cargo build")
-     (list
-      :command-name "cargo-doc"
-      :display "Build Documentation for Cargo Project"
-      :command-line "cargo doc")
-     (list
-      :command-name "cargo-test"
-      :display "Run Tests for Cargo Project"
-      :command-line "cargo test")
-     (list
-      :command-name "cargo-update"
-      :display "Update Dependecies for Cargo Project"
-      :command-line "cargo update")
-     (list
-      :command-name "cargo-publish"
-      :display "Publish Cargo Project to https://crates.io"
-      :command-line "cargo publish"))))
+      (list
+       :command-name "cargo-install"
+       :display "Install Dependecies from Cargo Project"
+       :command-line "cargo install --path .")
+      (list
+       :command-name "cargo-run"
+       :display "Run Cargo Project"
+       :command-line "cargo run")
+      (list
+       :command-name "cargo-build"
+       :display "Build Cargo Project"
+       :command-line "cargo build")
+      (list
+       :command-name "cargo-doc"
+       :display "Build Documentation for Cargo Project"
+       :command-line "cargo doc")
+      (list
+       :command-name "cargo-test"
+       :display "Run Tests for Cargo Project"
+       :command-line "cargo test")
+      (list
+       :command-name "cargo-update"
+       :display "Update Dependecies for Cargo Project"
+       :command-line "cargo update")
+      (list
+       :command-name "cargo-publish"
+       :display "Publish Cargo Project to https://crates.io"
+       :command-line "cargo publish")))))
 
 (defun run-command-recipes-rust-rustc ()
   "Recipe of `run-command' for `rustc' compiler, subrecipe for `rust'."
