@@ -25,6 +25,8 @@
 
 ;;; Code:
 
+(require 'run-command-recipes-project)
+
 (require 'dash)
 (require 'f)
 (require 's)
@@ -75,13 +77,15 @@ will be replaced with evaulating of (buffer-file-name), because
 and (buffer-file-name) is value.
 
 So, see `run-command-recipes-lib-bind-variables' for the list of changes"
-  (->>
-   plists
-   (--map
-    (run-command-recipes-lib-plist-map
-     it
-     :command-line #'run-command-recipes-lib--change-command-line))
-   (-map 'run-command-recipes-lib--change-method-of-run)))
+  (let ((root (run-command-recipes-project-root)))
+    (->>
+     plists
+     (--map
+      (run-command-recipes-lib-plist-map
+       it
+       :command-line #'run-command-recipes-lib--change-command-line))
+     (-map 'run-command-recipes-lib--change-method-of-run)
+     (--map (run-command-recipes-lib--change-working-dir it root)))))
 
 (defun run-command-recipes-lib--change-command-line (command-line)
   "Replace some fragments of COMMAND-LINE to respective things."
@@ -158,6 +162,17 @@ attribute of RECIPE to 'async."
 (defun run-command-recipes-lib--run-async (command-line buffer-base-name)
   "Run COMMAND-LINE asynchronously in background BUFFER-BASE-NAME."
   (async-shell-command command-line buffer-base-name))
+
+(defun run-command-recipes-lib--change-working-dir (recipe &optional root)
+  "If working-dir of plist RECIPE is nil change it to project root path.
+
+Return modified RECIPE.  If ROOT is non-nil, then change working-dir to it,
+otherwise change to value of a `run-command-recipes-project' call"
+  (if (plist-get recipe :working-dir)
+      recipe
+    (append recipe
+            (list :working-dir
+                  (or root (run-command-recipes-project-root))))))
 
 (provide 'run-command-recipes-lib)
 ;;; run-command-recipes-lib.el ends here
