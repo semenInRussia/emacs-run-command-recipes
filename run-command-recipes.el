@@ -106,9 +106,9 @@ Used when creating a new recipe."
   :type 'string
   :group 'run-command-recipes)
 
-(defmacro run-command-recipes-use-all ()
+(defun run-command-recipes-use-all ()
   "Use all recipes for `run-command' supported by `run-command-recipes'."
-  `(run-command-recipes-use ,@run-command-recipes-supported-recipes))
+  (-each run-command-recipes-supported-recipes 'run-command-recipes-use-one))
 
 (defmacro run-command-recipes-use (&rest recipes)
   "Use RECIPES for `run-command' supported by `run-command-recipes'.
