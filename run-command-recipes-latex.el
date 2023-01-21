@@ -86,6 +86,11 @@
       :display "Compile LaTeX using `latexmk'"
       :command-name "latexmk"
       :command-line "latexmk"
+      :working-dir working-dir)
+     (list
+      :display "Compile LaTeX using `latexmk' with previewer"
+      :command-name "latexmk-with-preview"
+      :command-line "latexmk -pv"
       :working-dir working-dir))))
 
 (provide 'run-command-recipes-latex)

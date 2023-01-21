@@ -20,7 +20,6 @@ For full enjoying this recipe, i recommend you install Emacs package
 This cool recipe can 3 commands:
 
 - Convert to PDF using ~pdflatex~
-- Compile LaTeX using ~latexmk~
 - Fully compile the current document, then view it
 
   *NOTE*: this command requires the [[https://github.com/Malabarba/latex-extra][latex-extra]] Emacs package
@@ -35,6 +34,8 @@ This cool recipe can 3 commands:
 
   Each step can be customized specially for you (visit
   [[https://github.com/Malabarba/latex-extra][the origninal docs from latex-extra]])
+- Compile LaTeX using ~latexmk~
+- Compile LaTeX using ~latexmk~ with previewer
 
 ** Customization
    :PROPERTIES:
