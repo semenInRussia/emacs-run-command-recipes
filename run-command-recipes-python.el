@@ -129,7 +129,8 @@ Implementation depends on `run-command-recipes-python-test-buffer-p-function'"
       (list
        :command-name "interactively-run-python-file"
        :display "Run Current Python Interactively File"
-       :command-line run-command-recipes-python-interactively-run-command)))))
+       :command-line run-command-recipes-python-interactively-run-command
+       :runner 'run-command-runner-term)))))
 
 (provide 'run-command-recipes-python)
 ;;; run-command-recipes-python.el ends here

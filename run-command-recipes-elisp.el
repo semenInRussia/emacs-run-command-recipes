@@ -153,11 +153,6 @@
        :working-dir (run-command-recipes-project-root)
        :display "View `Eldev' archives")
       (list
-       :command-name "eldev-archives"
-       :command-line "eldev archives"
-       :working-dir (run-command-recipes-project-root)
-       :display "View `Eldev' archives")
-      (list
        :command-name "eldev-upgrade"
        :command-line "eldev upgrade"
        :working-dir (run-command-recipes-project-root)

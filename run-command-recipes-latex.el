@@ -57,8 +57,9 @@
 (defun run-command-recipes-latex ()
   "Recipe of `run-command' for LaTeX."
   (when (-contains-p run-command-recipes-latex-modes major-mode)
-    (run-command-recipes-lib-compose-recipes 'run-command-recipes-latex-pdflatex
-                                             'run-command-recipes-latex-latexmk)))
+    (run-command-recipes-lib-compose-recipes
+     'run-command-recipes-latex-pdflatex
+     'run-command-recipes-latex-latexmk)))
 
 (defun run-command-recipes-latex-pdflatex ()
   "Subrecipe of `run-command' for command tool pdflatex."
@@ -86,11 +87,15 @@
       :display "Compile LaTeX using `latexmk'"
       :command-name "latexmk"
       :command-line "latexmk"
+      :runner 'run-command-runner-term
+      :hook 'compilation-minor-mode
       :working-dir working-dir)
      (list
       :display "Compile LaTeX using `latexmk' with previewer"
       :command-name "latexmk-with-preview"
       :command-line "latexmk -pv"
+      :runner 'run-command-runner-term
+      :hook 'compilation-minor-mode
       :working-dir working-dir))))
 
 (provide 'run-command-recipes-latex)
