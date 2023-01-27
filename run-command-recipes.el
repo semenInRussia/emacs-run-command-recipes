@@ -59,6 +59,7 @@
 (require 'f)
 (require 's)
 
+
 (defgroup run-command-recipes nil
   "Group for `run-command-recipes'."
   :group 'tools
@@ -70,9 +71,6 @@
   "List of recipes names supported by `run-command-recipes'."
   :type '(repeat symbol)
   :group 'run-command-recipes)
-
-(add-to-list 'run-command-experiments
-             'run-command-experiment-lisp-commands)
 
 (defcustom run-command-recipes-source-path
   "~/projects/emacs-run-command-recipes"

@@ -5,10 +5,11 @@
   [[https://melpa.org/#/run-command-recipes][file:https://melpa.org/packages/run-command-recipes-badge.svg]]
 
   This is collection of recipes to [[https://github.com/bard/emacs-run-command][run-command]].
-  
+
 ** Table of Contents                                                    :TOC:
 - [[#package-emacs-run-command-recipes][Package =emacs-run-command-recipes=]]
   - [[#install][Install]]
+  - [[#about-the-new-version-of-the-run-command][About the new version of the ~run-command~]]
   - [[#usage][Usage]]
   - [[#contribute][Contribute]]
 
@@ -23,9 +24,9 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package run-command-recipes
-         :ensure t
-         :after (run-command)
-         :init (run-command-recipes-use-all))
+       :ensure t
+       :after (run-command)
+       :init (run-command-recipes-use-all))
    #+END_SRC
 
    Or without =use-package=:
@@ -36,6 +37,19 @@
      (require 'run-command-recipes)
      (run-command-recipes-use-all)
    #+END_SRC
+
+** About the new version of the ~run-command~
+
+Now maintainer of the ~run-command~ rewrite your creation and use for
+it branch with name ~develop~ (here [[https://bard.github.io/emacs-run-command/][details]]), suggest use it, but if
+you can't then add the following source code before call ~run-command-recipes-use-all~
+
+#+BEGIN_src emacs-lisp
+
+  (add-to-list 'run-command-experiments
+               'run-command-experiment-lisp-commands)
+
+#+END_src
 
 ** Usage
    :PROPERTIES:
@@ -93,4 +107,3 @@
    project (see details [[file:docs/lib.org][here]])
 5. Commit, Commit, Push all changes to your fork
 6. Make [[https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests][Pull Request]] of your repo to main repository
-
