@@ -94,16 +94,16 @@ ROOT defaults to `run-command-recipes-project-root'"
       :display "Compile LaTeX using `latexmk'"
       :command-name "latexmk"
       :command-line "latexmk"
-      :runner 'run-command-runner-term
+      :working-dir working-dir
       :hook 'compilation-minor-mode
-      :working-dir working-dir)
+      :runner 'run-command-runner-term)
      (list
       :display "Compile LaTeX using `latexmk' with previewer"
       :command-name "latexmk-with-preview"
       :command-line "latexmk -pv"
-      :runner 'run-command-runner-term
+      :working-dir working-dir
       :hook 'compilation-minor-mode
-      :working-dir working-dir))))
+      :runner 'run-command-runner-term))))
 
 (provide 'run-command-recipes-latex)
 ;;; run-command-recipes-latex.el ends here

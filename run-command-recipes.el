@@ -59,12 +59,12 @@
 (require 'f)
 (require 's)
 
-
 (defgroup run-command-recipes nil
-  "Group for `run-command-recipes'."
+  "Run recipes for the package `run-command'."
   :group 'tools
-  :link '(url-link :tag "GitHub"
-                   "https://github.com/semenInRussia/emacs-run-command-recipes"))
+  :link '(url-link
+          :tag "GitHub"
+          "https://github.com/semenInRussia/emacs-run-command-recipes"))
 
 (defcustom run-command-recipes-supported-recipes
   '(latex pandoc haskell elisp rust python c cpp csharp java racket)
@@ -121,11 +121,10 @@ prefix."
 RECIPE is symbol references to the one of `run-command-recipes'
 recipes without `run-command-recipes-' prefix.  See to the comments at
 the start of this file for list of supported recipes."
-  (require
-   (intern (concat "run-command-recipes-" (symbol-name recipe))))
-  (add-to-list 'run-command-recipes
-               (intern
-                (concat "run-command-recipes-" (symbol-name recipe)))))
+  (let ((recipe-symbol
+         (intern (concat "run-command-recipes-" (symbol-name recipe)))))
+    (require recipe-symbol)
+    (add-to-list 'run-command-recipes recipe-symbol)))
 
 (defun run-command-recipes-create-recipe (recipe-name)
   "Create a `run-command' recipe named RECIPE-NAME."

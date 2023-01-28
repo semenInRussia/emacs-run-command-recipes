@@ -34,9 +34,9 @@
 (defun run-command-recipes-project-root ()
   "Return path to project root."
   (cond
-   ((and (require 'projectile nil t) projectile-mode)
+   ((and (featurep 'projectile) projectile-mode)
     (projectile-acquire-root))
-   ((and (require 'project nil t) (project-current))
+   ((and (featurep 'project) (project-current))
     (-first-item (project-roots (project-current))))
    (t default-directory)))
 
@@ -47,7 +47,7 @@
 (defun run-command-recipes-project-root-has-one-of (entires)
   "Return t, when root of current project has of ENTIRES.
 Entire is filename or directory."
-  (-any 'run-command-recipes-project-root-has entires))
+  (-any #'run-command-recipes-project-root-has entires))
 
 (provide 'run-command-recipes-project)
 ;;; run-command-recipes-project.el ends here

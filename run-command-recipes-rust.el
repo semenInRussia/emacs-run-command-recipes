@@ -76,10 +76,10 @@ Instead of first \"%s\" put filename of file, instead of second binary file."
 
 (defun run-command-recipes-rust-cargo ()
   "Recipe of `run-command' for `cargo', subrecipe for `rust'."
-  (when (and
-         (run-command-recipes-rust-cargo-project-p)
-         (executable-find "cargo"))
-    (run-command-recipes-lib-bind-in-recipe
+  (run-command-recipes-lib-bind-in-recipe
+   (when (and
+          (run-command-recipes-rust-cargo-project-p)
+          (executable-find "cargo"))
      (list
       (list
        :command-name "cargo-install"

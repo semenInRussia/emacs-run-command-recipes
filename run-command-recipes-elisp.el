@@ -31,13 +31,19 @@
 (require 'run-command-recipes-project)
 (require 'run-command-recipes-lib)
 
+(defcustom run-command-recipes-elisp-subrecipes
+  (list #'run-command-recipes-elisp-cask
+        #'run-command-recipes-elisp-ert
+        #'run-command-recipes-elisp-virgin
+        #'run-command-recipes-elisp-eldev)
+  "List of subrecipes for recipe of run-command for elisp."
+  :type '(repeat symbol)
+  :group 'run-command-recipes)
+
 (defun run-command-recipes-elisp ()
   "Recipe of `run-command' for the emacs-lisp."
-  (run-command-recipes-lib-compose-recipes
-   #'run-command-recipes-elisp-cask
-   #'run-command-recipes-elisp-ert
-   #'run-command-recipes-elisp-virgin
-   #'run-command-recipes-elisp-eldev))
+  (apply #'run-command-recipes-lib-compose-recipes
+         run-command-recipes-elisp-subrecipes))
 
 (defcustom run-command-recipes-elisp-cask-filename "Cask"
   "Name of cask file."

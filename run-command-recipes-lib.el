@@ -72,6 +72,9 @@ will be replaced with evaulating of (buffer-file-name), because
 'file-name is the key of `run-command-recipes-lib-bind-variables'
 and (buffer-file-name) is value.
 
+Also, change the :working-dir of each plists to the value of
+the `run-command-recipes-project-root'
+
 So, see `run-command-recipes-lib-bind-variables' for the list of changes"
   (let ((root (run-command-recipes-project-root)))
     (->>
@@ -83,7 +86,9 @@ So, see `run-command-recipes-lib-bind-variables' for the list of changes"
      (--map (run-command-recipes-lib--change-working-dir it root)))))
 
 (defun run-command-recipes-lib--change-command-line (command-line)
-  "Replace some fragments of COMMAND-LINE to respective things."
+  "Replace some fragments of COMMAND-LINE to respective things.
+
+See `run-command-recipes-lib-bind-variables'"
   (let ((replacements
          (--map
           (cons

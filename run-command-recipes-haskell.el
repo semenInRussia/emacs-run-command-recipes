@@ -49,13 +49,11 @@
 
 (defun run-command-recipes-haskell-mode-p ()
   "Get t, when current `major-mode' is the mode for Haskell."
-  (and
-   (buffer-file-name)
-   (-contains-p run-command-recipes-haskell-modes major-mode)))
+  (-contains-p run-command-recipes-haskell-modes major-mode))
 
 (defun run-command-recipes-haskell ()
   "`run-command' recipe for Haskell."
-  (when (run-command-recipes-haskell-mode-p)
+  (when (and (buffer-file-name) (run-command-recipes-haskell-mode-p))
     (list
      (list
       :command-name "stack-run"

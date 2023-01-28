@@ -148,25 +148,26 @@ See https://pandoc.org for see pandoc's input formats."
       from-format it input-file)
      run-command-recipes-pandoc-output-formats)))
 
-(defun run-command-recipes-pandoc-change-format-of-file (filename new-format)
-  "Change FILENAME with pandoc's format to filename with pandoc's NEW-FORMAT."
+(defun run-command-recipes-pandoc--change-format-of-file (filename new-format)
+  "Change FILENAME of pandoc's format to filename of pandoc's NEW-FORMAT."
   (let ((new-ext
          (alist-get new-format
                     run-command-recipes-pandoc-formats-and-extensions
                     new-format
                     nil
-                    'string-equal)))
+                    #'string-equal)))
     (f-swap-ext filename new-ext)))
 
 (defun run-command-recipes-pandoc-format-for-major-mode (mode)
-  "Return format name when MODE is one of Pandoc input formats.
+  "Return format name of the MODE, if it is one of Pandoc input formats.
+
 See pandoc input formats: https://pandoc.org"
   (gethash mode run-command-recipes-pandoc-major-modes-input-formats))
 
 (defun run-command-recipes-pandoc-rule-for-pandoc-format (from to input-file)
   "Return recipe rule for transform INPUT-FILE FROM format to TO via `pandoc'."
   (let* ((output-file
-          (run-command-recipes-pandoc-change-format-of-file input-file to)))
+          (run-command-recipes-pandoc--change-format-of-file input-file to)))
     (list
      :command-name (format "pandoc-%s-to-%s" from to)
      :display (format "Convert %s to %s via Pandoc" (upcase from) (upcase to))
