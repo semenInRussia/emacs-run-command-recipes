@@ -105,7 +105,7 @@ See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
 (defun run-command-recipes-racket-virgin ()
   "Recipe of `run-command' for virgin version of racket, subrecipe of racket."
   (run-command-recipes-lib-bind-in-recipe
-   (when (and (executable-find "racket") (buffer-file-name))
+   (when (and (buffer-file-name) (executable-find "racket"))
      (list
       (list
        :command-name "racket-run-file"
@@ -115,7 +115,7 @@ See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
 (defun run-command-recipes-racket-raco ()
   "Recipe of `run-command' for raco, subrecipe of racket."
   (run-command-recipes-lib-bind-in-recipe
-   (when (and (executable-find "raco") (buffer-file-name))
+   (when (and (buffer-file-name) (executable-find "raco"))
      (list
       (list
        :command-name "raco-check-file"

@@ -97,7 +97,7 @@
 
 (defun run-command-recipes-elisp-virgin ()
   "Recipe of `run-command' for virgin version of emacs-lisp."
-  (when (run-command-recipes-elisp-mode-p)
+  (when (and (run-command-recipes-elisp-mode-p) (buffer-file-name))
     (list
      (if (run-command-recipes-elisp-file-was-compiled-p)
          (list
@@ -119,9 +119,7 @@
 
 (defun run-command-recipes-elisp-file-was-compiled-p ()
   "Return t, when current file already was compiled via `byte-compile'."
-  (-when-let
-      (filename (buffer-file-name))
-    (f-file-p (f-swap-ext filename "elc"))))
+  (--when-let (buffer-file-name) (f-file-p (f-swap-ext it "elc"))))
 
 (defun run-command-recipes-elisp-compile-current-file ()
   "Compile to bytes the current Elisp file."

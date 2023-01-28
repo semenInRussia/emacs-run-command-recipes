@@ -75,13 +75,19 @@
        :command-name "latex-compile-commands-until-done"
        :lisp-function 'latex/compile-commands-until-done)))))
 
+(defun run-command-recipes-latex-latexmk-project-p (&optional root)
+  "Return non-nil if the project at ROOT has the latexmk configuration file.
+
+ROOT defaults to `run-command-recipes-project-root'"
+  (or root (setq root (run-command-recipes-project-root)))
+  (run-command-recipes-project-root-has-one-of
+   run-command-recipes-latexmk-config-filenames))
+
 (defun run-command-recipes-latex-latexmk ()
   "Subrecipe of `run-command' for command tool latexmk."
-  (let ((working-dir
-         (and
-          (run-command-recipes-project-root-has-one-of
-           run-command-recipes-latexmk-config-filenames)
-          (run-command-recipes-project-root))))
+  (-when-let*
+      ((working-dir (run-command-recipes-project-root))
+       (_ (run-command-recipes-latex-latexmk-project-p working-dir)))
     (list
      (list
       :display "Compile LaTeX using `latexmk'"

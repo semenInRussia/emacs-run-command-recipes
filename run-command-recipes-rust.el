@@ -114,6 +114,7 @@ Instead of first \"%s\" put filename of file, instead of second binary file."
   "Recipe of `run-command' for `rustc' compiler, subrecipe for `rust'."
   (run-command-recipes-lib-bind-in-recipe
    (when (and
+          (buffer-file-name)
           (run-command-recipes-rust-mode-p)
           (executable-find "rustc"))
      (list

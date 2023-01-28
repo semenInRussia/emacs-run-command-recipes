@@ -49,7 +49,9 @@
 
 (defun run-command-recipes-haskell-mode-p ()
   "Get t, when current `major-mode' is the mode for Haskell."
-  (-contains-p run-command-recipes-haskell-modes major-mode))
+  (and
+   (buffer-file-name)
+   (-contains-p run-command-recipes-haskell-modes major-mode)))
 
 (defun run-command-recipes-haskell ()
   "`run-command' recipe for Haskell."

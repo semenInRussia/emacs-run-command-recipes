@@ -52,7 +52,9 @@
 
 (defun run-command-recipes-c-p ()
   "Return t, when recipe of `run-command' for C should work."
-  (run-command-recipes-c-major-mode-p major-mode))
+  (and
+   (buffer-file-name)
+   (run-command-recipes-c-major-mode-p major-mode)))
 
 (defun run-command-recipes-c-major-mode-p (mode)
   "Return t, when in major mode MODE c-recipe should work."

@@ -52,7 +52,7 @@ the current shell command"
 (defun run-command-recipes-java ()
   "Recipe of `run-command' for Java."
   (run-command-recipes-lib-bind-in-recipe
-   (when (and (executable-find "javac") (run-command-recipes-java-p))
+   (when (and (run-command-recipes-java-p) (executable-find "javac"))
      (list
       (list
        :command-name "run-java-file"
@@ -65,7 +65,9 @@ the current shell command"
 
 (defun run-command-recipes-java-p ()
   "Return t, when the recipe of `run-command' for Java should work."
-  (-contains-p run-command-recipes-java-modes major-mode))
+  (and
+   (buffer-file-name)
+   (-contains-p run-command-recipes-java-modes major-mode)))
 
 (provide 'run-command-recipes-java)
 ;;; run-command-recipes-java.el ends here

@@ -38,7 +38,9 @@
 
 (defun run-command-recipes-csharp-p ()
   "Return t, when `run-command' recipe for c# should work."
-  (-contains-p run-command-recipes-csharp-modes major-mode))
+  (and
+   (buffer-file-name)
+   (-contains-p run-command-recipes-csharp-modes major-mode)))
 
 (defun run-command-recipes-csharp ()
   "Recipe of `run-command' for c#."
