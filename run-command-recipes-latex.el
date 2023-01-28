@@ -85,9 +85,10 @@ ROOT defaults to `run-command-recipes-project-root'"
 
 (defun run-command-recipes-latex-latexmk ()
   "Subrecipe of `run-command' for command tool latexmk."
-  (-when-let*
-      ((working-dir (run-command-recipes-project-root))
-       (_ (run-command-recipes-latex-latexmk-project-p working-dir)))
+  (let ((working-dir (run-command-recipes-project-root)))
+    (when (and
+           working-dir
+           (run-command-recipes-latex-latexmk-project-p working-dir)))
     (list
      (list
       :display "Compile LaTeX using `latexmk'"
