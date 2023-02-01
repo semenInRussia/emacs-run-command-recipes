@@ -27,6 +27,7 @@
 ;; ```
 ;;; Code:
 
+(require 'run-command-recipes-lib)
 (require 'run-command-recipes-project)
 
 (require 'f)
@@ -54,16 +55,17 @@
 (defun run-command-recipes-haskell ()
   "`run-command' recipe for Haskell."
   (when (and (buffer-file-name) (run-command-recipes-haskell-mode-p))
-    (list
+    (run-command-recipes-lib-bind-in-recipe
      (list
-      :command-name "stack-run"
-      :command-line "stack run"
-      :display "Run this Project via Stack"
-      :working-dir (run-command-recipes-project-root))
-     (list
-      :command-name "haskell-run-by-context"
-      :lisp-function run-command-recipes-haskell-run-function
-      :display "Run Haskell File by Context"))))
+      (list
+       :command-name "stack-run"
+       :command-line "stack run"
+       :display "Run this Project via Stack"
+       :working-dir (run-command-recipes-project-root))
+      (list
+       :command-name "haskell-run-by-context"
+       :lisp-function run-command-recipes-haskell-run-function
+       :display "Run Haskell File by Context")))))
 
 (provide 'run-command-recipes-haskell)
 ;;; run-command-recipes-haskell.el ends here

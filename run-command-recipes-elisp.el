@@ -72,15 +72,16 @@
 (defun run-command-recipes-elisp-ert ()
   "Recipe of `run-command' for `ert', subrecipe of the emacs-lisp recipe."
   (when (run-command-recipes-elisp-has-ert-tests-p)
-    (list
+    (run-command-recipes-lib-bind-in-recipe
      (list
-      :command-name "run-all-ert-tests"
-      :display "Run All ERT Tests"
-      :lisp-function #'run-command-recipes-elisp-run-ert-all-tests)
-     (list
-      :command-name "run-ert-tests"
-      :display "Run One ERT Test"
-      :lisp-function #'run-command-recipes-elisp-run-ert))))
+      (list
+       :command-name "run-all-ert-tests"
+       :display "Run All ERT Tests"
+       :lisp-function #'run-command-recipes-elisp-run-ert-all-tests)
+      (list
+       :command-name "run-ert-tests"
+       :display "Run One ERT Test"
+       :lisp-function #'run-command-recipes-elisp-run-ert)))))
 
 (defun run-command-recipes-elisp-has-ert-tests-p ()
   "Get non-nil, if current project use `ert'."
@@ -104,20 +105,21 @@
 (defun run-command-recipes-elisp-virgin ()
   "Recipe of `run-command' for virgin version of emacs-lisp."
   (when (and (run-command-recipes-elisp-mode-p) (buffer-file-name))
-    (list
-     (if (run-command-recipes-elisp-file-was-compiled-p)
-         (list
-          :command-name "byte-recompile-file"
-          :lisp-function 'run-command-recipes-elisp-recompile-current-file
-          :display "ReCompile to Bytes This File")
-       (list
-        :command-name "byte-compile-file"
-        :lisp-function 'run-command-recipes-elisp-compile-current-file
-        :display "Compile to Bytes This File"))
+    (run-command-recipes-lib-bind-in-recipe
      (list
-      :command-name "byte-recompile-directory"
-      :display "ReCompile to bytest Current Directory"
-      :lisp-function 'run-command-recipes-elisp-recompile-current-directory))))
+      (if (run-command-recipes-elisp-file-was-compiled-p)
+          (list
+           :command-name "byte-recompile-file"
+           :lisp-function 'run-command-recipes-elisp-recompile-current-file
+           :display "ReCompile to Bytes This File")
+        (list
+         :command-name "byte-compile-file"
+         :lisp-function 'run-command-recipes-elisp-compile-current-file
+         :display "Compile to Bytes This File"))
+      (list
+       :command-name "byte-recompile-directory"
+       :display "ReCompile to bytest Current Directory"
+       :lisp-function 'run-command-recipes-elisp-recompile-current-directory)))))
 
 (defun run-command-recipes-elisp-mode-p ()
   "Return non-nil value, if current `major-mode' is one Emacs Lisp modes."

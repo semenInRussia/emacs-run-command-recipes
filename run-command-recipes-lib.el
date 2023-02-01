@@ -75,15 +75,19 @@ and (buffer-file-name) is value.
 Also, change the :working-dir of each plists to the value of
 the `run-command-recipes-project-root'
 
+And also, if a recipe has the unsupported field :lisp-function, then replace it
+with the supporting things (:hook + :command-line \"true\").
+
 So, see `run-command-recipes-lib-bind-variables' for the list of changes"
   (let ((root (run-command-recipes-project-root)))
-    (->>
-     plists
-     (--map
-      (run-command-recipes-lib-plist-map
-       it
-       :command-line #'run-command-recipes-lib--change-command-line))
-     (--map (run-command-recipes-lib--change-working-dir it root)))))
+    (->> plists
+         (--map
+          (run-command-recipes-lib-plist-map
+           it
+           :command-line #'run-command-recipes-lib--change-command-line))
+         (--map
+          (run-command-recipes-lib--change-working-dir it root))
+         (-map 'run-command-recipes-lib--lisp-function))))
 
 (defun run-command-recipes-lib--change-command-line (command-line)
   "Replace some fragments of COMMAND-LINE to respective things.
@@ -109,21 +113,40 @@ See `run-command-recipes-lib-bind-variables'"
   "Transform the value of PROP in PLIST with TRANSFORMER.
 
 This function modifies plist with `plist-put'.  So it does the same
-side-effects."
-  (--when-let
+side-effects.
+
+If a PROP isn't exists in the PLIST, then return the same PLIST without
+modifications"
+  (--if-let
       (plist-get plist prop)
-    (plist-put plist prop (funcall transformer it))))
+      (plist-put plist prop (funcall transformer it))
+    plist))
 
 (defun run-command-recipes-lib--change-working-dir (recipe &optional root)
   "If working-dir of plist RECIPE is nil change it to project root path.
 
 Return modified RECIPE.  If ROOT is non-nil, then change working-dir to it,
 otherwise change to value of a `run-command-recipes-project' call"
-  (if (plist-get recipe :working-dir)
+  (if (or (plist-get recipe :working-dir) (not recipe))
       recipe
     (append recipe
             (list :working-dir
                   (or root (run-command-recipes-project-root))))))
+
+(defun run-command-recipes-lib--lisp-function (recipe)
+  "Get lisp-function prop from the plist RECIPE and get `run-command' recipe.
+
+This function is support of the `:lisp-function' from the past `run-command'
+versions (at the last version this isn't supported)"
+  (if (or
+       (memq 'run-command-experiment-lisp-commands
+             run-command-experiments)
+       (not (map-elt recipe :lisp-function)))
+      recipe
+    (->
+     recipe
+     (map-insert :command-line "true")
+     (map-insert :hook (map-elt recipe :lisp-function)))))
 
 (provide 'run-command-recipes-lib)
 ;;; run-command-recipes-lib.el ends here
