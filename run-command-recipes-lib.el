@@ -80,14 +80,19 @@ with the supporting things (:hook + :command-line \"true\").
 
 So, see `run-command-recipes-lib-bind-variables' for the list of changes"
   (let ((root (run-command-recipes-project-root)))
-    (->> plists
-         (--map
-          (run-command-recipes-lib-plist-map
-           it
-           :command-line #'run-command-recipes-lib--change-command-line))
-         (--map
-          (run-command-recipes-lib--change-working-dir it root))
-         (-map 'run-command-recipes-lib--lisp-function))))
+    (->>
+     plists
+     (--map (run-command-recipes-lib--working-dir it root))
+     (-map 'run-command-recipes-lib--command-line)
+     (-map 'run-command-recipes-lib--lisp-function))))
+
+(defun run-command-recipes-lib--command-line (recipe)
+  "Do some change in property of RECIPE :command-line.
+
+See `run-command-recipes-lib-bind-variables'"
+  (run-command-recipes-lib-plist-map
+   recipe
+   :command-line #'run-command-recipes-lib--change-command-line))
 
 (defun run-command-recipes-lib--change-command-line (command-line)
   "Replace some fragments of COMMAND-LINE to respective things.
@@ -122,7 +127,7 @@ modifications"
       (plist-put plist prop (funcall transformer it))
     plist))
 
-(defun run-command-recipes-lib--change-working-dir (recipe &optional root)
+(defun run-command-recipes-lib--working-dir (recipe &optional root)
   "If working-dir of plist RECIPE is nil change it to project root path.
 
 Return modified RECIPE.  If ROOT is non-nil, then change working-dir to it,
@@ -132,6 +137,14 @@ otherwise change to value of a `run-command-recipes-project' call"
     (append recipe
             (list :working-dir
                   (or root (run-command-recipes-project-root))))))
+
+(defun run-command-recipes-lib--nothing-runner (_line _buf-base output-buf)
+  "Runner for `run-command' which do nothing.
+
+OUTPUT-BUF is a buffer in which should be saved the ouput, this runner do
+nothing, so save nothing."
+  ;; this should go to the file from which was a `run-command' call
+  (switch-to-buffer (car (buffer-list))))
 
 (defun run-command-recipes-lib--lisp-function (recipe)
   "Get lisp-function prop from the plist RECIPE and get `run-command' recipe.
@@ -146,6 +159,7 @@ versions (at the last version this isn't supported)"
     (->
      recipe
      (map-insert :command-line "true")
+     (map-insert :runner #'run-command-recipes-lib--nothing-runner)
      (map-insert :hook (map-elt recipe :lisp-function)))))
 
 (provide 'run-command-recipes-lib)
