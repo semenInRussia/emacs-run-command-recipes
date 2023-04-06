@@ -32,8 +32,23 @@
 (require 's)
 
 (defun run-command-recipes-lib-compose-recipes (&rest recipes)
-  "Return the composition of all RECIPES."
-  (->> recipes (-map #'funcall) (apply #'-concat)))
+  "Return the composition of all RECIPES.
+
+Each of given RECIPES can be either function that returns a `plist' (recipe)
+or just a `plist'"
+  (->>
+   recipes
+   (-map #'run-command-recipes-lib--to-recipe)
+   (apply #'-concat)))
+
+(defun run-command-recipes-lib--to-recipe (recipe)
+  "Expand a `run-command' RECIPE.
+
+It can be either function that returns a `plist' (recipe) or just a `plist'"
+  (cond
+   ((functionp recipe)
+    (funcall recipe))
+   (t recipe)))
 
 (defcustom run-command-recipes-lib-bind-variables
   '(("file-name" . (buffer-file-name))
