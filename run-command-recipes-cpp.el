@@ -49,13 +49,15 @@
   (run-command-recipes-lib-bind-in-recipe
    (when (and (run-command-recipes-cpp-p) (executable-find "g++"))
      (list
-      :command-name "run-cpp-file"
-      :display "Compile and Execute Current C++ File via `g++'"
-      :command-line "g++ {file-name} && {file-name-no-ext}")
-     (list
-      :command-name "compile-cpp-file"
-      :display "Compile Only Current C++ File via `g++'"
-      :command-line "g++ -Wall -Werror {file-name}"))))
+      (list
+       :command-name "run-cpp-file"
+       :display "Compile and Execute Current C++ File via `g++'"
+       :command-line                    ;nofmt
+       "g++ {file-name} -o {file-name-no-ext} && {file-name-no-ext}")
+      (list
+       :command-name "compile-cpp-file"
+       :display "Compile Only Current C++ File via `g++'"
+       :command-line "g++ -Wall -Werror {file-name} -o {file-name-no-ext}")))))
 
 (provide 'run-command-recipes-cpp)
 ;;; run-command-recipes-cpp.el ends here
