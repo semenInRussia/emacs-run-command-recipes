@@ -35,7 +35,8 @@
   (list #'run-command-recipes-elisp-cask
         #'run-command-recipes-elisp-ert
         #'run-command-recipes-elisp-virgin
-        #'run-command-recipes-elisp-eldev)
+        #'run-command-recipes-elisp-eldev
+        #'run-command-recipes-elisp-eask)
   "List of subrecipes for recipe of run-command for elisp."
   :type '(repeat symbol)
   :group 'run-command-recipes)
@@ -156,95 +157,191 @@
       (list
        :command-name "eldev-archives"
        :command-line "eldev archives"
-       :working-dir (run-command-recipes-project-root)
        :display "View `Eldev' archives")
       (list
        :command-name "eldev-upgrade"
        :command-line "eldev upgrade"
-       :working-dir (run-command-recipes-project-root)
        :display "Upgrade `Eldev' Project")
       (list
        :command-name "eldev-targets"
        :command-line "eldev targets"
-       :working-dir (run-command-recipes-project-root)
        :display "View `Eldev' targets")
       (list
        :command-name "eldev-build-main"
        :command-line "eldev build"
-       :working-dir (run-command-recipes-project-root)
        :display "Build Main `Eldev' targets")
       (list
        :command-name "eldev-build-all"
        :command-line "eldev build all"
-       :working-dir (run-command-recipes-project-root)
        :display "Build `Eldev' Targets of Each Set")
       (list
        :command-name "eldev-package-build"
        :command-line "eldev package"
-       :working-dir (run-command-recipes-project-root)
        :display "Build the `Eldev' Package")
       (list
        :command-name "eldev-compile"
        :command-line "eldev compile"
-       :working-dir (run-command-recipes-project-root)
        :display "Byte-compile `Eldev' Project Files")
       (and
        (buffer-file-name)
        (list
         :command-name "eldev-compile-current-file"
         :command-line "eldev compile {file-name}"
-        :working-dir (run-command-recipes-project-root)
         :display "Byte-compile Current `Eldev' File of Project")
        (list
         :command-name "eldev-compile-current-file-warnings-as-errors"
         :command-line "eldev compile {file-name} --warnings-as-errors"
-        :working-dir (run-command-recipes-project-root)
         :display "Compile Current `Eldev' File of Project, Warnings as Errors"))
       (list
        :command-name "eldev-clean"
        :command-line "eldev clean"
-       :working-dir (run-command-recipes-project-root)
        :display "Clean Current `Eldev' Project")
       (list
        :command-name "eldev-test"
        :command-line "eldev test"
-       :working-dir (run-command-recipes-project-root)
        :display "Run Tests of the `Eldev' Project")
       (and
        (buffer-file-name)
        (list
         :command-name "eldev-test-current-file"
         :command-line "eldev test {file-name}"
-        :working-dir (run-command-recipes-project-root)
         :display "Run Tests from Current Test File with `Eldev'"))
       (and
        (buffer-file-name)
        (list
         :command-name "eldev-test-until-unexpected"
         :command-line "eldev test {file-name}"
-        :working-dir (run-command-recipes-project-root)
         :display "Run Tests of Current `Eldev' Project, until Some Fails"))
       (and
        (buffer-file-name)
        (list
         :command-name "eldev-test-failed"
         :command-line "eldev test :fail"
-        :working-dir (run-command-recipes-project-root)
         :display "Run Failed Tests of `Current' Eldev Project"))
       (and
        (buffer-file-name)
        (list
         :command-name "eldev-test-failed"
         :command-line "eldev test :new"
-        :working-dir (run-command-recipes-project-root)
         :display "Run New Tests of `Current' Eldev Project"))
       (and
        (buffer-file-name)
        (list
         :command-name "eldev-lint"
         :command-line "eldev lint"
-        :working-dir (run-command-recipes-project-root)
         :display "Lint Current `Eldev' Project"))))))
+
+(defcustom run-command-recipes-elisp-eask-linters
+  '(elsa
+    checkdoc
+    elint
+    elisp-lint
+    elsa
+    indent
+    keywords
+    package
+    regexp)
+  "List of the linters which can be runned with `Eask'.
+
+Each element of the list, should be symbol."
+  :type '(repeat symbol)
+  :group 'run-command-recipes)
+
+(defun run-command-recipes-elisp-eask-project-p ()
+  "Return non-nil when the active project is Eask project."
+  (run-command-recipes-project-root-has-one-of '("Eask" "eask")))
+
+(defun run-command-recipes-elisp-eask-run-scripts (&optional project-root)
+  "Find in the Eask file of the PROJECT-ROOT all scripts to run using eask run.
+
+PROJECT-ROOT defaults to value of the `run-command-recipes-project-root'"
+  (setq project-root
+        (or project-root (run-command-recipes-project-root)))
+  (->>
+   (f-join project-root "Eask")
+   (f-read)
+   (s-prepend "(")
+   (s-append ")")
+   (read)
+   (--filter (eq (car it) 'script))
+   (-map '-second-item)))
+
+(defun run-command-recipes-elisp-eask ()
+  "Recipe of `run-command' for `eask', subrecipe of the emacs-lisp recipe."
+  (when (and
+         (run-command-recipes-elisp-eask-project-p)
+         (executable-find "eask"))
+    (run-command-recipes-lib-bind-in-recipe
+     (run-command-recipes-lib-compose-recipes
+      (list
+       (list
+        :command-name "eask-archivies"
+        :command-line "eask archivies"
+        :display "List out all `Eask' package archivies")
+       (list
+        :command-name "eask-autoloads"
+        :command-line "eask autoloads"
+        :display "Generate autoloads file using `Eask'")
+       (list
+        :command-name "eask-concat"
+        :command-line "eask concat"
+        :display "Concatenate elisp files using `Eask'")
+       (list
+        :command-name "eask-info"
+        :command-line "eask info"
+        :display "Print info about the `Eask' project")
+       (list
+        :command-name "eask-keywords"
+        :command-line "eask keywords"
+        :display "List available keywords that can be used in the header")
+       (list
+        :command-name "eask-install"
+        :command-line "eask install"
+        :display "Install the `Eask' project dependecies")
+       (list
+        :command-name "eask-reinstall"
+        :command-line "eask reinstall"
+        :display "ReInstall the `Eask' project dependecies")
+       (list
+        :command-name "eask-upgrade"
+        :command-line "eask upgrade"
+        :display "Upgrade the `Eask' project dependecies")
+       (list
+        :command-name "eask-run"
+        :command-line "eask run"
+        :display "Run the `Eask' project")
+       (list
+        :command-name "eask-compile"
+        :command-line "eask compile"
+        :display "Compile the `Eask' project")
+       (list
+        :command-name "eask-compile"
+        :command-line "eask compile {file-name}"
+        :display "Compile the current file of `Eask' project"))
+      (--map
+       (list
+        :command-name (format "eask-lint-%s" it)
+        :command-line (format "eask lint %s" it)
+        :display (format "Lint the current `Eask' project with `%s'" it))
+       run-command-recipes-elisp-eask-linters)
+      (--map
+       (list
+        :command-name (format "eask-lint-%s-current-file" it)
+        :command-line (format "eask lint %s {file-name}" it)
+        :display (format "Lint the current opened file with Eask + `%s'" it))
+       run-command-recipes-elisp-eask-linters)
+      'run-command-recipes-elisp-eask-run-scripts-recipe))))
+
+(defun run-command-recipes-elisp-eask-run-scripts-recipe ()
+  "Function returning a `run-command' recipe for `Eask' run scripts.
+
+\"Eask run scripts\" mean scripts, what can be runned using \"eask run\""
+  (--map
+   (list
+    :command-name (format "eask-run-%s" it)
+    :command-line (format "eask run %s" it)
+    :display (format "Eask-run %s" it))
+   (run-command-recipes-elisp-eask-run-scripts)))
 
 (provide 'run-command-recipes-elisp)
 ;;; run-command-recipes-elisp.el ends here
