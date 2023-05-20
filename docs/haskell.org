@@ -1,29 +1,29 @@
-* =run-command='s Recipe for Pandoc
+* =run-command='s Recipe for Haskell
   :PROPERTIES:
   :CUSTOM_ID: run-commands-recipe-for-pandoc
   :END:
 
-** Table of Contents                                                    :TOC:
+** Table of Contents      :TOC:
 - [[#run-commands-recipe-for-pandoc][=run-command='s Recipe for Pandoc]]
   - [[#commands][Commands]]
   - [[#requirements][Requirements]]
   - [[#customization][Customization]]
 
 ** Commands
-   :PROPERTIES:
+:PROPERTIES:
    :CUSTOM_ID: commands
    :END:
-   The 2 commands:
+The 2 commands:
 
-   - Run Haskell file by Context
-   - Run Haskell Project with Stack
+- Run Haskell file by Context
+- Run Haskell Project with Stack
 
 ** Requirements
    :PROPERTIES:
    :CUSTOM_ID: requirements
    :END:
-   This is cool recipe needs to requirements in [[https://github.com/haskell/haskell-mode][haskell-mode]], without
-   =haskell-mode= this recipe hasn't command "Run Haskell file by context"
+
+   This is cool recipe needs to requirements in [[https://github.com/haskell/haskell-mode][haskell-mode]], without =haskell-mode= this recipe hasn't command "Run Haskell file by context"
 
 ** Customization
    :PROPERTIES:

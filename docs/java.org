@@ -3,7 +3,7 @@
   :CUSTOM_ID: run-commands-recipe-for-recipe-name
   :END:
 
-** Table of Contents                                                    :TOC:
+** Table of Contents          :TOC:
 - [[#run-commands-recipe-for-java][=run-command='s Recipe for JAVA]]
   - [[#commands][Commands]]
   - [[#customization][Customization]]
@@ -11,14 +11,15 @@
     - [[#commands-1][Commands]]
 
 ** Commands
-   :PROPERTIES:
+:PROPERTIES:
    :CUSTOM_ID: commands
    :END:
 
-   This recipe has following commands:
+This recipe has following commands:
 
-   - Run Current Java File
-   - Compile Current Java File
+- Run Current Java File
+- Compile Current Java File
+
 ** Customization
    :PROPERTIES:
    :CUSTOM_ID: customization
@@ -40,4 +41,3 @@
     #+END_SRC
 
     (see [[file:lib.org][documentation of standard library]])
-

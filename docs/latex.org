@@ -3,20 +3,21 @@
   :CUSTOM_ID: run-command-recipe-for-latex
   :END:
 
-** Table of Contents                                                    :TOC:
+** Table of Contents     :TOC:
 - [[#run-command-recipe-for-latex][~run-command~ Recipe for LaTeX]]
   - [[#requirements][Requirements]]
   - [[#commands][Commands]]
   - [[#customization][Customization]]
 
 ** Requirements
-For full enjoying this recipe, i recommend you install Emacs package
-[[https://github.com/Malabarba/latex-extra][latex-extra]], but it is not required.
+
+For full enjoying this recipe, i recommend you install the Emacs package [[https://github.com/Malabarba/latex-extra][latex-extra]], but it is not required.
 
 ** Commands
 :PROPERTIES:
 :CUSTOM_ID: commands
 :END:
+
 This cool recipe can 3 commands:
 
 - Convert to PDF using ~pdflatex~

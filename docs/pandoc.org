@@ -1,9 +1,9 @@
 * =run-command='s Recipe for Pandoc
-  :PROPERTIES:
-  :CUSTOM_ID: run-commands-recipe-for-pandoc
-  :END:
+:PROPERTIES:
+:CUSTOM_ID: run-commands-recipe-for-pandoc
+:END:
 
-** Table of Contents                                                    :TOC:
+** Table of Contents       :TOC:
 - [[#run-commands-recipe-for-pandoc][=run-command='s Recipe for Pandoc]]
   - [[#commands][Commands]]
   - [[#whats-it-work-required-when-you-need-to-customization][What's it Work? (required when you need to customization)]]
@@ -11,18 +11,18 @@
 
 ** Commands
 This cool recipe has only one thing:
+
 - convert =SOMETHING= to =ANYTHING=
 
 but its will expanded to more commands has more then one command.
 
 ** What's it Work? (required when you need to customization)
+
 What's it Work and how extend it?
 
-1. When call =run-command-recipe-pandoc=, if this one of [[file:pandoc/supported-modes.md][this]] major
-   modes, find input pandoc format for current major mode
+1. When call =run-command-recipe-pandoc=, if the buffer opened in one of [[file:pandoc/supported-modes.md][this]] major modes, find input the pandoc format for current major mode
 
-2. For each of =run-command-recipes-pandoc-output-formats= (see [[file:pandoc/supported-output-formats.md][it]]),
-   create =run-command= recipe with command:
+2. For each of =run-command-recipes-pandoc-output-formats= (see [[file:pandoc/supported-output-formats.md][it]]), create =run-command= recipe with command:
 
 #+begin_example
 pandoc -o foo.md -f org -t markdown foo.org
@@ -33,6 +33,4 @@ pandoc -o foo.md -f org -t markdown foo.org
 ** Customization
 Extension for output file take from [[file:pandoc/supported-exts.md][here]]
 
-So if you need to special pandoc's output format see [[file:pandoc/supported-output-formats.md][this]], if you need
-to support of any major mode, then see [[file:pandoc/supported-modes.md][this]], if you need to special
-extension of file for pandoc's format visit [[file:pandoc/supported-exts.md][this]]
+So if you need to special pandoc's output format see [[file:pandoc/supported-output-formats.md][this]], if you need to support of any major mode, then see [[file:pandoc/supported-modes.md][this]], if you need to special extension of file for pandoc's format visit [[file:pandoc/supported-exts.md][this]]

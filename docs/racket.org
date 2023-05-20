@@ -1,9 +1,9 @@
 * =run-command='s Recipe for racket
-  :PROPERTIES:
-  :CUSTOM_ID: run-commands-recipe-for-recipe-name
-  :END:
+:PROPERTIES:
+:CUSTOM_ID: run-commands-recipe-for-recipe-name
+:END:
 
-** Table of Contents                                                    :TOC:
+** Table of Contents   :TOC:
 - [[#run-commands-recipe-for-racket][=run-command='s Recipe for racket]]
   - [[#commands][Commands]]
   - [[#customization][Customization]]
@@ -12,52 +12,49 @@
 
 ** Commands
 
-   I (semenInRussia, main developer of this repo) very love =racket=,
-   so recipe for =racket= has a lot of commands:
+I (semenInRussia, main developer of this repo) very love =racket=,
+so recipe for =racket= has a lot of commands (if compare with other recipes):
 
-   - Run Current Racket File (without compilation!)
-   - Check Racket Source File
-   - Compile Only Racket File
-   - Compile and Run Current Racket File
-   - Run Tests of Current Racket File
-   - Run Racket Tests of Current Directory
-   - Pretty Print Current Racket File
+- Run Current Racket File (without compilation!)
+- Check Racket Source File
+- Compile Only Racket File
+- Compile and Run Current Racket File
+- Run Tests of Current Racket File
+- Run Racket Tests of Current Directory
+- Pretty Print Current Racket File
 
 ** Customization
 *** Detection
-    Please, change value of variable
-    =run-command-recipes-racket-modes= if you want change list of
-    major modes in which this recipe should work.  Defaults to
+Please, change value of variable =run-command-recipes-racket-modes= if you want to change the list of major modes in which this recipe should work.  Defaults to
 
-    - =racket-mode=
+- =racket-mode=
 
 *** Commands
-    You can customize shell commands of this recipe, see to following
-    list:
+You can customize shell commands of this recipe, see to following list:
 
-    - =run-command-recipes-racket-raco-to-bytecode-command=. Command
-      of raco, which translate racket source file to racket bytecode.
+- =run-command-recipes-racket-raco-to-bytecode-command=. Command
+  of raco, which translate racket source file to racket bytecode.
 
-    - =run-command-recipes-racket-compile-and-run-command=. Command of
-      raco, which compile and execute racket source file.
+- =run-command-recipes-racket-compile-and-run-command=. Command of
+  raco, which compile and execute racket source file.
 
-    - =run-command-recipes-racket-compile-and-run-command=. Command of
-      raco, which compile and execute racket source file.
+- =run-command-recipes-racket-compile-and-run-command=. Command of
+  raco, which compile and execute racket source file.
 
-    - =run-command-recipes-racket-run-command=. Command of racket, which
-      juts run a racket source file.
+- =run-command-recipes-racket-run-command=. Command of racket, which
+  juts run a racket source file.
 
-    - =run-command-recipes-racket-compile-command=. Command of raco, which
-      compile racket source file.
+- =run-command-recipes-racket-compile-command=. Command of raco, which
+  compile racket source file.
 
-    - =run-command-recipes-racket-run-test-file-command=. Command of raco,
-       which run tests of racket source file.
+- =run-command-recipes-racket-run-test-file-command=. Command of raco,
+  which run tests of racket source file.
 
-    - =run-command-recipes-racket-run-directory-tests-command=. Command of
-      raco, which run all tests of current racket project.
+- =run-command-recipes-racket-run-directory-tests-command=. Command of
+  raco, which run all tests of current racket project.
 
-    - =run-command-recipes-racket-pretty-read-command=. Command of raco,
-      which print pretty content of current racket source file.
+- =run-command-recipes-racket-pretty-read-command=. Command of raco,
+  which print pretty content of current racket source file.
 
-      *NOTE*: in each from it you may see anything like on
-      "{file-name}" for understand what's is it?  See [[file:lib.org][this]] doc
+  *NOTE*: in each from it you may see anything like on
+  "{file-name}" for understand what's is it?  See [[file:lib.org][this]] doc

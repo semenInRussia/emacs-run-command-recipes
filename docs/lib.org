@@ -1,22 +1,22 @@
 * Standard Library of =run-command-recipes=
-  This file provide documentation for standard library of
-  =run-command-recipes=.  The library has some useful library which
-  you may use when do contributing
+This file provide documentation for standard library of
+=run-command-recipes=.  The library has some useful library which
+you may use when do contributing
 
 ** Function for work with Project
-   First, add following =require= statement to your recipe's file
+First, add the following =require= statement to your recipe's file
 
-   #+BEGIN_SRC emacs-lisp
-     (require 'run-command-recipes-project)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (require 'run-command-recipes-project)
+  #+END_SRC
 
 *** List of Functions
-    
+
 **** =run-command-recipes-project-root=
 
-     This function returns root path of current project.  May return
-     project's root using one of following backends (choose first from
-     its which exists in Emacs)
+This function returns root path of current project.  May return
+project's root using one of following backends (choose first from
+its which exists in Emacs)
 
      - [[https://github.com/bbatsov/projectile][projectile]] (default)
      - =project.el= (built-in)
@@ -24,45 +24,38 @@
 
 **** =run-command-recipes-project-root-has=
 
-     This function returns =t= when taked name of file or directory is
-     file or directory of current project's root
+This function returns =t= when a given name of a file or directory is a file or directory of the current project's root
 
 **** =run-command-recipes-project-root-has-one-of=
 
-     This function like on [[*=run-command-recipes-project-root-has=][run-command-recipes-project-root-has]], but
-     take some names of files or directories and return =t= when one
-     of it is file or directory of current project's root
+This function look like [[*=run-command-recipes-project-root-has=][run-command-recipes-project-root-has]], but accept some names of files or directories and return =t= if one of them is a file or directory of the current project's root
 
 ** Function for work with =run-command=
-   
+
 *** =run-command-recipes-lib-compose-recipes=
 
-    Take some recipes (functions which return list of plists which
-    define work of =run-command=, see [[https://github.com/bard/emacs-run-command#cookbook][docs]]) and make super recipe
-    which compose results of all taked recipes
+Accept some recipes (functions which return list of plists which define work of =run-command=, see [[https://github.com/bard/emacs-run-command#cookbook][docs]], or just a plist) and make super recipe which compose results of all passed recipes
 
 *** =run-command-recipes-lib-bind-in-recipe=
 
-    Each of recipes may be has =:command-line=, and most of commands'
-    lines is string in which was formatted, for example: name of
-    current file.  If you are programmer then you must follow rule
-    (don't repeat), so this function help us follow this rule.
+Each of recipes may contains =:command-line=, and most of commands' lines is string in which was formatted, for example: name of current file.  If you are programmer then you must follow rule (don't repeat), so this function help us follow this rule.
 
-    For example, in following code
+For example, in following code
 
-    #+BEGIN_SRC emacs-lisp
-      (run-command-recipes-lib-bind-in-recipe
-       (when (buffer-file-name)
-         (list
-          :command-name "run-single-python-file"
-          :display "Run current python file"
-          :command-line "python {file-name}")))
-    #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (run-command-recipes-lib-bind-in-recipe
+   (when (buffer-file-name)
+     (list
+      :command-name "run-single-python-file"
+      :display "Run current python file"
+      :command-line "python {file-name}")))
+#+END_SRC
 
-    In "python {file-name}" "{file-name}" will be replaced with path
-    to current file.  Also instead of =file-name= you can use anything
-    from following list:
-    
-    - file-name-no-ext (path to current file, but without extension)
-    - current-dir (path to current directory)
-    
+In "python {file-name}" "{file-name}" will be replaced with path
+to current file.  Also instead of =file-name= you can use anything
+from following list:
+
+- file-name-no-ext (path to current file, but without extension)
+- current-dir (path to current directory)
+
+Also this function automatically add the ~:working-dir~ to the current project root directory for every recipe in which ~:working-dir~ didn't set.  And support the unsupported with ~run-command~ new version keyword ~:list-function~

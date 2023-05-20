@@ -1,29 +1,29 @@
-* =run-command='s Recipe for csharp
-  :PROPERTIES:
-  :CUSTOM_ID: run-commands-recipe-for-recipe-name
-  :END:
+* ~run-command~'s Recipe for csharp
+:PROPERTIES:
+:CUSTOM_ID: run-commands-recipe-for-recipe-name
+:END:
 
-** Table of Contents                                                    :TOC:
+** Table of Contents                 :TOC:
 - [[#run-commands-recipe-for-csharp][=run-command='s Recipe for csharp]]
   - [[#commands][Commands]]
   - [[#customization][Customization]]
 
 ** Commands
-   :PROPERTIES:
-   :CUSTOM_ID: commands
-   :END:
+:PROPERTIES:
+:CUSTOM_ID: commands
+:END:
 
-   This stupid recipe of =run-command= for =c#= has only 2 commands:
+This recipe of ~run-command~ for ~c#~ consist of only 2 commands:
 
-   - Run .NET Project
-   - Only Compile .NET Project
+- Run .NET Project
+- Only Compile .NET Project
 
 ** Customization
-   :PROPERTIES:
+:PROPERTIES:
 I   :CUSTOM_ID: customization
-   :END:
+:END:
 
-   You may customize only detection of =c#= for this either change
-   variable of list of =c#= major modes
-   =run-command-recipes-csharp-modes= or change function
-   =run-command-recipes-chsarp-p=
+You may customize only detection of ~c#~ for it either change
+variable of list of =c#= major modes
+~run-command-recipes-csharp-modes~ or change function
+~run-command-recipes-chsarp-p=~.  (explore their definitions to see details)
