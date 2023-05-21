@@ -14,9 +14,7 @@ jobs:
     strategy:
       matrix:
         emacs_version:
-          - 27.1
           - 26.1
-          - 25.1
 
     steps:
       - name: Set up Emacs
