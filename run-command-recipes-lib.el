@@ -1,4 +1,4 @@
-;;; run-command-recipes-lib.el --- Standard library for `run-command-recipes' -*- lexical-binding: t; -*-
+;;; run-command-recipes-lib.el --- Standard library for `run-command-recipes' -*- lexical-binding: t; -*
 
 ;; Copyright (C) 2022 semenInRussia
 
@@ -139,11 +139,12 @@ See `run-command-recipes-lib-bind-variables'"
 
 (defun run-command-recipes-lib-replace-all (replacements s)
   "Replace the `car's of REPLACEMENTS to the `cdr's REPLACEMENTS in S."
-  (replace-regexp-in-string
-   (regexp-opt (-map 'car replacements))
-   (lambda (from)
-     (alist-get from replacements "" nil #'string-equal))
-   s))
+  (and s
+   (replace-regexp-in-string
+    (regexp-opt (-map 'car replacements))
+    (lambda (from)
+      (alist-get from replacements "" nil #'string-equal))
+    s)))
 
 (defun run-command-recipes-lib-plist-map (plist prop transformer)
   "Transform the value of PROP in PLIST with TRANSFORMER.

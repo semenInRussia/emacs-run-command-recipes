@@ -192,10 +192,6 @@
        :command-line "eldev test"
        :display "Run Tests of the `Eldev' Project")
       (list
-       :command-name "eldev-test-until-unexpected"
-       :command-line "eldev test {file-name}"
-       :display "Run Tests of Current `Eldev' Project, until Some Fails")
-      (list
        :command-name "eldev-test-failed"
        :command-line "eldev test :fail"
        :display "Run Failed Tests of `Current' Eldev Project")
@@ -224,7 +220,12 @@
         (list
          :command-name "eldev-test-current-file"
          :command-line "eldev test {file-name}"
-         :display "Run Tests from Current Test File with `Eldev'")))))))
+         :display "Run Tests from Current Test File with `Eldev'")
+        (list
+         :command-name "eldev-test-until-unexpected"
+         :command-line "eldev test {file-name}"
+         :display
+         "Run Tests of Current `Eldev' Test File, until Some Fails")))))))
 
 (defcustom run-command-recipes-elisp-eask-linters
   '(elsa
