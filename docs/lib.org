@@ -36,14 +36,14 @@ This function look like [[*=run-command-recipes-project-root-has=][run-command-r
 
 Accept some recipes (functions which return list of plists which define work of =run-command=, see [[https://github.com/bard/emacs-run-command#cookbook][docs]], or just a plist) and make super recipe which compose results of all passed recipes
 
-*** =run-command-recipes-lib-bind-in-recipe=
+*** =run-command-recipes-lib-build=
 
 Each of recipes may contains =:command-line=, and most of commands' lines is string in which was formatted, for example: name of current file.  If you are programmer then you must follow rule (don't repeat), so this function help us follow this rule.
 
 For example, in following code
 
 #+BEGIN_SRC emacs-lisp
-  (run-command-recipes-lib-bind-in-recipe
+  (run-command-recipes-lib-build
    (when (buffer-file-name)
      (list
       :command-name "run-single-python-file"

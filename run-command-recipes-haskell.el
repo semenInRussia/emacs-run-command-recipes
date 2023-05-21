@@ -55,7 +55,7 @@
 (defun run-command-recipes-haskell ()
   "`run-command' recipe for Haskell."
   (when (and (buffer-file-name) (run-command-recipes-haskell-mode-p))
-    (run-command-recipes-lib-bind-in-recipe
+    (run-command-recipes-lib-build
      (list
       (list
        :command-name "stack-run"

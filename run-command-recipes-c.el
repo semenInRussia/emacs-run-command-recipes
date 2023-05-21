@@ -65,7 +65,7 @@
 
 Subrecipe of recipe for C."
   (when (and (executable-find "gcc") (buffer-file-name))
-    (run-command-recipes-lib-bind-in-recipe
+    (run-command-recipes-lib-build
      (list
       (list
        :display "Compile and Execute Current file via `gcc'"
@@ -83,7 +83,7 @@ Subrecipe of recipe for C."
 
 Subrecipe of recipe for C."
   (when (and (executable-find "clang") (buffer-file-name))
-    (run-command-recipes-lib-bind-in-recipe
+    (run-command-recipes-lib-build
      (list
       (list
        :display "Compile and Execute Current file via `clang'"

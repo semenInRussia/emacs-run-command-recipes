@@ -39,42 +39,42 @@
 (defcustom run-command-recipes-racket-raco-to-bytecode-command
   "raco make {file-name}"
   "Command of raco, which translate racket source file to racket bytecode.
-See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
+See `run-command-recipes-lib-build' for understand what's {file-name}."
   :type 'string
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-racket-compile-and-run-command
   "raco exe {file-name} && {file-name-no-ext}"
   "Command of raco, which compile and execute racket source file.
-See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
+See `run-command-recipes-lib-build' for understand what's {file-name}."
   :type 'string
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-racket-compile-and-run-command
   "raco exe {file-name} && {file-name-no-ext}"
   "Command of raco, which compile and execute racket source file.
-See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
+See `run-command-recipes-lib-build' for understand what's {file-name}."
   :type 'string
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-racket-run-command
   "racket {file-name}"
   "Command of racket, which juts run a racket source file.
-See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
+See `run-command-recipes-lib-build' for understand what's {file-name}."
   :type 'string
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-racket-compile-command
   "raco exe {file-name}"
   "Command of raco, which compile racket source file.
-See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
+See `run-command-recipes-lib-build' for understand what's {file-name}."
   :type 'string
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-racket-run-test-file-command
   "raco test {file-name}"
   "Command of raco, which run tests of racket source file.
-See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
+See `run-command-recipes-lib-build' for understand what's {file-name}."
   :type 'string
   :group 'run-command-recipes)
 
@@ -87,7 +87,7 @@ See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
 (defcustom run-command-recipes-racket-pretty-read-command
   "raco read {file-name}"
   "Command of raco, which pretty print content of current racket source file.
-See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
+See `run-command-recipes-lib-build' for understand what's {file-name}."
   :type 'string
   :group 'run-command-recipes)
 
@@ -104,7 +104,7 @@ See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
 
 (defun run-command-recipes-racket-virgin ()
   "Recipe of `run-command' for virgin version of racket, subrecipe of racket."
-  (run-command-recipes-lib-bind-in-recipe
+  (run-command-recipes-lib-build
    (when (and (buffer-file-name) (executable-find "racket"))
      (list
       (list
@@ -114,7 +114,7 @@ See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
 
 (defun run-command-recipes-racket-raco ()
   "Recipe of `run-command' for raco, subrecipe of racket."
-  (run-command-recipes-lib-bind-in-recipe
+  (run-command-recipes-lib-build
    (when (and (buffer-file-name) (executable-find "raco"))
      (list
       (list

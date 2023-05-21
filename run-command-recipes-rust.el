@@ -76,7 +76,7 @@ Instead of first \"%s\" put filename of file, instead of second binary file."
 
 (defun run-command-recipes-rust-cargo ()
   "Recipe of `run-command' for `cargo', subrecipe for `rust'."
-  (run-command-recipes-lib-bind-in-recipe
+  (run-command-recipes-lib-build
    (when (and
           (run-command-recipes-rust-cargo-project-p)
           (executable-find "cargo"))
@@ -112,7 +112,7 @@ Instead of first \"%s\" put filename of file, instead of second binary file."
 
 (defun run-command-recipes-rust-rustc ()
   "Recipe of `run-command' for `rustc' compiler, subrecipe for `rust'."
-  (run-command-recipes-lib-bind-in-recipe
+  (run-command-recipes-lib-build
    (when (and
           (buffer-file-name)
           (run-command-recipes-rust-mode-p)

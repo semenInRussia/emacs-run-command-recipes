@@ -39,7 +39,7 @@
 
 (defcustom run-command-recipes-python-run-command "python {file-name}"
   "Shell command, which just run current python file, and nothing else.
-See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
+See `run-command-recipes-lib-build' for understand what's {file-name}."
   :type 'string
   :group 'run-command-recipes)
 
@@ -50,14 +50,14 @@ See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
 
 (defcustom run-command-recipes-python-pytest-file-command "pytest {file-name}"
   "Command which run `pytest' on current file.
-See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
+See `run-command-recipes-lib-build' for understand what's {file-name}."
   :type 'string
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-python-interactively-run-command
   "python -i {file-name}"
   "Command which run python file interactively.
-See `run-command-recipes-lib-bind-in-recipe' for understand what's {file-name}."
+See `run-command-recipes-lib-build' for understand what's {file-name}."
   :type 'string
   :group 'run-command-recipes)
 
@@ -90,7 +90,7 @@ Command will runned on root of project."
 
 (defun run-command-recipes-python-pytest ()
   "Recipe of `run-command' for `pytest', subrecipe of recipe for `python'."
-  (run-command-recipes-lib-bind-in-recipe
+  (run-command-recipes-lib-build
    (when (executable-find "pytest")
      (list
       (when (run-command-recipes-python-test-buffer-p)
@@ -119,7 +119,7 @@ Implementation depends on `run-command-recipes-python-test-buffer-p-function'"
 
 (defun run-command-recipes-python-virgin ()
   "Recipe of `run-command' for virgin version of python, subrecipe of python."
-  (run-command-recipes-lib-bind-in-recipe
+  (run-command-recipes-lib-build
    (when (and (buffer-file-name) (run-command-recipes-python-mode-p))
      (list
       (list

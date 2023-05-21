@@ -77,7 +77,7 @@ Full path to the directory which has the file at current buffer"
   :type '(alist :key-type string :value-type list)
   :group 'run-command-recipes)
 
-(defun run-command-recipes-lib-bind-in-recipe (plists)
+(defun run-command-recipes-lib-build (plists)
   "For each plist of PLISTS replace the some things in the :command-line string.
 
 Each of PLISTS is recipe for `run-command' that can include

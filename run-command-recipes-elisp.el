@@ -73,7 +73,7 @@
 (defun run-command-recipes-elisp-ert ()
   "Recipe of `run-command' for `ert', subrecipe of the emacs-lisp recipe."
   (when (run-command-recipes-elisp-has-ert-tests-p)
-    (run-command-recipes-lib-bind-in-recipe
+    (run-command-recipes-lib-build
      (list
       (list
        :command-name "run-all-ert-tests"
@@ -106,7 +106,7 @@
 (defun run-command-recipes-elisp-virgin ()
   "Recipe of `run-command' for virgin version of emacs-lisp."
   (when (and (run-command-recipes-elisp-mode-p) (buffer-file-name))
-    (run-command-recipes-lib-bind-in-recipe
+    (run-command-recipes-lib-build
      (list
       (if (run-command-recipes-elisp-file-was-compiled-p)
           (list
@@ -153,7 +153,7 @@
   (when (and
          (run-command-recipes-elisp-eldev-project-p)
          (executable-find "eldev"))
-    (run-command-recipes-lib-bind-in-recipe
+    (run-command-recipes-lib-build
      (list
       (list
        :command-name "eldev-archives"
@@ -266,7 +266,7 @@ PROJECT-ROOT defaults to value of the `run-command-recipes-project-root'"
   (when (and
          (run-command-recipes-elisp-eask-project-p)
          (executable-find "eask"))
-    (run-command-recipes-lib-bind-in-recipe
+    (run-command-recipes-lib-build
      (run-command-recipes-lib-compose-recipes
       'run-command-recipes-elisp-eask-run-scripts-recipe
       (list

@@ -46,7 +46,7 @@
 
 (defun run-command-recipes-cpp ()
   "Recipe of `run-command' for c++."
-  (run-command-recipes-lib-bind-in-recipe
+  (run-command-recipes-lib-build
    (when (and (run-command-recipes-cpp-p) (executable-find "g++"))
      (list
       (list

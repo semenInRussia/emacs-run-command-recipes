@@ -38,7 +38,7 @@
   "javac -Werror {file-name}"
   "Command only compiling current Java file.
 
-See `run-command-recipes-lib-bind-in-recipe' for understand dinamic replaces in
+See `run-command-recipes-lib-build' for understand dinamic replaces in
 the current shell command"
   :type 'string
   :group 'run-command-recipes)
@@ -51,7 +51,7 @@ the current shell command"
 
 (defun run-command-recipes-java ()
   "Recipe of `run-command' for Java."
-  (run-command-recipes-lib-bind-in-recipe
+  (run-command-recipes-lib-build
    (when (and (run-command-recipes-java-p) (executable-find "javac"))
      (list
       (list

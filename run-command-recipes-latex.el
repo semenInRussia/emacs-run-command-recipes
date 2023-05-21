@@ -63,7 +63,7 @@
 
 (defun run-command-recipes-latex-pdflatex ()
   "Subrecipe of `run-command' for command tool pdflatex."
-  (run-command-recipes-lib-bind-in-recipe
+  (run-command-recipes-lib-build
    (list
     (list
      :display "Convert to PDF using `pdflatex', ignoring errors"
