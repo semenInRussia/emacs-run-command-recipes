@@ -120,7 +120,8 @@
       (list
        :command-name "byte-recompile-directory"
        :display "ReCompile to bytest Current Directory"
-       :lisp-function 'run-command-recipes-elisp-recompile-current-directory)))))
+       :lisp-function
+       'run-command-recipes-elisp-recompile-current-directory)))))
 
 (defun run-command-recipes-elisp-mode-p ()
   "Return non-nil value, if current `major-mode' is one Emacs Lisp modes."
@@ -182,16 +183,6 @@
        :command-name "eldev-compile"
        :command-line "eldev compile"
        :display "Byte-compile `Eldev' Project Files")
-      (and
-       (buffer-file-name)
-       (list
-        :command-name "eldev-compile-current-file"
-        :command-line "eldev compile {file-name}"
-        :display "Byte-compile Current `Eldev' File of Project")
-       (list
-        :command-name "eldev-compile-current-file-warnings-as-errors"
-        :command-line "eldev compile {file-name} --warnings-as-errors"
-        :display "Compile Current `Eldev' File of Project, Warnings as Errors"))
       (list
        :command-name "eldev-clean"
        :command-line "eldev clean"
@@ -200,36 +191,40 @@
        :command-name "eldev-test"
        :command-line "eldev test"
        :display "Run Tests of the `Eldev' Project")
+      (list
+       :command-name "eldev-test-until-unexpected"
+       :command-line "eldev test {file-name}"
+       :display "Run Tests of Current `Eldev' Project, until Some Fails")
+      (list
+       :command-name "eldev-test-failed"
+       :command-line "eldev test :fail"
+       :display "Run Failed Tests of `Current' Eldev Project")
+      (list
+       :command-name "eldev-test-failed"
+       :command-line "eldev test :new"
+       :display "Run New Tests of `Current' Eldev Project")
+      (list
+       :command-name "eldev-lint"
+       :command-line "eldev lint"
+       :display "Lint Current `Eldev' Project")
+      ;; commands that works for current file
       (and
        (buffer-file-name)
+       (run-command-recipes-elisp-mode-p)
        (list
-        :command-name "eldev-test-current-file"
-        :command-line "eldev test {file-name}"
-        :display "Run Tests from Current Test File with `Eldev'"))
-      (and
-       (buffer-file-name)
-       (list
-        :command-name "eldev-test-until-unexpected"
-        :command-line "eldev test {file-name}"
-        :display "Run Tests of Current `Eldev' Project, until Some Fails"))
-      (and
-       (buffer-file-name)
-       (list
-        :command-name "eldev-test-failed"
-        :command-line "eldev test :fail"
-        :display "Run Failed Tests of `Current' Eldev Project"))
-      (and
-       (buffer-file-name)
-       (list
-        :command-name "eldev-test-failed"
-        :command-line "eldev test :new"
-        :display "Run New Tests of `Current' Eldev Project"))
-      (and
-       (buffer-file-name)
-       (list
-        :command-name "eldev-lint"
-        :command-line "eldev lint"
-        :display "Lint Current `Eldev' Project"))))))
+        (list
+         :command-name "eldev-compile-current-file"
+         :command-line "eldev compile {file-name}"
+         :display "Byte-compile Current `Eldev' File of Project")
+        (list
+         :command-name "eldev-compile-current-file-warnings-as-errors"
+         :command-line "eldev compile {file-name} --warnings-as-errors"
+         :display
+         "Compile Current `Eldev' File of Project, Warnings as Errors")
+        (list
+         :command-name "eldev-test-current-file"
+         :command-line "eldev test {file-name}"
+         :display "Run Tests from Current Test File with `Eldev'")))))))
 
 (defcustom run-command-recipes-elisp-eask-linters
   '(elsa
@@ -273,6 +268,7 @@ PROJECT-ROOT defaults to value of the `run-command-recipes-project-root'"
          (executable-find "eask"))
     (run-command-recipes-lib-bind-in-recipe
      (run-command-recipes-lib-compose-recipes
+      'run-command-recipes-elisp-eask-run-scripts-recipe
       (list
        (list
         :command-name "eask-archivies"
@@ -329,8 +325,7 @@ PROJECT-ROOT defaults to value of the `run-command-recipes-project-root'"
         :command-name (format "eask-lint-%s-current-file" it)
         :command-line (format "eask lint %s {file-name}" it)
         :display (format "Lint the current opened file with Eask + `%s'" it))
-       run-command-recipes-elisp-eask-linters)
-      'run-command-recipes-elisp-eask-run-scripts-recipe))))
+       run-command-recipes-elisp-eask-linters)))))
 
 (defun run-command-recipes-elisp-eask-run-scripts-recipe ()
   "Function returning a `run-command' recipe for `Eask' run scripts.

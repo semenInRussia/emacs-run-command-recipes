@@ -80,12 +80,16 @@ Full path to the directory which has the file at current buffer"
 (defun run-command-recipes-lib-bind-in-recipe (plists)
   "For each plist of PLISTS replace the some things in the :command-line string.
 
-Each of PLISTS is recipe for `run-command', result of this function
-should be list of plists, but each plist will be with replaced
-:command-line string, for example in :command-line string {file-name}
-will be replaced with evaulating of (buffer-file-name), because
-'file-name is the key of `run-command-recipes-lib-bind-variables'
-and (buffer-file-name) is value.
+Each of PLISTS is recipe for `run-command' that can include
+:working-dir, :display, :command-line and other ones (see
+`run-command' docs).  Result of this function should be list of plists,
+but each plist will be with replaced :command-line string, for example
+in :command-line string {file-name} will be replaced with evaulating
+of (buffer-file-name), because 'file-name is the key of
+`run-command-recipes-lib-bind-variables' and (buffer-file-name) is
+value.
+
+Also PLISTS recipe can be the list from some plists, it will be fixed.
 
 Also, change the :working-dir of each plists to the value of
 the `run-command-recipes-project-root'
@@ -97,9 +101,21 @@ So, see `run-command-recipes-lib-bind-variables' for the list of changes"
   (let ((root (run-command-recipes-project-root)))
     (->>
      plists
+     (run-command-recipes-lib--flatten-recipes-list)
      (--map (run-command-recipes-lib--working-dir it root))
      (-map 'run-command-recipes-lib--command-line)
      (-map 'run-command-recipes-lib--lisp-function))))
+
+(defun run-command-recipes-lib--flatten-recipes-list (plists)
+  "Expand each of PLISTS that consists some plists into one recipes list."
+  (--reduce-from
+   (if (and (not (null it)) (listp (car it)))
+       ;; then `it' is some plists
+       (append (print acc) it)
+     ;; then `it' is one plist
+     (cons it (print acc)))
+   nil
+   plists))
 
 (defun run-command-recipes-lib--command-line (recipe)
   "Do some change in property of RECIPE :command-line.
