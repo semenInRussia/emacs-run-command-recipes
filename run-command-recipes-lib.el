@@ -178,6 +178,8 @@ nothing, so save nothing."
   ;; this should go to the file from which was a `run-command' call
   (switch-to-buffer (car (buffer-list))))
 
+(defvar run-command-experiments)
+
 (defun run-command-recipes-lib--lisp-function (recipe)
   "Get lisp-function prop from the plist RECIPE and get `run-command' recipe.
 
@@ -186,13 +188,13 @@ versions (at the last version this isn't supported)"
   (if (or
        (memq 'run-command-experiment-lisp-commands
              run-command-experiments)
-       (not (map-elt recipe :lisp-function)))
+       (not (plist-member recipe :lisp-function)))
       recipe
     (->
      recipe
-     (map-insert :command-line "true")
-     (map-insert :runner #'run-command-recipes-lib--nothing-runner)
-     (map-insert :hook (map-elt recipe :lisp-function)))))
+     (append (list :command-line "true"))
+     (append (list :runner #'run-command-recipes-lib--nothing-runner))
+     (append (list :hook (plist-member recipe :lisp-function))))))
 
 (provide 'run-command-recipes-lib)
 ;;; run-command-recipes-lib.el ends here
