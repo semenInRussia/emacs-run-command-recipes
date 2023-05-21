@@ -43,7 +43,7 @@ See `run-command-recipes-lib-build' for understand what's {file-name}."
   :type 'string
   :group 'run-command-recipes)
 
-(defcustom run-command-recipes-python-test-filename "test_.*\.py"
+(defcustom run-command-recipes-python-test-filename "test_.*\\.py"
   "Regexp which math with test's file of Python."
   :type 'string
   :group 'run-command-recipes)
