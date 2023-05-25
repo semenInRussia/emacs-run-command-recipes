@@ -60,12 +60,12 @@
       (list
        :command-name "stack-run"
        :command-line "stack run"
-       :display "Run this Project via Stack"
+       :display "Stack: run, execute project"
        :working-dir (run-command-recipes-project-root))
       (list
        :command-name "haskell-run-by-context"
        :lisp-function run-command-recipes-haskell-run-function
-       :display "Run Haskell File by Context")))))
+       :display "Haskell by context")))))
 
 (provide 'run-command-recipes-haskell)
 ;;; run-command-recipes-haskell.el ends here

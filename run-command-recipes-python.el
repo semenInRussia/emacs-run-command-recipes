@@ -96,12 +96,12 @@ Command will runned on root of project."
       (when (run-command-recipes-python-test-buffer-p)
         (list
          :command-name "run-pytests-in-current-file"
-         :display "Run `pytest' for Current Pytest File"
+         :display "Pytest: run file tests"
          :command-line run-command-recipes-python-pytest-file-command))
       (when (run-command-recipes-python-pytest-project-p)
         (list
          :command-name "run-all-pytests-in-project"
-         :display "Run All Tests in Current Project via Pytest"
+         :display "Pytest: run project tests"
          :working-dir (run-command-recipes-project-root)
          :command-line run-command-recipes-python-pytest-project-command))))))
 
@@ -124,11 +124,11 @@ Implementation depends on `run-command-recipes-python-test-buffer-p-function'"
      (list
       (list
        :command-name "run-python-file"
-       :display "Just Run Current Python File"
+       :display "Python: execute file"
        :command-line run-command-recipes-python-run-command)
       (list
        :command-name "interactively-run-python-file"
-       :display "Run Current Python Interactively File"
+       :display "Python: execute, run file interactively"
        :command-line run-command-recipes-python-interactively-run-command
        :runner 'run-command-runner-term)))))
 

@@ -51,12 +51,12 @@
      (list
       (list
        :command-name "run-cpp-file"
-       :display "Compile and Execute Current C++ File via `g++'"
+       :display "G++: compile, execute file"
        :command-line                    ;nofmt
        "g++ {file-name} -o {file-name-no-ext} && {file-name-no-ext}")
       (list
        :command-name "compile-cpp-file"
-       :display "Compile Only Current C++ File via `g++'"
+       :display "G++: compile file"
        :command-line "g++ -Wall -Werror {file-name} -o {file-name-no-ext}")))))
 
 (provide 'run-command-recipes-cpp)

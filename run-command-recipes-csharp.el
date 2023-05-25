@@ -47,11 +47,11 @@
   (when (and (executable-find "dotnet") (run-command-recipes-csharp-p))
     (list
      :command-name "run-dotnet-project"
-     :display "Run .NET Project"
+     :display ".NET: run the project"
      :command-line "dotnet run")
     (list
      :command-name "compile-dotnet-project"
-     :display "Only Compile .NET Project"
+     :display ".NET: build, compile the project"
      :command-line "dotnet build")))
 
 (provide 'run-command-recipes-csharp)

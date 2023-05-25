@@ -56,10 +56,10 @@ the current shell command"
      (list
       (list
        :command-name "run-java-file"
-       :display "Run Current Java File"
+       :display "Java: compile, execute file"
        :command-line run-command-recipes-java-run-file-command)
       (list
-       :command-name "compile-java-file"
+       :command-name "Java: compile file"
        :display "Compile Current Java File"
        :command-line run-command-recipes-java-compile-file-command)))))
 

@@ -109,7 +109,7 @@ See `run-command-recipes-lib-build' for understand what's {file-name}."
      (list
       (list
        :command-name "racket-run-file"
-       :display "Run Current Racket File (without compilation!)"
+       :display "Racket: run, execute file (without compiling!)"
        :command-line run-command-recipes-racket-run-command)))))
 
 (defun run-command-recipes-racket-raco ()
@@ -119,27 +119,27 @@ See `run-command-recipes-lib-build' for understand what's {file-name}."
      (list
       (list
        :command-name "raco-check-file"
-       :display "Check Racket Source File"
+       :display "Raco: byte-compile file"
        :command-line run-command-recipes-racket-raco-to-bytecode-command)
       (list
        :command-name "raco-compile-file"
-       :display "Compile Only Racket File"
+       :display "Raco: compile file"
        :command-line run-command-recipes-racket-compile-command)
       (list
        :command-name "raco-run-file"
-       :display "Compile and Run Current Racket File"
+       :display "Raco: run, execute file"
        :command-line run-command-recipes-racket-compile-and-run-command)
       (list
        :command-name "raco-run-tests-in-file"
-       :display "Run Tests of Current Racket File"
+       :display "Raco: run file tests"
        :command-line run-command-recipes-racket-run-test-file-command)
       (list
        :command-name "raco-run-directory-tests"
-       :display "Run Racket Tests of Current Directory"
+       :display "Raco: run directory, project tests"
        :command-line run-command-recipes-racket-run-directory-tests-command)
       (list
        :command-name "raco-pretty-read-file"
-       :display "Pretty Print Current Racket File"
+       :display "Raco: pretty print file"
        :command-line run-command-recipes-racket-pretty-read-command)))))
 
 (provide 'run-command-recipes-racket)

@@ -68,13 +68,13 @@ Subrecipe of recipe for C."
     (run-command-recipes-lib-build
      (list
       (list
-       :display "Compile and Execute Current file via `gcc'"
+       :display "GCC: compile, execute file"
        :command-line ;nofmt
        (concat "gcc {file-name} -Wall -Werror -o {file-name-no-ext} "
                "&& {file-name-no-ext}")
        :command-name "gcc-compile-and-exec")
       (list
-       :display "Only Compile Current file via `gcc'"
+       :display "GCC: compile file"
        :command-line "gcc {file-name} -Wall -Werror -o {file-name-no-ext}"
        :command-name "gcc-only-compile")))))
 
@@ -86,12 +86,12 @@ Subrecipe of recipe for C."
     (run-command-recipes-lib-build
      (list
       (list
-       :display "Compile and Execute Current file via `clang'"
+       :display "CLang: compile, execute file"
        :command-line ;nofmt
        "clang {file-name} -o {file-name-no-ext} && {file-name-no-ext}"
        :command-name "clang-compile-and-exec")
       (list
-       :display "Only Compile Current file via `clang'"
+       :display "Clang: compile file'"
        :command-line "clang {file-name} -o {file-name-no-ext}"
        :command-name "clang-only-compile")))))
 

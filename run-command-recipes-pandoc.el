@@ -170,7 +170,8 @@ See pandoc input formats: https://pandoc.org"
           (run-command-recipes-pandoc--change-format-of-file input-file to)))
     (list
      :command-name (format "pandoc-%s-to-%s" from to)
-     :display (format "Convert %s to %s via Pandoc" (upcase from) (upcase to))
+     :display (format "Pandoc: convert from %s into %s"
+                      (upcase from) (upcase to))
      :command-line (format "pandoc -t %s -f %s -o \"%s\" \"%s\""
                            to from output-file input-file))))
 

@@ -66,12 +66,12 @@
   (run-command-recipes-lib-build
    (list
     (list
-     :display "Convert to PDF using `pdflatex', ignoring errors"
+     :display "PDFLaTeX: convert to PDF"
      :command-name "pdflatex"
      :command-line run-command-recipes-latex-command)
     (when (featurep 'latex-extra)
       (list
-       :display "Fully compile the current document, then view it"
+       :display "LaTeX: compile, build everything"
        :command-name "latex-compile-commands-until-done"
        :lisp-function 'latex/compile-commands-until-done)))))
 
@@ -91,12 +91,12 @@ ROOT defaults to `run-command-recipes-project-root'"
            (run-command-recipes-latex-latexmk-project-p working-dir)))
     (list
      (list
-      :display "Compile LaTeX using `latexmk'"
+      :display "LaTeX MK: compile"
       :command-name "latexmk"
       :command-line "latexmk"
       :working-dir working-dir)
      (list
-      :display "Compile LaTeX using `latexmk' with previewer"
+      :display "LaTeX MK: compile, preview"
       :command-name "latexmk-with-preview"
       :command-line "latexmk -pv"
       :working-dir working-dir))))

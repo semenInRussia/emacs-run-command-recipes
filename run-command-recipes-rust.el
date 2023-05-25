@@ -83,31 +83,31 @@ Instead of first \"%s\" put filename of file, instead of second binary file."
      (list
       (list
        :command-name "cargo-install"
-       :display "Install Dependecies from Cargo Project"
+       :display "Cargo: install dependecies"
        :command-line "cargo install --path .")
       (list
        :command-name "cargo-run"
-       :display "Run Cargo Project"
+       :display "Cargo: run, execute"
        :command-line "cargo run")
       (list
        :command-name "cargo-build"
-       :display "Build Cargo Project"
+       :display "Cargo: build"
        :command-line "cargo build")
       (list
        :command-name "cargo-doc"
-       :display "Build Documentation for Cargo Project"
+       :display "Cargo: build documentation"
        :command-line "cargo doc")
       (list
        :command-name "cargo-test"
-       :display "Run Tests for Cargo Project"
+       :display "Cargo: run all tests"
        :command-line "cargo test")
       (list
        :command-name "cargo-update"
-       :display "Update Dependecies for Cargo Project"
+       :display "Cargo: update dependencies"
        :command-line "cargo update")
       (list
        :command-name "cargo-publish"
-       :display "Publish Cargo Project to https://crates.io"
+       :display "Cargo: publish the project"
        :command-line "cargo publish")))))
 
 (defun run-command-recipes-rust-rustc ()
@@ -120,11 +120,11 @@ Instead of first \"%s\" put filename of file, instead of second binary file."
      (list
       (list
        :command-name "rustc-compile"
-       :display "Compile Only Rust File via `rustc'"
+       :display "rustc: compile file"
        :command-line run-command-recipes-rust-rustc-compile-command)
       (list
        :command-name "rustc-run"
-       :display "Run Rust File via `rustc'"
+       :display "rustc: compile, execute file"
        :command-line run-command-recipes-rust-rustc-run-command)))))
 
 (provide 'run-command-recipes-rust)
