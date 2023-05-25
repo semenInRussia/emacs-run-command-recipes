@@ -87,24 +87,21 @@ you can't then add the following source code before call ~run-command-recipes-us
 - =racket= ([[file:docs/racket.org][link on support]])
 
 ** Contribute
-   :PROPERTIES:
-   :CUSTOM_ID: contribute
-   :END:
-   All contribution is good.  For add recipe to this repository (here
-   you should read =<recipe-name>= as name of your recipe):
+:PROPERTIES:
+:CUSTOM_ID: contribute
+:END:
+
+All contribution is good.  To add recipe to this repository you must do the following things (here instead =<recipe-name>= think about name of your recipe):
 
 1. [[https://docs.github.com/en/get-started/quickstart/fork-a-repo][Fork]] this repository
-2. Run the Emacs command =run-command-recipes-create-recipe=.  It
-   modify =README.org= (update the list of supported modes) and
-   =run-command-recipes.el= (the list of supported modes in the
-   commentaries and the source code), also it create some files:
+2. Create the new branch with the name of your recipe (for example: julia)
+3. Run the Emacs command =run-command-recipes-create-recipe=.  It modify =README.org= (update the list of supported modes) and =run-command-recipes.el= (the list of supported modes in the commentaries and the source code), also it create some files:
 
    1. =<recipe-name>.org= for documentation of the new recipe
    2. =run-command-recipes-<recipe-name>.el= for source code
 
-3. In =run-command-recipes-<recipe-name>.el= you may find the function,
-   change this function (see offical [[https://github.com/bard/emacs-run-command#cookbook][cookbook]] of =run-command=)
-4. Suggest you use some functions from the standard library of this
-   project (see details [[file:docs/lib.org][here]])
-5. Commit, Commit, Push all changes to your fork
-6. Make [[https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests][Pull Request]] of your repo to main repository
+4. In =run-command-recipes-<recipe-name>.el= you may find the function, change this function (see offical [[https://github.com/bard/emacs-run-command#cookbook][cookbook]] of =run-command=)
+5. Suggest you use some functions from the standard library of this project (see details [[file:docs/lib.org][here]])
+6. Check that all is normal with =eldev lint= ([[https://doublep.github.io/eldev/#installation][how to install Eldev?]])
+7. Commit, Commit, Push all changes to your fork
+8. Make [[https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests][Pull Request]] of your repo to the main repository
