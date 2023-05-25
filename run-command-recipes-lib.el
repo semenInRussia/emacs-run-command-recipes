@@ -194,7 +194,7 @@ versions (at the last version this isn't supported)"
      recipe
      (append (list :command-line "true"))
      (append (list :runner #'run-command-recipes-lib--nothing-runner))
-     (append (list :hook (plist-member recipe :lisp-function))))))
+     (append (list :hook (plist-get recipe :lisp-function))))))
 
 (provide 'run-command-recipes-lib)
 ;;; run-command-recipes-lib.el ends here
