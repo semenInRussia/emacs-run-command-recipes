@@ -87,12 +87,20 @@ Instead of first \"%s\" put filename of file, instead of second binary file."
        :command-line "cargo install --path .")
       (list
        :command-name "cargo-run"
-       :display "Cargo: run, execute"
+       :display "Cargo: run (execute)"
        :command-line "cargo run")
+      (list
+       :command-name "cargo-run-release"
+       :display "Cargo: run (execute) with release flag"
+       :command-line "cargo run --release")
       (list
        :command-name "cargo-build"
        :display "Cargo: build"
        :command-line "cargo build")
+      (list
+       :command-name "cargo-build-release"
+       :display "Cargo: build with release flag"
+       :command-line "cargo build --release")
       (list
        :command-name "cargo-doc"
        :display "Cargo: build documentation"
@@ -106,9 +114,29 @@ Instead of first \"%s\" put filename of file, instead of second binary file."
        :display "Cargo: update dependencies"
        :command-line "cargo update")
       (list
+       :command-name "cargo-fix"
+       :display "Cargo: fix fixable warnings"
+       :command-line "cargo fix")
+      (list
+       :command-name "cargo-fix-allow-dirty"
+       :display "Cargo: fix fixable warnings (allow all, even dirty)"
+       :command-line "cargo fix --allow-dirty")
+      (list
+       :command-name "cargo-fix-allow-staged"
+       :display "Cargo: fix fixable warnings (allow only staged)"
+       :command-line "cargo fix --allow-staged")
+      (list
+       :command-name "cargo-clippy"
+       :display "Cargo: lint code with `clippy'"
+       :command-line "cargo clippy")
+      (list
        :command-name "cargo-publish"
        :display "Cargo: publish the project"
-       :command-line "cargo publish")))))
+       :command-line "cargo publish")
+      (list
+       :command-name "cargo-tree"
+       :display "Cargo: display dependencies tree"
+       :command-line "cargo tree")))))
 
 (defun run-command-recipes-rust-rustc ()
   "Recipe of `run-command' for `rustc' compiler, subrecipe for `rust'."

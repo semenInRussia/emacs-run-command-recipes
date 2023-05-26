@@ -17,12 +17,15 @@
 This recipes has 9 commands:
 
 - Install Dependecies of Cargo Project
-- Run Cargo Project
-- Build Cargo Project
+- Run Cargo Project (with release flag or without it)
+- Build Cargo Project (with release flag or without it)
 - Build Documentation for Cargo Project
 - Run Tests for Cargo Project
 - Update Dependecies for Cargo Project
 - Publish Cargo Project to https://crates.io
+- Lint code with =clippy=
+- Fix fixable warnings
+- Display the dependencies tree
 - Compile Rust File with =rustc=
 - Run Rust File with =rustc=
 
