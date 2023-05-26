@@ -168,6 +168,10 @@
        :command-line "eldev targets"
        :display "Eldev: view targets")
       (list
+       :command-name "eldev-tree"
+       :command-line "eldev dependency-tree"
+       :display "Eldev: display the dependency tree")
+      (list
        :command-name "eldev-build-main"
        :command-line "eldev build"
        :display "Eldev: build (main set)")

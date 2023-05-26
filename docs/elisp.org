@@ -38,20 +38,21 @@ This recipe support 4 commands, the following command is first:
   That works if the project root directory has directory ~tests~ (customize the directory name in variable ~run-command-recipes-elisp-ert-tests-directory~)
 
   - View ~Eldev~ archives
-- Upgrade ~Eldev~ Project
-- View ~Eldev~ targets
-- Build Main ~Eldev~ targets
-- Build ~Eldev~ Targets of Each Set
-- Build the ~Eldev~ Package
-- Byte-compile ~Eldev~ Project Files
-- Byte-compile Current ~Eldev~ File of Project
-- Clean Current ~Eldev~ Project
-- Run Tests of the ~Eldev~ Project
-- Run Tests from Current Test File with ~Eldev~
-- Run Tests of Current ~Eldev~ Project, until Some Fails
-- Run Failed Tests of Current ~Eldev~Project
-- Run New Tests of Current ~Eldev~Project
-- Lint Current ~Eldev~ Project
+  - Upgrade ~Eldev~ Project
+  - View ~Eldev~ targets
+  - Build Main ~Eldev~ targets
+  - Build ~Eldev~ Targets of Each Set
+  - Build the ~Eldev~ Package
+  - Byte-compile ~Eldev~ Project Files
+  - Byte-compile Current ~Eldev~ File of Project
+  - Clean Current ~Eldev~ Project
+  - Run Tests of the ~Eldev~ Project
+  - Run Tests from Current Test File with ~Eldev~
+  - Run Tests of Current ~Eldev~ Project, until Some Fails
+  - Run Failed Tests of Current ~Eldev~Project
+  - Run New Tests of Current ~Eldev~Project
+  - Lint Current ~Eldev~ Project
+  - Display the dependency-tree
 
   ... that works only when the root project has the file ~Eldev~! Amazing!
 ** Customization
