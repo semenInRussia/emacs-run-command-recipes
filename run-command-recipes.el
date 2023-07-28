@@ -50,6 +50,7 @@
 ;; - csharp
 ;; - java
 ;; - racket
+;; - make
 
 ;;; Code:
 
@@ -67,7 +68,7 @@
           "https://github.com/semenInRussia/emacs-run-command-recipes"))
 
 (defcustom run-command-recipes-supported-recipes
-  '(latex pandoc haskell elisp rust python c cpp csharp java racket)
+  '(latex pandoc haskell elisp rust python c cpp csharp java racket make)
   "List of recipes names supported by `run-command-recipes'."
   :type '(repeat symbol)
   :group 'run-command-recipes)

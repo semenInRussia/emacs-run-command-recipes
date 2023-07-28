@@ -1,0 +1,27 @@
+* =run-command='s Recipe for make
+:PROPERTIES:
+:CUSTOM_ID: run-commands-recipe-for-recipe-name
+:END:
+
+** Table of Contents                                                    :TOC:
+- [[#run-commands-recipe-for-make][=run-command='s Recipe for make]]
+  - [[#commands][Commands]]
+  - [[#customization][Customization]]
+
+** Commands
+:PROPERTIES:
+:CUSTOM_ID: commands
+:END:
+
+In this recipe I define only one type of commands:
+
+- Make: <command>
+
+It means when you call ~run-command~ inside a project which have ~Makefile~ in the root directory, you can select one of the defined inside ~Makefile~ commands and it will be normally executed.
+
+** Customization
+:PROPERTIES:
+:CUSTOM_ID: customization
+:END:
+
+Here only two option to customize.  The first is ~run-command-recipes-make-executable~ which specify the path of GNU Make executable, it defaults to "make".  The second is ~run-command-recipes-makefile-names~ which specify the names which ~Makefile~ can have.
