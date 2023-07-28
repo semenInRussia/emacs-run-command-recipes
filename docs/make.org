@@ -1,4 +1,4 @@
-* =run-command='s Recipe for make
+* =run-command='s Recipe for GNU Make
 :PROPERTIES:
 :CUSTOM_ID: run-commands-recipe-for-recipe-name
 :END:
@@ -13,11 +13,13 @@
 :CUSTOM_ID: commands
 :END:
 
-In this recipe I define only one type of commands:
+In this recipe I define only 1 type of commands:
 
 - Make: <command>
 
 It means when you call ~run-command~ inside a project which have ~Makefile~ in the root directory, you can select one of the defined inside ~Makefile~ commands and it will be normally executed.
+
+Notice that if GNU Make executable wasn't found it won't working
 
 ** Customization
 :PROPERTIES:

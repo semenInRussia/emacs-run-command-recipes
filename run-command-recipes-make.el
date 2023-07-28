@@ -1,4 +1,4 @@
-;;; run-command-recipes-make.el --- Recipe of `run-command' for Makefiles -*- lexical-binding: t; -*-
+;;; run-command-recipes-make.el --- Recipe of `run-command' for GNU Make -*- lexical-binding: t; -*-
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.0.3
@@ -42,7 +42,7 @@
   :type '(repeat string))
 
 (defun run-command-recipes-make ()
-  "Recipe of `run-command' for Makefiles."
+  "Recipe of `run-command' for GNU Make."
   (and
    (run-command-recipes-make-project-p)
    (executable-find run-command-recipes-make-executable)
