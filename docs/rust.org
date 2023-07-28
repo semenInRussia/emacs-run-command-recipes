@@ -14,7 +14,7 @@
 :PROPERTIES:
 :CUSTOM_ID: commands
 :END:
-This recipes has 9 commands:
+This recipes has 12+ commands, here some things which you can do using this recipe:
 
 - Install Dependecies of Cargo Project
 - Run Cargo Project (with release flag or without it)
@@ -28,7 +28,7 @@ This recipes has 9 commands:
 - Display the dependencies tree
 - Compile Rust File with =rustc=
 - Run Rust File with =rustc=
-
+  
 ** Customization
 :PROPERTIES:
 :CUSTOM_ID: customization
@@ -71,3 +71,5 @@ rustc {file-name}
 rustc {file-name} && {file-name-no-ext}
 #+end_example
 
+*** Executables
+Also you can change paths to the executables of ~cargo~ and ~rustc~ using ~run-command-recipes-rust-cargo-executable~ and ~~run-command-recipes-rust-rustc-executable~~
