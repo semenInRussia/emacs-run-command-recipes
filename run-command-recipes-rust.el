@@ -90,6 +90,10 @@ Instead of first \"%s\" put filename of file, instead of second binary file."
        :display "Cargo: run (execute)"
        :command-line "cargo run")
       (list
+       :command-name "cargo-run"
+       :display "Cargo: run (execute) with nightly rust"
+       :command-line "cargo +nightly run")
+      (list
        :command-name "cargo-run-release"
        :display "Cargo: run (execute) with release flag"
        :command-line "cargo run --release")
@@ -97,6 +101,10 @@ Instead of first \"%s\" put filename of file, instead of second binary file."
        :command-name "cargo-build"
        :display "Cargo: build"
        :command-line "cargo build")
+      (list
+       :command-name "cargo-build-nightly"
+       :display "Cargo: build (with nightly rust)"
+       :command-line "cargo +nightly build")
       (list
        :command-name "cargo-build-release"
        :display "Cargo: build with release flag"
