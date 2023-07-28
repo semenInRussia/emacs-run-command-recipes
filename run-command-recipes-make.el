@@ -30,18 +30,30 @@
 (require 'f)
 (require 'run-command-recipes-project)
 
+
+(defcustom run-command-recipes-make-executable "make"
+  "Path to the GNU Make executable."
+  :group 'run-command-recipes
+  :type 'string)
+
+(defcustom run-command-recipes-makefile-names '("Makefile" "Make")
+  "The list of names in which can be defined commands for GNU Make."
+  :group 'run-command-recipes
+  :type '(repeat string))
+
 (defun run-command-recipes-make ()
   "Recipe of `run-command' for Makefiles."
-  (when (and (run-command-recipes-make-project-p)
-             (executable-find "make"))
-    (->>
-     (run-command-recipes-make--project-makefile)
-     (run-command-recipes-make--commands)
-     (--map
-      (list
-       :command-name (concat "make-" it)
-       :command-line (concat "make " it)
-       :display (concat "Make: `" it "'"))))))
+  (and
+   (run-command-recipes-make-project-p)
+   (executable-find run-command-recipes-make-executable)
+   (->>
+    (run-command-recipes-make--project-makefile)
+    (run-command-recipes-make--commands)
+    (--map
+     (list
+      :command-name (concat "make-" it)
+      :command-line (concat "make " it)
+      :display (concat "Make: `" it "'"))))))
 
 (defun run-command-recipes-make--commands (makefile)
   "Return the list of commands names that was defined in MAKEFILE."
@@ -65,7 +77,7 @@ ROOT defaults to value of `run-command-recipes-project-root'"
 
 ROOT defaults to value of `run-command-recipes-project-root'"
   (or root (setq root (run-command-recipes-project-root)))
-  (run-command-recipes-project-root-has-one-of '("Makefile" "Make")))
+  (run-command-recipes-project-root-has-one-of run-command-recipes-makefile-names))
 
 (provide 'run-command-recipes-make)
 ;;; run-command-recipes-make.el ends here
