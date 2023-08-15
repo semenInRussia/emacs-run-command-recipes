@@ -60,7 +60,7 @@
   (let ((s (f-read makefile))
         (commands nil)
         (pos 0))
-    (while (string-match "^\\([[:word:]]+\\):" s pos)
+    (while (string-match "^\\([^ \n]+\\):" s pos)
       (push (match-string 1 s) commands)
       (setq pos (match-end 0)))
     commands))
