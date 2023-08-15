@@ -26,7 +26,7 @@
 (require 'f)
 
 (declare-function projectile-acquire-root "projectile")
-(declare-function project-roots "project")
+(declare-function project-root "project")
 (declare-function project-current "project")
 
 (defvar projectile-mode)
@@ -37,7 +37,7 @@
    ((and (featurep 'projectile) projectile-mode)
     (projectile-acquire-root))
    ((and (featurep 'project) (project-current))
-    (-first-item (project-roots (project-current))))
+    (project-root (project-current)))
    (t default-directory)))
 
 (defun run-command-recipes-project-root-has (entire)

@@ -80,19 +80,17 @@ Full path to the directory which has the file at current buffer"
 (defun run-command-recipes-lib-build (plists)
   "For each plist of PLISTS replace the some things in the :command-line string.
 
-Each of PLISTS is recipe for `run-command' that can include
-:working-dir, :display, :command-line and other ones (see
-`run-command' docs).  Result of this function should be list of plists,
-but each plist will be with replaced :command-line string, for example
-in :command-line string {file-name} will be replaced with evaulating
-of (buffer-file-name), because 'file-name is the key of
-`run-command-recipes-lib-bind-variables' and (buffer-file-name) is
-value.
+Each of PLISTS is recipe for `run-command' that can include :working-dir,
+:display, :command-line and other ones (see `run-command' docs).  Result of this
+function should be list of plists, but each plist will be with replaced
+:command-line string, for example in :command-line string {file-name} will be
+replaced with evaulating of (buffer-file-name), because \\='file-name is the key of
+`run-command-recipes-lib-bind-variables' and (buffer-file-name) is value.
 
 Also PLISTS recipe can be the list from some plists, it will be fixed.
 
-Also, change the :working-dir of each plists to the value of
-the `run-command-recipes-project-root'
+Also, change the :working-dir of each plists to the value of the
+`run-command-recipes-project-root'
 
 And also, if a recipe has the unsupported field :lisp-function, then replace it
 with the supporting things (:hook + :command-line \"true\").
