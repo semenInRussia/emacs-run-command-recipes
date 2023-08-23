@@ -86,6 +86,7 @@ you can't then add the following source code before call ~run-command-recipes-us
 - =java= ([[file:docs/java.org][link on support]])
 - =racket= ([[file:docs/racket.org][link on support]])
 - =make= ([[file:docs/make.org][link on support]])
+- =go= ([[file:docs/go.org][link on support]])
 
 ** Contribute
 :PROPERTIES:

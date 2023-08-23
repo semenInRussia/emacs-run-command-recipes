@@ -1,0 +1,43 @@
+* =run-command='s Recipe for go
+  :PROPERTIES:
+  :CUSTOM_ID: run-commands-recipe-for-recipe-name
+  :END:
+
+** Table of Contents                                                    :TOC:
+- [[#run-commands-recipe-for-go][=run-command='s Recipe for go]]
+  - [[#commands][Commands]]
+  - [[#customization][Customization]]
+
+** Commands
+:PROPERTIES:
+:CUSTOM_ID: commands
+:END:
+
+- compile packages and dependencies
+- build fil
+- compile, execute fil
+- compile, execute program
+- start a bug report
+- remove object files and cached files
+- remove object files and cached files recursively
+- print Go environment information
+- update packages to use new APIs
+- gofmt (reformat) package sources
+- gofmt (reformat) file
+- generate Go files by processing source
+- add dependencies to current module and install them
+- compile and install packages and dependencies
+- list packages or modules
+- module maintenance
+- workspace maintenance
+- test packages
+- run specified go tool
+- print Go version
+- report likely mistakes in packages
+
+** Customization
+:PROPERTIES:
+:CUSTOM_ID: customization
+:END:
+
+You can change only major-modes in which this recipe work with modify variable ~run-command-recipes-go-major-modes~
