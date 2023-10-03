@@ -38,6 +38,11 @@
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
+(defcustom run-command-recipes-c-flags "-Wall -Werror"
+  "String which specify flags which are passed to a C compiler."
+  :type 'string
+  :group 'run-command-recipes)
+
 (defcustom run-command-recipes-c-subrecipes
   '(run-command-recipes-c-gcc run-command-recipes-c-clang)
   "List of subrecipes of `run-command' recipe for C."
@@ -69,13 +74,17 @@ Subrecipe of recipe for C."
      (list
       (list
        :display "GCC: compile, execute file"
-       :command-line ;nofmt
-       (concat "gcc {file-name} -Wall -Werror -o {file-name-no-ext} "
-               "&& {file-name-no-ext}")
+       :command-line
+       (concat "gcc {file-name} "
+               run-command-recipes-c-flags
+               " && {file-name-no-ext}")
        :command-name "gcc-compile-and-exec")
       (list
        :display "GCC: compile file"
-       :command-line "gcc {file-name} -Wall -Werror -o {file-name-no-ext}"
+       :command-line
+       (concat "gcc {file-name} "
+               run-command-recipes-c-flags
+               " -o {file-name-no-ext}")
        :command-name "gcc-only-compile")))))
 
 (defun run-command-recipes-c-clang ()
@@ -87,12 +96,15 @@ Subrecipe of recipe for C."
      (list
       (list
        :display "CLang: compile, execute file"
-       :command-line ;nofmt
-       "clang {file-name} -o {file-name-no-ext} && {file-name-no-ext}"
+       :command-line
+       (concat "clang {file-name} -o {file-name-no-ext} && {file-name-no-ext} "
+               run-command-recipes-c-flags)
        :command-name "clang-compile-and-exec")
       (list
        :display "Clang: compile file'"
-       :command-line "clang {file-name} -o {file-name-no-ext}"
+       :command-line
+       (concat  "clang {file-name} -o {file-name-no-ext} "
+                run-command-recipes-c-flags)
        :command-name "clang-only-compile")))))
 
 (provide 'run-command-recipes-c)

@@ -24,3 +24,9 @@ This no very cool recipe consist of only 2 commands yet, because I'm not use ~cl
 :END:
 
 You can customize detection of ~c++~ buffer in which this recipe should work, for it just change the variable ~run-command-recipes-cpp-modes~.  If you need to special way of detection buffers try redefine function =run-command-recipes-cpp-p= which return ~non-nil~ when this recipe should work now
+
+*** Flags for Compiler
+
+If you aren't happy with the default flags passed to compiler, you can change them.
+
+For it see the variable ~run-command-recipes-cpp-flags~

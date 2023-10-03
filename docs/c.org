@@ -45,3 +45,9 @@ Each of subrecipes work only when the computer has special executable file, so i
 #+END_SRC
 
 (here instead of =run-command-recipes-c-clang= you may insert anything other)
+
+*** Special Flags for compiler
+
+If you aren't satisfied with the default flags passed to compiler, you can change them.
+
+For it see the variable ~run-command-recipes-c-flags~

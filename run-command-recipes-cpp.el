@@ -38,6 +38,13 @@
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
+(defcustom run-command-recipes-cpp-flags
+  "-Wall -Werror"
+  "String which specify flags which will be passed to the C++ compiler."
+  :type 'string
+  :group 'run-command-recipes)
+
+
 (defun run-command-recipes-cpp-p ()
   "Return t, when recipe for C++ should work."
   (and
@@ -53,11 +60,18 @@
        :command-name "run-cpp-file"
        :display "G++: compile, execute file"
        :command-line                    ;nofmt
-       "g++ {file-name} -o {file-name-no-ext} && {file-name-no-ext}")
+       (concat
+        "g++ {file-name} -o {file-name-no-ext} "
+        run-command-recipes-cpp-flags
+        " && {file-name-no-ext}"))
       (list
        :command-name "compile-cpp-file"
        :display "G++: compile file"
-       :command-line "g++ -Wall -Werror {file-name} -o {file-name-no-ext}")))))
+       :command-line
+       (concat
+        "g++ -Wall -Werror {file-name} "
+        run-command-recipes-cpp-flags
+        " -o {file-name-no-ext}"))))))
 
 (provide 'run-command-recipes-cpp)
 ;;; run-command-recipes-cpp.el ends here
