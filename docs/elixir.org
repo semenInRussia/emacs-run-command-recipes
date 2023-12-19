@@ -1,0 +1,18 @@
+* =run-command='s Recipe for elxir
+  :PROPERTIES:
+  :CUSTOM_ID: run-commands-recipe-for-recipe-name
+  :END:
+
+** Table of Contents                                                    :TOC:
+- [[#run-commands-recipe-for-elxir][=run-command='s Recipe for elxir]]
+  - [[#commands][Commands]]
+  - [[#customization][Customization]]
+
+** Commands
+   :PROPERTIES:
+   :CUSTOM_ID: commands
+   :END:
+** Customization
+   :PROPERTIES:
+   :CUSTOM_ID: customization
+   :END:

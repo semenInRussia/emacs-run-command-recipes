@@ -1,0 +1,14 @@
+* =run-command='s Recipe for Elixir
+** Table of Contents                                                    :TOC:
+- [[#run-commands-recipe-for-elxir][=run-command='s Recip for Elixir]]
+  - [[#commands][Commands]]
+  - [[#customization][Customization]]
+
+** Commands
+- Mix: run
+
+  Just do ~mix run~
+
+** Customization
+
+You can change the variable ~run-command-recipes-elixir-major-modes~
