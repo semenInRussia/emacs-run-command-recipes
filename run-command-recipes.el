@@ -75,7 +75,7 @@
   :group 'run-command-recipes)
 
 (defcustom run-command-recipes-source-path
-  "~/projects/emacs-run-command-recipes"
+  "~/projects/emacs-run-command-recipes.el"
   "Path to the root directory of the `run-command-recipes' source code.
 
 Used when creating a new recipe."
