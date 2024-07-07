@@ -15,9 +15,6 @@
 ;; (run-command-recipes-use-one 'elixir)
 ;;
 ;;; Code:
-
-(require 'dash)
-(require 'f)
 (require 'run-command-recipes-project)
 
 
@@ -26,19 +23,30 @@
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
-(defun run-command-recipes-elixir ()
-  "Recipe of `run-command' for elixir."
-  (when (run-command-recipes-elixir-p)
-    (list
-     (list
-      :display "Mix: run, execute"
-      :command-line "mix run"
-      :command-name "mix-run"))))
-
 (defun run-command-recipes-elixir-p ()
   "Return non-nil, when in the current buffer recipe for Elixir should work."
-  (-contains-p run-command-recipes-elixir-major-modes
-               major-mode))
+  (memq major-mode
+        run-command-recipes-elixir-major-modes))
+
+(defun run-command-recipes-elixir ()
+  "Recipe of `run-command' for elixir."
+  (let ((dir (run-command-recipes-project-root)))
+    (when (and
+           (executable-find "mix")
+           (or (run-command-recipes-elixir-p)
+               (file-exists-p (expand-file-name "mix.exs" dir))))
+      (list
+       (list
+        :display "Mix: run, execute project"
+        :command-line "mix run"
+        :working-dir dir
+        :command-name "mix-run")
+       (list
+        :display "Mix: run, execute project --no-halt"
+        :command-line "mix run --no-halt"
+        :working-dir dir
+        :command-name "mix-run")
+       ))))
 
 (provide 'run-command-recipes-elixir)
 ;;; run-command-recipes-elixir.el ends here
