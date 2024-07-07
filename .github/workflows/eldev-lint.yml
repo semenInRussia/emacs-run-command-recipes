@@ -30,4 +30,4 @@ jobs:
 
       - name: Run the linter
         run: |
-          eldev lint
+          eldev lint checkdoc pack regex
