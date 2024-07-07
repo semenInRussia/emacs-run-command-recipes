@@ -83,7 +83,7 @@ See either `run-command-recipes-cpp-gcc' or
           (run-command-recipes-cpp-clang)))
 
 (defun run-command-recipes-cpp-gcc ()
-  "Support of GCC compiler of C++ to execute the current file using `run-command'.
+  "Support of GCC to execute the current C++ file using `run-command'.
 
 Recipe of `run-command' for support of GCC compiler of C++ to execute
 the current file with it.  See `run-command-recipes' (variable) if

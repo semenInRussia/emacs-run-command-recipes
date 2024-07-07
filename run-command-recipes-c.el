@@ -109,7 +109,7 @@ NOTE that if you prefer the Clang compiler and don't need to see when
                 " -o " exe))))))
 
 (defun run-command-recipes-c-clang ()
-  "Support of Clang compiler of C to execute the current file using `run-command'.
+  "Support of Clang compiler to execute the current C file using `run-command'.
 
 Recipe of `run-command' for support of Clang compiler of C to execute
 the current file with it.  See `run-command-recipes' (variable) if

@@ -1,4 +1,8 @@
+;;; run-command-recipes-for-devs --- Summary
+
+;;; Commentary:
 ;;; Only for developers of `run-command-recipes'
+
 ;; I wrote some useful functions for me (as I am the single developer
 ;; of this package).  Idea is to simply add new recipe with only one
 ;; command

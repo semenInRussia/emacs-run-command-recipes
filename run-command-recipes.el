@@ -1,4 +1,4 @@
-;;; run-command-recipes.el --- Start pack of recipes to `run-command' inside Emacs using only one command. -*- lexical-binding: t; -*-
+;;; run-command-recipes.el --- Start pack of recipes to `run-command' -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2022-2024 semenInRussia
 
@@ -104,7 +104,7 @@ prefix.
 
 For example if you need in c and cpp recipes, use the following snippet
 
-(run-command-recipes-use \\='c \\='cpp)"
+\\(run-command-recipes-use \\='c \\='cpp)"
   (--each recipes (run-command-recipes--use-one it)))
 
 ;;; Internal:
