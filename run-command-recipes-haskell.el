@@ -23,49 +23,32 @@
 
 ;; For use this code put the following to your Emacs configuration:
 ;; ```
-;; (run-command-recipes-use-one 'haskell)
+;; (run-command-recipes-use 'haskell)
 ;; ```
 ;;; Code:
-
-(require 'run-command-recipes-lib)
 (require 'run-command-recipes-project)
-
-(require 'f)
-(require 'dash)
-
-(defcustom run-command-recipes-haskell-run-function
-  (if (fboundp 'haskell-compile)
-      'haskell-compile
-    #'(user-error
-       "Run-command-recipes-haskell.el: Install `haskell-mode', pls!"))
-  "Run when the recipe \"Run Haskell File by Context\" was choosen."
-  :type 'function
-  :group 'run-command-recipes-haskell)
 
 (defcustom run-command-recipes-haskell-modes
   '(haskell-mode)
-  "List of `major-modes' for Haskell."
+  "List of `major-mode' s for Haskell."
   :type '(repeat function)
   :group 'run-command-recipes)
 
 (defun run-command-recipes-haskell-mode-p ()
   "Get t, when current `major-mode' is the mode for Haskell."
-  (-contains-p run-command-recipes-haskell-modes major-mode))
+  (memq run-command-recipes-haskell-modes major-mode))
 
 (defun run-command-recipes-haskell ()
   "`run-command' recipe for Haskell."
-  (when (and (buffer-file-name) (run-command-recipes-haskell-mode-p))
-    (run-command-recipes-lib-build
+  (when (and (buffer-file-name)
+             (executable-find "stack")
+             (run-command-recipes-haskell-mode-p))
+    (list
      (list
-      (list
-       :command-name "stack-run"
-       :command-line "stack run"
-       :display "Stack: run, execute project"
-       :working-dir (run-command-recipes-project-root))
-      (list
-       :command-name "haskell-run-by-context"
-       :lisp-function run-command-recipes-haskell-run-function
-       :display "Haskell by context")))))
+      :command-name "stack-run"
+      :command-line "stack run"
+      :display "Stack: run, execute project"
+      :working-dir (run-command-recipes-project-root)))))
 
 (provide 'run-command-recipes-haskell)
 ;;; run-command-recipes-haskell.el ends here
