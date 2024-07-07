@@ -105,7 +105,7 @@ prefix.
 For example if you need in c and cpp recipes, use the following snippet
 
 (run-command-recipes-use \\='c \\='cpp)"
-  (--each recipes (run-command-recipes-use-one it)))
+  (--each recipes (run-command-recipes--use-one it)))
 
 ;;; Internal:
 
