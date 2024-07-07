@@ -59,7 +59,6 @@ Also, Instead of ~LaTeX~ and ~pandoc~ you can be interested in anything from the
 - ~cpp~ ([[file:docs/cpp.org][link on support]])
 - ~csharp~ ([[file:docs/csharp.org][link on support]])
 - ~c~ ([[file:docs/c.org][link on support]])
-- ~elisp~ ([[file:docs/elisp.org][link on support]])
 - ~elixir~ ([[file:docs/elxir.org][link on support]])
 - ~go~ ([[file:docs/go.org][link on support]])
 - ~haskell~ ([[file:docs/haskell.org][link on support]])
