@@ -22,25 +22,19 @@
 ;;; Commentary:
 ;; For use this code put the following to your Emacs configuration:
 ;;
-;; (run-command-recipes-use-one 'csharp)
+;; (run-command-recipes-use 'csharp)
 ;;
 ;;; Code:
-
-(require 'dash)
-(require 'f)
-(require 'run-command-recipes-lib)
-
 (defcustom run-command-recipes-csharp-modes
   '(csharp-mode)
-  "List of major modes in which the recipe of `run-command' for c# should work."
+  "List of major modes in which the recipe of `run-command' for C# should work."
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
 (defun run-command-recipes-csharp-p ()
   "Return t, when `run-command' recipe for c# should work."
-  (and
-   (buffer-file-name)
-   (-contains-p run-command-recipes-csharp-modes major-mode)))
+  (and (buffer-file-name)
+       (memq major-mode run-command-recipes-csharp-modes)))
 
 (defun run-command-recipes-csharp ()
   "Recipe of `run-command' for c#."
