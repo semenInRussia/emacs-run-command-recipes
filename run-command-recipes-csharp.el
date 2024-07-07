@@ -1,7 +1,7 @@
 ;;; run-command-recipes-csharp.el --- Recipe of `run-command' for c# -*- lexical-binding: t; -*-
 
 ;; Author: semenInRussia <hrams205@gmail.com>
-;; Version: 0.0.3
+;; Version: 0.1.0
 ;; Keywords: extensions run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 ;; URL: https://github.com/semenInRussia/emacs-run-command-recipes/blob/main/docs/csharp.md

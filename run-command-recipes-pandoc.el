@@ -1,7 +1,7 @@
 ;;; run-command-recipes-pandoc.el --- Recipe of `run-command' for `pandoc` -*- lexical-binding: t;
 
 ;; Author: semenInRussia <hrams205@gmail.com>
-;; Version: 0.0.3
+;; Version: 0.1.0
 ;; Keywords: extensions run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 ;; URL: https://github.com/semenInRussia/emacs-run-command-recipes/blob/main/docs/pandoc.md
@@ -156,7 +156,11 @@ See https://pandoc.org for see pandoc's input formats."
                     new-format
                     nil
                     #'string-equal)))
-    (f-swap-ext filename new-ext)))
+    (with-temp-buffer
+      (insert filename)
+      (end-of-line)
+      (while (and (not (bolp))
+                  (eq ?. (char-before)))))))
 
 (defun run-command-recipes-pandoc-format-for-major-mode (mode)
   "Return format name of the MODE, if it is one of Pandoc input formats.

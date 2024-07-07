@@ -1,7 +1,7 @@
 ;;; run-command-recipes-haskell.el --- Run Command's recipe for `haskell` -*- lexical-binding: t; -*-
 
 ;; Author: semenInRussia <hrams205@gmail.com>
-;; Version: 0.0.3
+;; Version: 0.1.0
 ;; Keywords: extensions run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 ;; URL: https://github.com/semenInRussia/emacs-run-command-recipes/blob/main/docs/haskell.md

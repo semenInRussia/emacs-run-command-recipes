@@ -1,10 +1,10 @@
-;;; run-command-recipes.el --- This is collection of recipes to `run-command' -*- lexical-binding: t; -*-
+;;; run-command-recipes.el --- Start pack of recipes to `run-command' inside Emacs using only one command. -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2022-2024 semenInRussia
 
 ;; Author: semenInRussia <hrams205@gmail.com>
-;; Version: 0.0.3
-;; Package-Requires: ((emacs "25.1") (dash "2.18.0") (f "0.20.0") (run-command "0.1.0"))
+;; Version: 0.1.0
+;; Package-Requires: ((emacs "25.1") (dash "2.18.0") (f "0.20.0") (run-command "1.0.0"))
 ;; Keywords: extensions, run-command
 ;; Homepage: https://github.com/semenInRussia/emacs-run-command-recipes
 
@@ -23,36 +23,48 @@
 
 ;;; Commentary:
 
-;; If you're going to use all supported language, just put the following
-;; code into your Emacs configuration:
+;; This is collection of recipes to `run-command'.
+
+;; I found `run-command' package of Bard very useful, the great idea
+;; that you have one command to run ALL compile-like commands which
+;; have a relation to your file is very awesome.  Also it uses main
+;; power of Emacs: extensibility.  `run-command' not only let you
+;; ability to customization, even better you can choose the commands
+;; that will be visible on your own and even control WHEN, HOW, WHERE.
+;; WOW!  But without the initial start kit is useless, you can call
+;; command but it do nothing.  I am trying to provide for you an OK
+;; starting pack of these recipes, for all languages in which I
+;; sometimes found that need in some help to run it.
+
+;; If you're going to use all supported languages, just put the
+;; following code into your Emacs configuration:
 ;;
 ;;   (run-command-recipes-use-all)
 ;;
-;; If you're going to use only some special languages, just put the following
-;; code to your Emacs configuration:
+;; If you're going to use only some special languages, just put the following one
 
 ;;
-;;   (run-command-recipes-use latex
-;;                            pandoc)
+;;   (run-command-recipes-use 'latex
+;;                            'pandoc)
 ;;
 
-;; Also, Instead of LaTeX and pandoc, you can put anything from the
-;; following list:
+;; Also, Instead of LaTeX and pandoc, you can be interested in other
+;; "build systems" (or how to call it?)
 
-;; - latex
-;; - pandoc
-;; - haskell
-;; - elisp
-;; - rust
-;; - python
 ;; - c
 ;; - cpp
 ;; - csharp
-;; - java
-;; - racket
-;; - make
-;; - go
+;; - elisp
 ;; - elixir
+;; - go
+;; - haskell
+;; - java
+;; - latex
+;; - make
+;; - pandoc
+;; - python
+;; - racket
+;; - rust
 
 ;;; Code:
 
@@ -62,7 +74,7 @@
 (require 's)
 
 (defgroup run-command-recipes nil
-  "Run recipes for the package `run-command'."
+  "Start pack of recipes to `run-command' inside Emacs using only one command."
   :group 'tools
   :link '(url-link
           :tag "GitHub"
@@ -70,27 +82,36 @@
 
 (defcustom run-command-recipes-supported-recipes
   '(latex pandoc haskell elisp rust python c cpp csharp java racket make go elixir)
-  "List of recipes names supported by `run-command-recipes'."
+  "List of recipes names that are supported by `run-command-recipes'."
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
 (defun run-command-recipes-use-all ()
-  "Use all recipes for `run-command' supported by `run-command-recipes'."
-  (-each run-command-recipes-supported-recipes 'run-command-recipes-use-one))
+  "Use all recipes for `run-command' supported by `run-command-recipes'.
 
-(defmacro run-command-recipes-use (&rest recipes)
-  "Use RECIPES for `run-command' supported by `run-command-recipes'.
+Note that the list of supported recipes you can see either in variable
+`run-command-recipes-supported-recipes' of at the top of this file or
+in README.md at the following URL:
 
-Each of RECIPES is indentifier to recipe without `run-command-recipes-'
-prefix."
-  `(--each ',recipes (run-command-recipes-use-one it)))
+https://github.com/semenInRussia/emacs-run-command-recipes"
+  (apply 'run-command-recipes-use
+         run-command-recipes-supported-recipes))
 
-(defun run-command-recipes-use-one (recipe)
-  "Use RECIPE for `run-command' supported by `run-command-recipes'.
+(defun run-command-recipes-use (&rest recipes)
+  "Use RECIPES for `run-command' that are supported by `run-command-recipes'.
 
-RECIPE is symbol references to the one of `run-command-recipes'
-recipes without `run-command-recipes-' prefix.  See to the comments at
-the start of this file for list of supported recipes."
+Each of RECIPES is identifier to recipe without `run-command-recipes-'
+prefix.
+
+For example if you need in c and cpp recipes, use the following snippet
+
+(run-command-recipes-use \\='c \\='cpp)"
+  (--each recipes (run-command-recipes-use-one it)))
+
+;;; Internal:
+
+(defun run-command-recipes--use-one (recipe)
+  "Use the RECIPE for `run-command' supported by `run-command-recipes'."
   (let ((recipe-symbol
          (intern (concat "run-command-recipes-" (symbol-name recipe)))))
     (require recipe-symbol)

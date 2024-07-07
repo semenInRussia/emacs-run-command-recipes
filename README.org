@@ -1,110 +1,92 @@
-* Package =emacs-run-command-recipes=
-  :PROPERTIES:
-  :CUSTOM_ID: package-emacs-run-command-recipes
-  :END:
-  [[https://melpa.org/#/run-command-recipes][file:https://melpa.org/packages/run-command-recipes-badge.svg]]
-  [[file:https://github.com/semenInRussia/emacs-run-command-recipes/actions/workflows/eldev-lint.yml/badge.svg]]
+* Package ~emacs-run-command-recipes~
+[[https://melpa.org/#/run-command-recipes][file:https://melpa.org/packages/run-command-recipes-badge.svg]]
+# [[file:https://github.com/semenInRussia/emacs-run-command-recipes/actions/workflows/eldev-lint.yml/badge.svg]]
 
-  This is collection of recipes to [[https://github.com/bard/emacs-run-command][run-command]].
+This is collection of recipes to [[https://github.com/bard/emacs-run-command][run-command]].
+
+
+I found ~run-command~ package of Bard very useful, the great idea that you have one command to run ALL compile-like commands which have a relation to your file is very awesome.  Also it uses main power of Emacs: extensibility.  ~run-command~ not only let you ability to customization, even better you can choose the commands that will be visible on your own and even control /WHEN/, /HOW/, /WHERE/.  WOW! But without the initial start kit is useless, you can call command but it do nothing.  I am trying to provide for you an OK starting pack of these recipes, for all languages in which I sometimes found that need in some help to run it.
+
+You can consider that this package is an example how to make your own recipes
+
 
 ** Table of Contents                                                    :TOC:
-- [[#package-emacs-run-command-recipes][Package =emacs-run-command-recipes=]]
+- [[#package-emacs-run-command-recipes][Package ~emacs-run-command-recipes~]]
   - [[#install][Install]]
-  - [[#about-the-new-version-of-the-run-command][About the new version of the ~run-command~]]
   - [[#usage][Usage]]
-  - [[#contribute][Contribute]]
 
 ** Install
-   :PROPERTIES:
-   :CUSTOM_ID: install
-   :END:
+Suggest you visit the section [[#Usage]]
 
-   Melpa has =emacs-run-command-recipes= called =run-command-recipes=,
-   so if you use =use-package=, then just put the following code to
-   your Emacs config:
+Melpa has ~emacs-run-command-recipes~ called ~run-command-recipes~, so if you use ~use-package~, then just put the following code to your Emacs configuration:
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package run-command-recipes
-       :ensure t
-       :after (run-command)
-       :init (run-command-recipes-use-all))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package run-command-recipes
+    :ensure t
+    :after (run-command)
+    :init (run-command-recipes-use-all))
+#+END_SRC
 
-   Or without =use-package=:
+Or without ~use-package~:
 
-   #+BEGIN_SRC emacs-lisp
-     (add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-run-command-recipes")
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-run-command-recipes")
 
-     (require 'run-command-recipes)
-     (run-command-recipes-use-all)
-   #+END_SRC
-
-** About the new version of the ~run-command~
-
-Now maintainer of the ~run-command~ rewrite your creation and use for
-it branch with name ~develop~ (here [[https://bard.github.io/emacs-run-command/][details]]), suggest use it, but if
-you can't then add the following source code before call ~run-command-recipes-use-all~
-
-#+BEGIN_src emacs-lisp
-
-  (add-to-list 'run-command-experiments
-               'run-command-experiment-lisp-commands)
-
-#+END_src
+  (require 'run-command-recipes)
+  (run-command-recipes-use-all)
+#+END_SRC
 
 ** Usage
-   :PROPERTIES:
-   :CUSTOM_ID: usage
-   :END:
+:PROPERTIES:
+:CUSTOM_ID: usage
+:END:
 
-   If you're going to use all supported languages, just put following
-   to your Emacs configuration:
+If you're going to use all the supported languages (see the whole list below), just use the following snippet
 
-   #+begin_src emacs-lisp
-     (run-command-recipes-use-all)
-   #+end_src
+#+begin_src emacs-lisp
+  (run-command-recipes-use-all)
+#+end_src
 
-   If you're going to use only some special languages, just put
-   the followIing:
+If you're going to use only some special languages, it's your one:
 
-   #+begin_src emacs-lisp
-     (run-command-recipes-use latex pandoc)
-   #+end_src
 
-   Also, Instead of =LaTeX= and =pandoc= you can use anything from
-   following list:
+#+begin_src emacs-lisp
+  (run-command-recipes-use latex pandoc)
+#+end_src
 
-- =python= ([[file:docs/python.org][link on support]])
-- =pandoc= ([[file:docs/pandoc.org][link on support]])
-- =latex= ([[file:docs/latex.org][link on support]])
-- =elisp= ([[file:docs/elisp.org][link on support]])
-- =rust= ([[file:docs/rust.org][link on support]])
-- =c= ([[file:docs/c.org][link on support]])
-- =cpp= ([[file:docs/cpp.org][link on support]])
-- =haskell= ([[file:docs/haskell.org][link on support]])
-- =csharp= ([[file:docs/csharp.org][link on support]])
-- =java= ([[file:docs/java.org][link on support]])
-- =racket= ([[file:docs/racket.org][link on support]])
-- =make= ([[file:docs/make.org][link on support]])
-- =go= ([[file:docs/go.org][link on support]])
-- =elixir= ([[file:docs/elxir.org][link on support]])
+Also, Instead of ~LaTeX~ and ~pandoc~ you can be interested in anything from the following list (sorted alphabetically):
 
-** Contribute
+- ~cpp~ ([[file:docs/cpp.org][link on support]])
+- ~csharp~ ([[file:docs/csharp.org][link on support]])
+- ~c~ ([[file:docs/c.org][link on support]])
+- ~elisp~ ([[file:docs/elisp.org][link on support]])
+- ~elixir~ ([[file:docs/elxir.org][link on support]])
+- ~go~ ([[file:docs/go.org][link on support]])
+- ~haskell~ ([[file:docs/haskell.org][link on support]])
+- ~java~ ([[file:docs/java.org][link on support]])
+- ~latex~ ([[file:docs/latex.org][link on support]])
+- ~make~ ([[file:docs/make.org][link on support]])
+- ~pandoc~ ([[file:docs/pandoc.org][link on support]])
+- ~python~ ([[file:docs/python.org][link on support]])
+- ~racket~ ([[file:docs/racket.org][link on support]])
+- ~rust~ ([[file:docs/rust.org][link on support]])
+
+** COMMENT Contribute
 :PROPERTIES:
 :CUSTOM_ID: contribute
 :END:
 
-All contribution is good.  To add recipe to this repository you must do the following things (here instead =<recipe-name>= think about name of your recipe):
+All contribution is good.  To add recipe to this repository you must do the following things (here instead ~<recipe-name>~ think about name of your recipe):
 
 1. [[https://docs.github.com/en/get-started/quickstart/fork-a-repo][Fork]] this repository
 2. Create the new branch with the name of your recipe (for example: julia)
-3. Run the Emacs command =run-command-recipes-create-recipe=.  It modify =README.org= (update the list of supported modes) and =run-command-recipes.el= (the list of supported modes in the commentaries and the source code), also it create some files:
+3. Run the Emacs command ~run-command-recipes-create-recipe~.  It modify ~README.org~ (update the list of supported modes) and ~run-command-recipes.el~ (the list of supported modes in the commentaries and the source code), also it create some files:
 
-   1. =<recipe-name>.org= for documentation of the new recipe
-   2. =run-command-recipes-<recipe-name>.el= for source code
+   1. ~<recipe-name>.org~ for documentation of the new recipe
+   2. ~run-command-recipes-<recipe-name>.el~ for source code
 
-4. In =run-command-recipes-<recipe-name>.el= you may find the function, change this function (see offical [[https://github.com/bard/emacs-run-command#cookbook][cookbook]] of =run-command=)
+4. In ~run-command-recipes-<recipe-name>.el~ you may find the function, change this function (see offical [[https://github.com/bard/emacs-run-command#cookbook][cookbook]] of ~run-command~)
 5. Suggest you use some functions from the standard library of this project (see details [[file:docs/lib.org][here]])
-6. Check that all is normal with =eldev lint= ([[https://doublep.github.io/eldev/#installation][how to install Eldev?]])
+6. Check that all is normal with ~eldev lint~ ([[https://doublep.github.io/eldev/#installation][how to install Eldev?]])
 7. Commit, Commit, Push all changes to your fork
 8. Make [[https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests][Pull Request]] of your repo to the main repository
