@@ -1,4 +1,4 @@
-;;; run-command-recipes-c.el --- Recipe of `run-command' for c -*- lexical-binding: t; -*-
+;;; run-command-recipes-c.el --- Recipe of `run-command' for C -*- lexical-binding: t; -*-
 
 ;; Author: semenInRussia <hrams205@gmail.com>
 ;; Version: 0.1.0
@@ -26,11 +26,7 @@
 ;; (run-command-recipes-use 'c)
 
 ;;; Code:
-
-(require 'dash)
-(require 'f)
 (require 'run-command-recipes-project)
-(require 'run-command-recipes-lib)
 
 (defcustom run-command-recipes-c-major-modes
   '(c-mode)
@@ -43,69 +39,110 @@
   :type 'string
   :group 'run-command-recipes)
 
-(defcustom run-command-recipes-c-subrecipes
-  '(run-command-recipes-c-gcc run-command-recipes-c-clang)
-  "List of subrecipes of `run-command' recipe for C."
-  :type '(repeat symbol)
-  :group 'run-command-recipes)
-
-(defun run-command-recipes-c ()
-  "Recipe of `run-command' for C."
-  (when (run-command-recipes-c-p)
-    (apply #'run-command-recipes-lib-compose-recipes
-           run-command-recipes-c-subrecipes)))
-
 (defun run-command-recipes-c-p ()
   "Return t, when recipe of `run-command' for C should work."
-  (and
-   (buffer-file-name)
-   (run-command-recipes-c-major-mode-p major-mode)))
+  (and (buffer-file-name)
+       (memq major-mode run-command-recipes-c-major-modes)))
 
-(defun run-command-recipes-c-major-mode-p (mode)
-  "Return t, when in major mode MODE c-recipe should work."
-  (-contains-p run-command-recipes-c-major-modes mode))
+(defun run-command-recipes-c--exe-name (filename &optional dir)
+  "Return the filename for executable to produce when compile FILENAME C file.
+
+Defaults to just chop extension, like main.c => main
+
+Consider that the command will be ran inside DIR"
+  (concat (or dir "")
+          (file-name-base filename)))
+
+;; NOTE: that I provide two different recipes functions (for clang and
+;; GCC) which are almost the same, but both of them are useful for C.
+;;
+;; The more naive way is to write one function for clang and GCC, but
+;; in this case user can't delete avoid usage one of them.  Now you
+;; can do anything like:
+;;
+;; \\(advice-add 'run-command-recipes-c-gcc :around #'ignore)
+;;
+;; and disable GCC support
+
+(defun run-command-recipes-c ()
+  "Support of C to execute the current file using `run-command'.
+
+See either `run-command-recipes-c-gcc' or
+`run-command-recipes-c-clang' for details"
+  (append (run-command-recipes-c-gcc)
+          (run-command-recipes-c-clang)))
 
 (defun run-command-recipes-c-gcc ()
-  "Recipe of `run-command' fort the gcc compiler of c.
+  "Support of GCC compiler of C to execute the current file using `run-command'.
 
-Subrecipe of recipe for C."
-  (when (and (executable-find "gcc") (buffer-file-name))
-    (run-command-recipes-lib-build
-     (list
+Recipe of `run-command' for support of GCC compiler of C to execute
+the current file with it.  See `run-command-recipes' (variable) if
+don't know what recipe means.
+
+NOTE that if you prefer the Clang compiler and don't need to see when
+`run-command' inside C buffer, then you should use `fset' or
+`advice-add' with `ignore' over `run-command-recipes-c-gcc'.
+
+\\(advice-add \\='run-command-recipes-c-gcc :around #\\='ignore)"
+  (when (and (executable-find "gcc")
+             (buffer-file-name)
+             (run-command-recipes-c-p))
+    (let* ((dir (run-command-recipes-project-root))
+           (exe (run-command-recipes-c--exe-name (buffer-file-name) dir)))
       (list
-       :display "GCC: compile, execute file"
-       :command-line
-       (concat "gcc {file-name} "
-               run-command-recipes-c-flags
-               " && {file-name-no-ext}")
-       :command-name "gcc-compile-and-exec")
-      (list
-       :display "GCC: compile file"
-       :command-line
-       (concat "gcc {file-name} "
-               run-command-recipes-c-flags
-               " -o {file-name-no-ext}")
-       :command-name "gcc-only-compile")))))
+       (list
+        :command-name "gcc-compile-and-exec"
+        :display "GCC: compile, execute file"
+        :working-directory dir
+        :command-line
+        (concat "gcc " (buffer-file-name)
+                " " run-command-recipes-c-flags
+                " -o " exe
+                " && " exe))
+       (list
+        :command-name "gcc-only-compile"
+        :display "GCC: compile file"
+        :working-directory dir
+        :command-line
+        (concat "gcc " (buffer-file-name)
+                " " run-command-recipes-c-flags
+                " -o " exe))))))
 
 (defun run-command-recipes-c-clang ()
-  "Recipe of `run-command' for clang compiler of C.
+  "Support of Clang compiler of C to execute the current file using `run-command'.
 
-Subrecipe of recipe for C."
-  (when (and (executable-find "clang") (buffer-file-name))
-    (run-command-recipes-lib-build
-     (list
+Recipe of `run-command' for support of Clang compiler of C to execute
+the current file with it.  See `run-command-recipes' (variable) if
+don't know what recipe means.
+
+NOTE that if you prefer the GCC compiler and don't need to see when
+`run-command' inside C buffer, then you should use `fset' or
+`advice-add' with `ignore' over `run-command-recipes-c-clang'.
+
+\\(advice-add \\='run-command-recipes-c-clang :around #\\='ignore)"
+  (when (and (executable-find "clang")
+             (buffer-file-name)
+             (run-command-recipes-c-p))
+    (let* ((dir (run-command-recipes-project-root))
+           (exe (run-command-recipes-c--exe-name (buffer-file-name) dir)))
       (list
-       :display "CLang: compile, execute file"
-       :command-line
-       (concat "clang {file-name} -o {file-name-no-ext} && {file-name-no-ext} "
-               run-command-recipes-c-flags)
-       :command-name "clang-compile-and-exec")
-      (list
-       :display "Clang: compile file'"
-       :command-line
-       (concat  "clang {file-name} -o {file-name-no-ext} "
-                run-command-recipes-c-flags)
-       :command-name "clang-only-compile")))))
+       (list
+        :command-name "clang-compile-and-exec"
+        :display "Clang: compile, execute file"
+        :working-directory dir
+        :command-line
+        (concat "clang " (buffer-file-name)
+                " " run-command-recipes-c-flags
+                " -o " exe
+                " && " exe))
+       (list
+        :command-name "clang-only-compile"
+        :display "Clang: compile file"
+        :working-directory dir
+        :command-line
+        (concat "clang " (buffer-file-name)
+                " " run-command-recipes-c-flags
+                " -o " exe))))))
 
 (provide 'run-command-recipes-c)
 ;;; run-command-recipes-c.el ends here

@@ -1,53 +1,24 @@
-* =run-command='s Recipe for C
-:PROPERTIES:
-:CUSTOM_ID: run-commands-recipe-for-recipe-name
-:END:
-
-** Table of Contents        :TOC:
-- [[#run-commands-recipe-for-c][=run-command='s Recipe for C]]
-  - [[#commands][Commands]]
-  - [[#customization][Customization]]
-    - [[#detection][Detection]]
-    - [[#turn-off-subrecipes][Turn off subrecipes]]
+* ~run-command~'s Recipe for C
 
 ** Commands
-:PROPERTIES:
-:CUSTOM_ID: commands
-:END:
-
 Here the list of the commands of the ~C~ recipe (4 commands, by my count):
 
-   - Compile and Execute Current file via ~gcc~
-   - Compile Only Current file via ~gcc~
-   - Compile and Execute Current file via ~clang~
-   - Compile Only Current file via ~clang~
+- Compile and Execute Current file via ~gcc~
+- Compile Only Current file via ~gcc~
+- Compile and Execute Current file via ~clang~
+- Compile Only Current file via ~clang~
+** Choose between GCC and Clang
 
-** Customization
-:PROPERTIES:
-:CUSTOM_ID: customization
-:END:
+Begin copy paste part
 
-*** Detection
-You can customize detection of a ~c~ source code.  This recipe works only if the function ~run-command-recipes-c-p~ return ~non-nil~ value.  You can explore current imlementation and change it that useful specially to you.
+NOTE: that I provide two different recipes functions (for clang and GCC) which are almost the same, but both of them are useful for C.
 
-*** Turn off subrecipes
-By default, this recipe contains 2 subrecipes:
-
-- =run-command-recipes-c-gcc= (for =gcc= compiler)
-- =run-command-recipes-c-clang= (for =clang= compiler)
-
-Each of subrecipes work only when the computer has special executable file, so if you haven't installed =clang= then subrecipe for =clang= won't work.  If you want to turn off one of provided subrecipes, just use the following code:
+The more naive way is to write one function for clang and GCC, but in this case user can't delete avoid usage one of them.  Now you can do anything like:
 
 #+BEGIN_SRC emacs-lisp
-    (setq run-command-recipes-c-subrecipes
-          (-remove-item 'run-command-recipes-c-clang
-                        run-command-recipes-c-subrecipes))
+(advice-add 'run-command-recipes-c-gcc :around #'ignore)
 #+END_SRC
 
-(here instead of =run-command-recipes-c-clang= you may insert anything other)
+and disable GCC support
 
-*** Special Flags for compiler
-
-If you aren't satisfied with the default flags passed to compiler, you can change them.
-
-For it see the variable ~run-command-recipes-c-flags~
+(you can also with this way disable Clang)
