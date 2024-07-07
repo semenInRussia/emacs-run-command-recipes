@@ -1,32 +1,3 @@
-* ~run-command~'s Recipe for cpp
-:PROPERTIES:
-:CUSTOM_ID: run-commands-recipe-for-recipe-name
-:END:
+* ~run-command~'s Recipe for C++
 
-** Table of Contents                :TOC:
-- [[#run-commands-recipe-for-cpp][=run-command='s Recipe for cpp]]
-  - [[#commands][Commands]]
-  - [[#customization][Customization]]
-
-** Commands
-:PROPERTIES:
-:CUSTOM_ID: commands
-:END:
-
-This no very cool recipe consist of only 2 commands yet, because I'm not use ~clang~, but you can do a PR, PRs are welcome!  At this moment the following commands are exist:
-
-- Compile and Execute Current C++ File via =g++=
-- Compile Only Current C++ File via =g++=
-
-** Customization
-:PROPERTIES:
-:CUSTOM_ID: customization
-:END:
-
-You can customize detection of ~c++~ buffer in which this recipe should work, for it just change the variable ~run-command-recipes-cpp-modes~.  If you need to special way of detection buffers try redefine function =run-command-recipes-cpp-p= which return ~non-nil~ when this recipe should work now
-
-*** Flags for Compiler
-
-If you aren't happy with the default flags passed to compiler, you can change them.
-
-For it see the variable ~run-command-recipes-cpp-flags~
+The same as C, but use ~clang++~ and ~g++~ and use prefix ~run-command-recipes-cpp-~ instead ~run-command-recipes-c-~, so suggest visit [[file:c.org][C recipe documentation]]
