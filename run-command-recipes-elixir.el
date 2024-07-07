@@ -12,7 +12,7 @@
 ;;; Commentary:
 ;; For use this code put the following to your Emacs configuration:
 ;;
-;; (run-command-recipes-use-one 'elixir)
+;; (run-command-recipes-use 'elixir)
 ;;
 ;;; Code:
 (require 'run-command-recipes-project)
@@ -37,16 +37,40 @@
                (file-exists-p (expand-file-name "mix.exs" dir))))
       (list
        (list
-        :display "Mix: run, execute project"
-        :command-line "mix run"
+        :display "Mix: run tests of project"
+        :command-line "mix test"
         :working-dir dir
-        :command-name "mix-run")
+        :command-name "mix-test")
        (list
         :display "Mix: run, execute project --no-halt"
         :command-line "mix run --no-halt"
         :working-dir dir
         :command-name "mix-run")
-       ))))
+       (list
+        :display "Mix: run, start registered apps"
+        :command-line "mix app.start"
+        :working-dir dir
+        :command-name "mix-app-start")
+       (list
+        :display "Mix: clean, delete generated application files"
+        :command-line "mix clean"
+        :working-dir dir
+        :command-name "mix-clean")
+       (list
+        :display "Mix: compile only"
+        :command-line "mix compile"
+        :working-dir dir
+        :command-name "mix-compile")
+       (list
+        :display "Mix: install, get all out of date dependencies"
+        :command-line "mix deps.get"
+        :working-dir dir
+        :command-name "mix-deps-get")
+       (list
+        :display "Mix: update all dependencies"
+        :command-line "mix deps.update --all"
+        :working-dir dir
+        :command-name "mix-deps-update")))))
 
 (provide 'run-command-recipes-elixir)
 ;;; run-command-recipes-elixir.el ends here
