@@ -26,22 +26,17 @@
 ;;
 ;;; Code:
 
-(require 'run-command-recipes-lib)
+(require 'run-command-recipes-project)
 
-(defcustom run-command-recipes-java-run-file-command
-  "javac {file-name} && {file-name-no-ext}"
-  "Command running current Java source file."
-  :type 'string
-  :group 'run-command-recipes)
+(defcustom run-command-recipes-java-javac "javac"
+  "Path to the executable of javac: compiler for java."
+  :group 'run-command-recipes
+  :type 'string)
 
-(defcustom run-command-recipes-java-compile-file-command
-  "javac -Werror {file-name}"
-  "Command only compiling current Java file.
-
-See `run-command-recipes-lib-build' for understand dinamic replaces in
-the current shell command"
-  :type 'string
-  :group 'run-command-recipes)
+(defcustom run-command-recipes-java-javac-flags "-Werror"
+  "A string of arguments which will be passed to Javac when use this recipe."
+  :group 'run-command-recipes
+  :type 'string)
 
 (defcustom run-command-recipes-java-modes
   '(java-mode)
@@ -49,19 +44,43 @@ the current shell command"
   :type '(repeat symbol)
   :group 'run-command-recipes)
 
+(defun run-command-recipes-java--exe-name (filename &optional dir)
+  "Get the filename for executable to produce when compile FILENAME java file.
+
+Defaults to just chop extension, like main.java => main
+
+Consider that the command will be ran inside DIR"
+  (concat (or dir "")
+          (file-name-base filename)))
+
 (defun run-command-recipes-java ()
   "Recipe of `run-command' for Java."
-  (run-command-recipes-lib-build
-   (when (and (run-command-recipes-java-p) (executable-find "javac"))
-     (list
+  (when (and (buffer-file-name)
+             (run-command-recipes-java-p)
+             (executable-find run-command-recipes-java-javac))
+    (let* ((cmd run-command-recipes-java-javac)
+           (dir (run-command-recipes-project-root))
+           (exe (run-command-recipes-java--exe-name (buffer-file-name)
+                                                    dir)))
       (list
-       :command-name "run-java-file"
-       :display "Java: compile, execute file"
-       :command-line run-command-recipes-java-run-file-command)
-      (list
-       :command-name "Java: compile file"
-       :display "Compile Current Java File"
-       :command-line run-command-recipes-java-compile-file-command)))))
+       (list
+        :command-name "run-java-file"
+        :display "Java: compile, execute file"
+        :working-dir dir
+        :command-line
+        (concat cmd " "
+                run-command-recipes-java-javac-flags
+                " -o " exe
+                " " (buffer-file-name)
+                " && " exe))
+       (list
+        :command-name "Java: compile file"
+        :display "Java: compile file"
+        :working-dir dir
+        :command-line
+        (concat cmd " " (buffer-file-name)
+                " " run-command-recipes-java-javac-flags
+                " -o " exe))))))
 
 (defun run-command-recipes-java-p ()
   "Return t, when the recipe of `run-command' for Java should work."
